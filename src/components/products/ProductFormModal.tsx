@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Product, Category, Supplier, Warehouse, PriceTier, UnitConversion } from '../../types';
-import { X, Plus, Trash2, Layers, Tag, DollarSign, Package } from 'lucide-react';
+import { X, Plus, Trash2, Layers, Tag, DollarSign, Package, Camera } from 'lucide-react';
+import { CameraBarcodeScannerModal } from '../common/CameraBarcodeScannerModal';
 
 interface ProductFormModalProps {
   isOpen: boolean;
@@ -51,6 +52,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
 
   // Unit conversions (e.g. ແພັກ, ແກັດ)
   const [units, setUnits] = useState<UnitConversion[]>(product?.units || []);
+  const [isCameraScanOpen, setIsCameraScanOpen] = useState(false);
 
   const handleAddTier = () => {
     setPriceTiers([
@@ -156,16 +158,36 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                ບາຣ໌ໂຄ້ດ (Barcode)
-              </label>
-              <input
-                type="text"
-                value={barcode}
-                onChange={(e) => setBarcode(e.target.value)}
-                placeholder="ສະແກນບາຣ໌ໂຄ້ດ ຫຼື ປ້ອນລະຫັດ"
-                className="w-full px-3 py-2 text-xs font-mono rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500"
-              />
+              <div className="flex items-center justify-between mb-1">
+                <label className="block text-xs font-bold text-slate-700 dark:text-slate-300">
+                  ບາຣ໌ໂຄ້ດ (Barcode)
+                </label>
+                <button
+                  type="button"
+                  onClick={() => setIsCameraScanOpen(true)}
+                  className="text-[11px] font-bold text-blue-600 hover:text-blue-700 dark:text-blue-400 flex items-center gap-1 cursor-pointer"
+                >
+                  <Camera className="w-3.5 h-3.5" />
+                  ສະແກນດ້ວຍກ້ອງ
+                </button>
+              </div>
+              <div className="relative">
+                <input
+                  type="text"
+                  value={barcode}
+                  onChange={(e) => setBarcode(e.target.value)}
+                  placeholder="ສະແກນບາຣ໌ໂຄ້ດ ຫຼື ປ້ອນລະຫັດ"
+                  className="w-full px-3 py-2 pr-9 text-xs font-mono rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500"
+                />
+                <button
+                  type="button"
+                  onClick={() => setIsCameraScanOpen(true)}
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-blue-600 cursor-pointer"
+                  title="ສະແກນບາໂຄ້ດດ້ວຍກ້ອງ"
+                >
+                  <Camera className="w-4 h-4" />
+                </button>
+              </div>
             </div>
 
             <div className="sm:col-span-2">
@@ -431,6 +453,18 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
           </button>
         </div>
       </div>
+
+      {/* Camera Barcode Scanner Modal */}
+      <CameraBarcodeScannerModal
+        isOpen={isCameraScanOpen}
+        onClose={() => setIsCameraScanOpen(false)}
+        onScan={(code) => {
+          setBarcode(code);
+          if (!sku) setSku(code);
+        }}
+        title="ສະແກນບາໂຄ້ດສິນຄ້າ"
+        subtitle="ສ່ອງກ້ອງໃສ່ບາໂຄ້ດເທິງກ່ອງສິນຄ້າເພື່ອປ້ອນລະຫັດອັດຕະໂນມັດ"
+      />
     </div>
   );
 };

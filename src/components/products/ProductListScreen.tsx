@@ -4,9 +4,11 @@ import { formatCurrency, formatNumber } from '../../services/formatters';
 import { ProductFormModal } from './ProductFormModal';
 import { ProductImportModal } from './ProductImportModal';
 import { ConfirmModal } from '../common/ConfirmModal';
+import { CameraBarcodeScannerModal } from '../common/CameraBarcodeScannerModal';
 import {
   Plus,
   Search,
+  Camera,
   Filter,
   Download,
   Upload,
@@ -53,6 +55,7 @@ export const ProductListScreen: React.FC<ProductListScreenProps> = ({
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [isImportOpen, setIsImportOpen] = useState(false);
   const [deletingProductId, setDeletingProductId] = useState<string | null>(null);
+  const [isCameraScannerOpen, setIsCameraScannerOpen] = useState(false);
 
   const canManageProducts = currentUser.role === 'OWNER' || currentUser.role === 'ADMIN' || currentUser.role === 'MANAGER';
   const canViewCost = currentUser.role !== 'CASHIER';
@@ -169,8 +172,16 @@ export const ProductListScreen: React.FC<ProductListScreenProps> = ({
             placeholder="ຄົ້ນຫາຊື່, SKU, ຫຼື ບາຣ໌ໂຄ້ດ..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500"
+            className="w-full pl-9 pr-9 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500"
           />
+          <button
+            type="button"
+            onClick={() => setIsCameraScannerOpen(true)}
+            className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-blue-600 cursor-pointer"
+            title="ສະແກນບາໂຄ້ດດ້ວຍກ້ອງ"
+          >
+            <Camera className="w-4 h-4" />
+          </button>
         </div>
 
         <div className="flex items-center gap-2 w-full md:w-auto flex-wrap">
@@ -370,6 +381,19 @@ export const ProductListScreen: React.FC<ProductListScreenProps> = ({
         isDestructive={true}
         onConfirm={handleConfirmDelete}
         onCancel={() => setDeletingProductId(null)}
+      />
+
+      {/* Camera Barcode Scanner Modal */}
+      <CameraBarcodeScannerModal
+        isOpen={isCameraScannerOpen}
+        onClose={() => setIsCameraScannerOpen(false)}
+        onScan={(code) => {
+          setSearchQuery(code);
+          onShowToast('info', 'ສະແກນບາໂຄ້ດສຳເລັດ', `ຄົ້ນຫາ: ${code}`);
+        }}
+        products={products}
+        title="ສະແກນຄົ້ນຫາສິນຄ້າ"
+        subtitle="ສ່ອງກ້ອງໃສ່ບາໂຄ້ດເພື່ອຄົ້ນຫາລາຍການສິນຄ້າໃນລະບົບ"
       />
     </div>
   );

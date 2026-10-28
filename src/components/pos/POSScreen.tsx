@@ -7,9 +7,11 @@ import { formatCurrency } from '../../services/formatters';
 import { storageService } from '../../services/storageService';
 import { PaymentModal } from './PaymentModal';
 import { ReceiptModal } from './ReceiptModal';
+import { CameraBarcodeScannerModal } from '../common/CameraBarcodeScannerModal';
 import {
   Search,
   Barcode,
+  Camera,
   Trash2,
   Plus,
   Minus,
@@ -56,8 +58,32 @@ export const POSScreen: React.FC<POSScreenProps> = ({
   // Modals
   const [isPaymentOpen, setIsPaymentOpen] = useState(false);
   const [completedSale, setCompletedSale] = useState<SaleTransaction | null>(null);
+  const [isCameraScannerOpen, setIsCameraScannerOpen] = useState(false);
 
   const searchInputRef = useRef<HTMLInputElement>(null);
+
+  // Handle barcode scanned from camera
+  const handleCameraBarcodeScanned = (scannedCode: string) => {
+    const q = scannedCode.trim().toLowerCase();
+    const exactMatch = products.find(
+      (p) =>
+        p.status === 'ACTIVE' &&
+        (p.barcode.toLowerCase() === q ||
+          p.sku.toLowerCase() === q ||
+          p.units?.some((u) => u.barcode?.toLowerCase() === q))
+    );
+
+    if (exactMatch) {
+      const matchedUnit = exactMatch.units?.find((u) => u.barcode?.toLowerCase() === q);
+      if (matchedUnit) {
+        handleAddToCart(exactMatch, matchedUnit.unitName, matchedUnit.multiplier);
+      } else {
+        handleAddToCart(exactMatch);
+      }
+    } else {
+      onShowToast('warning', 'ບໍ່ພົບສິນຄ້າ', `ບໍ່ພົບບາໂຄດ ຫຼື ລະຫັດ: ${scannedCode}`);
+    }
+  };
 
   const selectedCustomer = useMemo(() => {
     return customers.find(c => c.id === selectedCustomerId) || customers[0];
@@ -354,8 +380,19 @@ export const POSScreen: React.FC<POSScreenProps> = ({
             )}
           </div>
 
+          {/* Camera Barcode Scanner Button */}
+          <button
+            type="button"
+            onClick={() => setIsCameraScannerOpen(true)}
+            className="flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-xs font-bold shadow-md shadow-blue-500/20 cursor-pointer transition-all active:scale-95 whitespace-nowrap shrink-0"
+            title="ສະແກນບາໂຄ້ດດ້ວຍກ້ອງ (Camera Barcode Scanner)"
+          >
+            <Camera className="w-4 h-4" />
+            <span className="hidden sm:inline">ສະແກນດ້ວຍກ້ອງ</span>
+          </button>
+
           {/* Quick barcode simulation buttons for testing */}
-          <div className="hidden sm:flex items-center gap-1.5 text-xs text-slate-500">
+          <div className="hidden xl:flex items-center gap-1.5 text-xs text-slate-500">
             <Barcode className="w-4 h-4 text-blue-600" />
             <span className="font-semibold text-[11px] text-slate-400">ບາໂຄດດ່ວນ:</span>
             <button
@@ -732,6 +769,16 @@ export const POSScreen: React.FC<POSScreenProps> = ({
         settings={settings}
         onClose={() => setCompletedSale(null)}
         onNewSale={() => setCompletedSale(null)}
+      />
+
+      {/* Camera Barcode Scanner Modal */}
+      <CameraBarcodeScannerModal
+        isOpen={isCameraScannerOpen}
+        onClose={() => setIsCameraScannerOpen(false)}
+        onScan={handleCameraBarcodeScanned}
+        products={products}
+        title="ສະແກນບາໂຄ້ດຂາຍສິນຄ້າ"
+        subtitle="ນຳບາໂຄ້ດ ຫຼື QR Code ຂອງສິນຄ້າມາສ່ອງໃສ່ກ້ອງເພື່ອເພີ່ມລົງກະຕ່າ"
       />
     </div>
   );

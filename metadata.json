@@ -1,6 +1,6 @@
 {
   "name": "Smart POS & Wholesale Management",
   "description": "ລະບົບ Smart POS ແລະ ຄຸ້ມຄອງການຄ້າຂາຍຍ່ອຍ-ຂາຍສົ່ງແບບຄົບວົງຈອນ (POS, Wholesale Pricing, Inventory, CRM, Finance)",
-  "requestFramePermissions": [],
+  "requestFramePermissions": ["CAMERA"],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
