@@ -22,16 +22,16 @@ export const DebtCollectionModal: React.FC<DebtCollectionModalProps> = ({
 
   const [amount, setAmount] = useState<number>(customer.currentDebt);
   const [method, setMethod] = useState<PaymentMethod>('TRANSFER');
-  const [note, setNote] = useState<string>('รับชำระหนี้ค้างตามใบแจ้งหนี้');
+  const [note, setNote] = useState<string>('ຮັບຊຳລະໜີ້ຄ້າງຕາມໃບແຈ້ງໜີ້');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!amount || amount <= 0) {
-      alert('กรุณากรอกจำนวนเงินที่ถูกต้อง');
+      alert('ກະລຸນາປ້ອນຈຳນວນເງິນທີ່ຖືກຕ້ອງ');
       return;
     }
     if (amount > customer.currentDebt) {
-      alert('จำนวนเงินชำระมากกว่ายอดหนี้ค้างชำระ');
+      alert('ຈຳນວນເງິນຊຳລະຫຼາຍກວ່າຍອດໜີ້ຄ້າງຊຳລະ');
       return;
     }
 
@@ -46,7 +46,7 @@ export const DebtCollectionModal: React.FC<DebtCollectionModalProps> = ({
         <div className="p-4 bg-slate-50 dark:bg-slate-800/80 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
           <h3 className="font-bold text-base text-slate-900 dark:text-white flex items-center gap-2">
             <Wallet className="w-5 h-5 text-emerald-600" />
-            รับชำระหนี้จากลูกค้า (Debt Collection)
+            ຮັບຊຳລະໜີ້ຈາກລູກຄ້າ (Debt Collection)
           </h3>
           <button onClick={onClose} className="p-1 rounded-lg text-slate-400 hover:text-slate-600">
             <X className="w-5 h-5" />
@@ -57,11 +57,11 @@ export const DebtCollectionModal: React.FC<DebtCollectionModalProps> = ({
         <form onSubmit={handleSubmit} className="p-5 space-y-4">
           <div className="p-3.5 rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900">
             <div className="flex justify-between items-center text-xs">
-              <span className="text-slate-600 dark:text-slate-400">ลูกค้า:</span>
+              <span className="text-slate-600 dark:text-slate-400">ລູກຄ້າ:</span>
               <span className="font-bold text-slate-900 dark:text-white">{customer.name}</span>
             </div>
             <div className="flex justify-between items-center text-xs mt-1">
-              <span className="text-slate-600 dark:text-slate-400">ยอดหนี้ค้างชำระทั้งหมด:</span>
+              <span className="text-slate-600 dark:text-slate-400">ຍອດໜີ້ຄ້າງຊຳລະທັງໝົດ:</span>
               <span className="font-bold text-amber-600 dark:text-amber-400 font-mono text-sm">
                 {formatCurrency(customer.currentDebt, settings.currency)}
               </span>
@@ -70,7 +70,7 @@ export const DebtCollectionModal: React.FC<DebtCollectionModalProps> = ({
 
           <div>
             <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-              จำนวนเงินที่รับชำระ (บาท) *
+              ຈຳນວນເງິນທີ່ຮັບຊຳລະ (₭) *
             </label>
             <input
               type="number"
@@ -88,20 +88,20 @@ export const DebtCollectionModal: React.FC<DebtCollectionModalProps> = ({
                 onClick={() => setAmount(customer.currentDebt)}
                 className="text-xs text-blue-600 hover:underline font-semibold"
               >
-                ชำระเต็มจำนวน ({customer.currentDebt.toLocaleString()}฿)
+                ຊຳລະເຕັມຈຳນວນ ({formatCurrency(customer.currentDebt, settings.currency)})
               </button>
             </div>
           </div>
 
           <div>
             <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-              ช่องทางการรับเงิน *
+              ຊ່ອງທາງການຮັບເງິນ *
             </label>
             <div className="grid grid-cols-3 gap-2">
               {[
-                { id: 'TRANSFER', label: 'โอนเงิน', icon: Building },
-                { id: 'CASH', label: 'เงินสด', icon: Banknote },
-                { id: 'PROMPTPAY', label: 'พร้อมเพย์ QR', icon: QrCode },
+                { id: 'TRANSFER', label: 'ໂອນເງິນ', icon: Building },
+                { id: 'CASH', label: 'ເງິນສົດ', icon: Banknote },
+                { id: 'PROMPTPAY', label: 'BCEL One / QR', icon: QrCode },
               ].map((opt) => {
                 const Icon = opt.icon;
                 return (
@@ -125,7 +125,7 @@ export const DebtCollectionModal: React.FC<DebtCollectionModalProps> = ({
 
           <div>
             <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-              หมายเหตุ / เลขที่ใบเสร็จรับเงิน
+              ໝາຍເຫດ / ເລກທີໃບຮັບເງິນ
             </label>
             <input
               type="text"
@@ -138,7 +138,7 @@ export const DebtCollectionModal: React.FC<DebtCollectionModalProps> = ({
           <div className="p-3 rounded-xl bg-blue-50 dark:bg-blue-950/30 text-[11px] text-blue-700 dark:text-blue-300 flex items-start gap-2">
             <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
             <span>
-              ระบบจะบันทึกเป็น <strong>การรับชำระหนี้ (Debt Collection)</strong> ซึ่งเป็นการรับกระแสเงินสดเข้ามาในกิจการ โดยไม่นับเป็นยอดขายซ้ำ
+              ລະບົບຈະບັນທຶກເປັນ <strong>ການຮັບຊຳລະໜີ້ (Debt Collection)</strong> ເຊິ່ງເປັນການຮັບກະແສເງິນສົດເຂົ້າມາໃນກິດຈະການ ໂດຍບໍ່ນັບເປັນຍອດຂາຍຊ້ຳ
             </span>
           </div>
 
@@ -148,14 +148,14 @@ export const DebtCollectionModal: React.FC<DebtCollectionModalProps> = ({
               onClick={onClose}
               className="px-4 py-2 rounded-xl border border-slate-300 text-xs font-semibold"
             >
-              ยกเลิก
+              ຍົກເລີກ
             </button>
             <button
               type="submit"
               className="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center gap-1.5"
             >
               <Check className="w-4 h-4" />
-              ยืนยันรับชำระ {amount.toLocaleString()} บาท
+              ຢືນຢັນຮັບຊຳລະ {formatCurrency(amount, settings.currency)}
             </button>
           </div>
         </form>

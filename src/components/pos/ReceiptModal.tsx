@@ -32,7 +32,7 @@ export const ReceiptModal: React.FC<ReceiptModalProps> = ({
               <Check className="w-5 h-5 stroke-[2.5]" />
             </div>
             <div>
-              <h3 className="font-bold text-sm text-slate-900 dark:text-white">การขายเสร็จสมบูรณ์</h3>
+              <h3 className="font-bold text-sm text-slate-900 dark:text-white">ການຂາຍສຳເລັດຮຽບຮ້ອຍ</h3>
               <p className="text-xs text-slate-500">{sale.receiptNumber}</p>
             </div>
           </div>
@@ -52,52 +52,52 @@ export const ReceiptModal: React.FC<ReceiptModalProps> = ({
           >
             {/* Store Info */}
             <div className="text-center pb-3 border-b border-dashed border-slate-300">
-              <h2 className="font-bold text-sm">{settings.storeName}</h2>
-              <p className="text-[11px] text-slate-600">{settings.storeBranch}</p>
-              <p className="text-[10px] text-slate-500">{settings.address}</p>
-              <p className="text-[10px] text-slate-500">โทร: {settings.phone}</p>
-              {settings.taxId && <p className="text-[10px] text-slate-500">เลขประจำตัวผู้เสียภาษี: {settings.taxId}</p>}
+              <h2 className="font-bold text-sm font-sans">{settings.storeName}</h2>
+              <p className="text-[11px] text-slate-600 font-sans">{settings.storeBranch}</p>
+              <p className="text-[10px] text-slate-500 font-sans">{settings.address}</p>
+              <p className="text-[10px] text-slate-500 font-sans">ໂທ: {settings.phone}</p>
+              {settings.taxId && <p className="text-[10px] text-slate-500 font-sans">ເລກປະຈຳຕົວຜູ້ເສຍອາກອນ: {settings.taxId}</p>}
             </div>
 
             {/* Receipt Meta */}
             <div className="py-2.5 border-b border-dashed border-slate-300 text-[11px] space-y-0.5">
               <div className="flex justify-between">
-                <span>เลขที่ใบเสร็จ:</span>
+                <span>ເລກທີໃບບິນ:</span>
                 <span className="font-bold">{sale.receiptNumber}</span>
               </div>
               <div className="flex justify-between">
-                <span>วันที่-เวลา:</span>
-                <span>{formatDateTime(sale.createdAt, 'th')}</span>
+                <span>ວັນທີ-ເວລາ:</span>
+                <span>{formatDateTime(sale.createdAt, 'lo')}</span>
               </div>
               <div className="flex justify-between">
-                <span>พนักงาน:</span>
-                <span>{sale.cashierName}</span>
+                <span>ພະນັກງານ:</span>
+                <span className="font-sans">{sale.cashierName}</span>
               </div>
               <div className="flex justify-between">
-                <span>ลูกค้า:</span>
-                <span className="font-semibold">{sale.customerName}</span>
+                <span>ລູກຄ້າ:</span>
+                <span className="font-semibold font-sans">{sale.customerName}</span>
               </div>
             </div>
 
             {/* Items */}
             <div className="py-2.5 border-b border-dashed border-slate-300 space-y-2">
               <div className="flex justify-between font-bold text-[10px] uppercase text-slate-500 border-b border-slate-200 pb-1">
-                <span>รายการสินค้า</span>
-                <span>รวม (บาท)</span>
+                <span>ລາຍການສິນຄ້າ</span>
+                <span>ລວມ</span>
               </div>
               {sale.items.map((item, idx) => (
                 <div key={idx} className="space-y-0.5">
                   <div className="flex justify-between text-slate-800 font-sans font-medium text-[11px]">
                     <span className="truncate pr-2">{item.productName}</span>
-                    <span className="font-mono font-semibold">{item.total.toFixed(2)}</span>
+                    <span className="font-mono font-semibold">{formatCurrency(item.total, settings.currency)}</span>
                   </div>
-                  <div className="flex justify-between text-[10px] text-slate-500">
+                  <div className="flex justify-between text-[10px] text-slate-500 font-sans">
                     <span>
-                      {item.quantity} {item.unit} x {item.unitPrice.toFixed(2)}
-                      {item.discount > 0 && ` (ลด -${item.discount.toFixed(2)})`}
+                      {item.quantity} {item.unit} x {formatCurrency(item.unitPrice, settings.currency)}
+                      {item.discount > 0 && ` (ຫຼຸດ -${formatCurrency(item.discount, settings.currency)})`}
                     </span>
                     {item.tierApplied && (
-                      <span className="text-[9px] text-blue-600 font-sans font-semibold">
+                      <span className="text-[9px] text-blue-600 font-semibold">
                         [{item.tierApplied}]
                       </span>
                     )}
@@ -109,62 +109,62 @@ export const ReceiptModal: React.FC<ReceiptModalProps> = ({
             {/* Totals */}
             <div className="py-2.5 border-b border-dashed border-slate-300 space-y-1 text-[11px]">
               <div className="flex justify-between">
-                <span>ยอดรวมสินค้า:</span>
+                <span>ຍອດລວມສິນຄ້າ:</span>
                 <span>{formatCurrency(sale.subtotal, settings.currency)}</span>
               </div>
               {sale.discountTotal > 0 && (
                 <div className="flex justify-between text-emerald-600">
-                  <span>ส่วนลดรวม:</span>
+                  <span>ສ່ວນຫຼຸດລວມ:</span>
                   <span>-{formatCurrency(sale.discountTotal, settings.currency)}</span>
                 </div>
               )}
               {sale.taxAmount > 0 && (
                 <div className="flex justify-between text-slate-500">
-                  <span>VAT ({sale.taxRate}%):</span>
+                  <span>ອາກອນ VAT ({sale.taxRate}%):</span>
                   <span>{formatCurrency(sale.taxAmount, settings.currency)}</span>
                 </div>
               )}
               <div className="flex justify-between text-sm font-bold pt-1 border-t border-slate-200">
-                <span>ยอดชำระสุทธิ:</span>
-                <span>{formatCurrency(sale.grandTotal, settings.currency)}</span>
+                <span>ຍອດຊຳລະສຸດທິ:</span>
+                <span className="text-blue-700">{formatCurrency(sale.grandTotal, settings.currency)}</span>
               </div>
             </div>
 
             {/* Payment Details */}
             <div className="py-2 border-b border-dashed border-slate-300 text-[11px] space-y-1">
               <div className="flex justify-between">
-                <span>วิธีชำระ:</span>
-                <span className="font-bold">
+                <span>ຊ່ອງທາງຊຳລະ:</span>
+                <span className="font-bold font-sans">
                   {sale.paymentMethod === 'CASH'
-                    ? 'เงินสด (Cash)'
+                    ? 'ເງິນສົດ (Cash)'
                     : sale.paymentMethod === 'PROMPTPAY'
-                    ? 'พร้อมเพย์ QR'
+                    ? 'QR Payment'
                     : sale.paymentMethod === 'TRANSFER'
-                    ? 'โอนธนาคาร'
-                    : 'ขายเชื่อ (เครดิต)'}
+                    ? 'ໂອນເງິນ'
+                    : 'ຂາຍຕິດໜີ້ (Credit)'}
                 </span>
               </div>
               {sale.paymentMethod === 'CASH' && (
                 <>
                   <div className="flex justify-between">
-                    <span>รับเงินมา:</span>
+                    <span>ຮັບເງິນມາ:</span>
                     <span>{formatCurrency(sale.paymentDetails.cashReceived || sale.grandTotal, settings.currency)}</span>
                   </div>
                   <div className="flex justify-between font-bold text-slate-900">
-                    <span>เงินทอน:</span>
+                    <span>ເງິນທອນ:</span>
                     <span>{formatCurrency(sale.paymentDetails.change || 0, settings.currency)}</span>
                   </div>
                 </>
               )}
               {sale.paymentMethod === 'CREDIT' && (
-                <div className="text-amber-700 bg-amber-50 p-1.5 rounded mt-1 text-[10px]">
-                  * บันทึกหนี้ค้างชำระในระบบบัญชีลูกหนี้เรียบร้อย
+                <div className="text-amber-700 bg-amber-50 p-1.5 rounded mt-1 text-[10px] font-sans">
+                  * ບັນທຶກໜີ້ຄ້າງຊຳລະໃນລະບົບບັນຊີລູກໜີ້ຮຽບຮ້ອຍ
                 </div>
               )}
             </div>
 
             {/* Footer */}
-            <div className="pt-3 text-center text-[10px] text-slate-500 space-y-1">
+            <div className="pt-3 text-center text-[10px] text-slate-500 space-y-1 font-sans">
               <p>{settings.receiptFooter}</p>
               <p className="font-mono text-[9px] text-slate-400">--- THANK YOU ---</p>
             </div>
@@ -177,14 +177,14 @@ export const ReceiptModal: React.FC<ReceiptModalProps> = ({
             onClick={onNewSale}
             className="flex-1 px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold text-sm hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
           >
-            เปิดรายการขายใหม่
+            ເປີດການຂາຍໃໝ່
           </button>
           <button
             onClick={handlePrint}
             className="flex-1 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm shadow-md shadow-blue-600/30 flex items-center justify-center gap-2 transition-all cursor-pointer"
           >
             <Printer className="w-4 h-4" />
-            พิมพ์ใบเสร็จ
+            ພິມໃບບິນ
           </button>
         </div>
       </div>

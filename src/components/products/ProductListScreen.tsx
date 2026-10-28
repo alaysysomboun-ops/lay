@@ -101,14 +101,14 @@ export const ProductListScreen: React.FC<ProductListScreenProps> = ({
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    onShowToast('success', 'ส่งออกข้อมูลสำเร็จ', `ส่งออกสินค้า ${filteredProducts.length} รายการเป็น CSV`);
+    onShowToast('success', 'ສົ່ງອອກຂໍ້ມູນສຳເລັດ', `ສົ່ງອອກສິນຄ້າ ${filteredProducts.length} ລາຍການເປັນ CSV`);
   };
 
   const handleConfirmDelete = () => {
     if (deletingProductId) {
       onDeleteProduct(deletingProductId);
       setDeletingProductId(null);
-      onShowToast('success', 'ลบสินค้าเรียบร้อย');
+      onShowToast('success', 'ລຶບສິນຄ້າຮຽບຮ້ອຍ');
     }
   };
 
@@ -119,10 +119,10 @@ export const ProductListScreen: React.FC<ProductListScreenProps> = ({
         <div>
           <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
             <Package className="w-6 h-6 text-blue-600" />
-            จัดการรายการสินค้าและราคา (Products & Pricing)
+            ຈັດການລາຍການສິນຄ້າ ແລະ ລາຄາ (Products & Pricing)
           </h2>
           <p className="text-xs text-slate-500 mt-0.5">
-            กำหนดราคาทุน ราคาปลีก และบันไดราคาขายส่งหลายระดับตามจำนวน
+            ກຳນົດລາຄາຕົ້ນທຶນ, ລາຄາຂາຍຍ່ອຍ ແລະ ຂັ້ນໄດລາຄາຂາຍສົ່ງຫຼາຍລະດັບຕາມຈຳນວນ
           </p>
         </div>
 
@@ -132,7 +132,7 @@ export const ProductListScreen: React.FC<ProductListScreenProps> = ({
             className="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center gap-1.5 cursor-pointer shadow-xs"
           >
             <Download className="w-3.5 h-3.5" />
-            ส่งออก CSV
+            ສົ່ງອອກ CSV
           </button>
 
           {canManageProducts && (
@@ -141,7 +141,7 @@ export const ProductListScreen: React.FC<ProductListScreenProps> = ({
               className="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center gap-1.5 cursor-pointer shadow-xs"
             >
               <Upload className="w-3.5 h-3.5" />
-              นำเข้า CSV
+              ນຳເຂົ້າ CSV
             </button>
           )}
 
@@ -154,7 +154,7 @@ export const ProductListScreen: React.FC<ProductListScreenProps> = ({
               className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-md shadow-blue-600/30 flex items-center gap-1.5 cursor-pointer transition-all active:scale-98"
             >
               <Plus className="w-4 h-4" />
-              เพิ่มสินค้าใหม่
+              ເພີ່ມສິນຄ້າໃໝ່
             </button>
           )}
         </div>
@@ -166,7 +166,7 @@ export const ProductListScreen: React.FC<ProductListScreenProps> = ({
           <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
           <input
             type="text"
-            placeholder="ค้นหาชื่อ, SKU, หรือบาร์โค้ด..."
+            placeholder="ຄົ້ນຫາຊື່, SKU, ຫຼື ບາຣ໌ໂຄ້ດ..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full pl-9 pr-4 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500"
@@ -180,7 +180,7 @@ export const ProductListScreen: React.FC<ProductListScreenProps> = ({
             onChange={(e) => setSelectedCategory(e.target.value)}
             className="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-medium text-slate-700 dark:text-slate-300"
           >
-            <option value="ALL">ทุกหมวดหมู่</option>
+            <option value="ALL">ທຸກໝວດໝູ່</option>
             {categories.map((c) => (
               <option key={c.id} value={c.name}>
                 {c.name}
@@ -194,10 +194,10 @@ export const ProductListScreen: React.FC<ProductListScreenProps> = ({
             onChange={(e) => setStockFilter(e.target.value as any)}
             className="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-medium text-slate-700 dark:text-slate-300"
           >
-            <option value="ALL">สถานะสต็อกทั้งหมด</option>
-            <option value="IN_STOCK">สต็อกปกติ</option>
-            <option value="LOW_STOCK">สต็อกใกล้หมด</option>
-            <option value="OUT_OF_STOCK">หมดสต็อก</option>
+            <option value="ALL">ສະຖານະສະຕັອກທັງໝົດ</option>
+            <option value="IN_STOCK">ສະຕັອກປົກກະຕິ</option>
+            <option value="LOW_STOCK">ສະຕັອກໃກ້ໝົດ</option>
+            <option value="OUT_OF_STOCK">ໝົດສະຕັອກ</option>
           </select>
         </div>
       </div>
@@ -208,14 +208,14 @@ export const ProductListScreen: React.FC<ProductListScreenProps> = ({
           <table className="w-full text-left text-xs">
             <thead className="bg-slate-50 dark:bg-slate-800/80 text-slate-400 font-semibold uppercase text-[10px] border-b border-slate-200 dark:border-slate-800">
               <tr>
-                <th className="py-3 px-4">รูปภาพ & สินค้า</th>
-                <th className="py-3 px-4">หมวดหมู่</th>
-                {canViewCost && <th className="py-3 px-4 text-right">ทุนต่อหน่วย</th>}
-                <th className="py-3 px-4 text-right">ราคาขายปลีก</th>
-                <th className="py-3 px-4 text-right">ราคาส่งมาตรฐาน</th>
-                <th className="py-3 px-4">บันไดราคาขายส่ง (Tiers)</th>
-                <th className="py-3 px-4 text-right">สต็อกคงเหลือ</th>
-                <th className="py-3 px-4 text-center">จัดการ</th>
+                <th className="py-3 px-4">ຮູບພາບ & ສິນຄ້າ</th>
+                <th className="py-3 px-4">ໝວດໝູ່</th>
+                {canViewCost && <th className="py-3 px-4 text-right">ຕົ້ນທຶນຕໍ່ໜ່ວຍ</th>}
+                <th className="py-3 px-4 text-right">ລາຄາຂາຍຍ່ອຍ</th>
+                <th className="py-3 px-4 text-right">ລາຄາຂາຍສົ່ງມາດຕະຖານ</th>
+                <th className="py-3 px-4">ຂັ້ນໄດລາຄາຂາຍສົ່ງ (Tiers)</th>
+                <th className="py-3 px-4 text-right">ສະຕັອກຄົງເຫຼືອ</th>
+                <th className="py-3 px-4 text-center">ຈັດການ</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
@@ -238,7 +238,7 @@ export const ProductListScreen: React.FC<ProductListScreenProps> = ({
                           <div className="flex items-center gap-2 mt-0.5 text-[10px] text-slate-400 font-mono">
                             <span>SKU: {p.sku}</span>
                             <span>•</span>
-                            <span>บาร์โค้ด: {p.barcode}</span>
+                            <span>ບາຣ໌ໂຄ້ດ: {p.barcode}</span>
                           </div>
                         </div>
                       </div>
@@ -275,7 +275,7 @@ export const ProductListScreen: React.FC<ProductListScreenProps> = ({
                               key={i}
                               className="inline-block text-[10px] font-mono font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-1.5 py-0.5 rounded border border-slate-200 dark:border-slate-700"
                             >
-                              ≥{t.minQty} @ {t.price}฿
+                              ≥{t.minQty} @ {formatNumber(t.price)}₭
                             </span>
                           ))
                         ) : (
@@ -310,20 +310,20 @@ export const ProductListScreen: React.FC<ProductListScreenProps> = ({
                                 setIsFormOpen(true);
                               }}
                               className="p-1.5 rounded-lg text-slate-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950/40"
-                              title="แก้ไข"
+                              title="ແກ້ໄຂ"
                             >
                               <Edit className="w-4 h-4" />
                             </button>
                             <button
                               onClick={() => setDeletingProductId(p.id)}
                               className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40"
-                              title="ลบ"
+                              title="ລຶບ"
                             >
                               <Trash2 className="w-4 h-4" />
                             </button>
                           </>
                         ) : (
-                          <span className="text-slate-400 text-[11px]">ดูอย่างเดียว</span>
+                          <span className="text-slate-400 text-[11px]">ເບິ່ງຢ່າງດຽວ</span>
                         )}
                       </div>
                     </td>
@@ -335,7 +335,7 @@ export const ProductListScreen: React.FC<ProductListScreenProps> = ({
                 <tr>
                   <td colSpan={8} className="py-12 text-center text-slate-400">
                     <Package className="w-10 h-10 mx-auto mb-2 opacity-30" />
-                    <p className="font-semibold text-xs">ไม่พบข้อมูลสินค้า</p>
+                    <p className="font-semibold text-xs">ບໍ່ພົບຂໍ້ມູນສິນຄ້າ</p>
                   </td>
                 </tr>
               )}
@@ -365,8 +365,8 @@ export const ProductListScreen: React.FC<ProductListScreenProps> = ({
       {/* Confirm Delete Modal */}
       <ConfirmModal
         isOpen={!!deletingProductId}
-        title="ยืนยันการลบสินค้า"
-        message="คุณแน่ใจหรือไม่ว่าต้องการลบรายการสินค้านี้ออกจากระบบ? ประวัติการขายในอดีตจะยังคงอยู่"
+        title="ຢືນຢັນການລຶບສິນຄ້າ"
+        message="ທ່ານແນ່ໃຈບໍ່ວ່າຕ້ອງການລຶບສິນຄ້ານີ້ອອກຈາກລະບົບ? ປະຫວັດການຂາຍຜ່ານມາຈະຍັງຄົງຢູ່"
         isDestructive={true}
         onConfirm={handleConfirmDelete}
         onCancel={() => setDeletingProductId(null)}

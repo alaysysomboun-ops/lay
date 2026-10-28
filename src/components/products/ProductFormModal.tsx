@@ -29,7 +29,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
   const [barcode, setBarcode] = useState(product?.barcode || '');
   const [name, setName] = useState(product?.name || '');
   const [category, setCategory] = useState(product?.category || categories[0]?.name || '');
-  const [baseUnit, setBaseUnit] = useState(product?.baseUnit || 'ชิ้น');
+  const [baseUnit, setBaseUnit] = useState(product?.baseUnit || 'ອັນ');
   const [costPrice, setCostPrice] = useState<number>(product?.costPrice || 0);
   const [retailPrice, setRetailPrice] = useState<number>(product?.retailPrice || 0);
   const [wholesalePrice, setWholesalePrice] = useState<number>(product?.wholesalePrice || 0);
@@ -44,18 +44,18 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
   // Wholesale Tiers
   const [priceTiers, setPriceTiers] = useState<PriceTier[]>(
     product?.priceTiers || [
-      { minQty: 1, price: product?.retailPrice || 0, label: 'ปลีก' },
-      { minQty: 10, price: product?.wholesalePrice || 0, label: 'ส่ง Tier 1 (10+)' }
+      { minQty: 1, price: product?.retailPrice || 0, label: 'ຂາຍຍ່ອຍ' },
+      { minQty: 10, price: product?.wholesalePrice || 0, label: 'ຂາຍສົ່ງ ຂັ້ນ 1 (10+)' }
     ]
   );
 
-  // Unit conversions (e.g. แพ็ค, ลัง)
+  // Unit conversions (e.g. ແພັກ, ແກັດ)
   const [units, setUnits] = useState<UnitConversion[]>(product?.units || []);
 
   const handleAddTier = () => {
     setPriceTiers([
       ...priceTiers,
-      { minQty: 20, price: wholesalePrice > 0 ? wholesalePrice * 0.95 : 0, label: 'ส่ง Tier ใหม่' }
+      { minQty: 20, price: wholesalePrice > 0 ? wholesalePrice * 0.95 : 0, label: 'ຂາຍສົ່ງ ຂັ້ນໃໝ່' }
     ]);
   };
 
@@ -72,7 +72,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
   const handleAddUnit = () => {
     setUnits([
       ...units,
-      { unitName: 'แพ็ค', multiplier: 6, retailPrice: retailPrice * 5.8, wholesalePrice: wholesalePrice * 5.5 }
+      { unitName: 'ແພັກ', multiplier: 6, retailPrice: retailPrice * 5.8, wholesalePrice: wholesalePrice * 5.5 }
     ]);
   };
 
@@ -89,7 +89,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!sku.trim() || !name.trim()) {
-      alert('กรุณากรอก SKU และชื่อสินค้า');
+      alert('ກະລຸນາປ້ອນ SKU ແລະ ຊື່ສິນຄ້າ');
       return;
     }
 
@@ -127,7 +127,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
         <div className="p-4 bg-slate-50 dark:bg-slate-800/80 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
           <h3 className="font-bold text-base text-slate-900 dark:text-white flex items-center gap-2">
             <Package className="w-5 h-5 text-blue-600" />
-            {isEditing ? 'แก้ไขข้อมูลสินค้า' : 'เพิ่มสินค้าใหม่'}
+            {isEditing ? 'ແກ້ໄຂຂໍ້ມູນສິນຄ້າ' : 'ເພີ່ມສິນຄ້າໃໝ່'}
           </h3>
           <button
             onClick={onClose}
@@ -143,48 +143,48 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                รหัสสินค้า (SKU) *
+                ລະຫັດສິນຄ້າ (SKU) *
               </label>
               <input
                 type="text"
                 required
                 value={sku}
                 onChange={(e) => setSku(e.target.value)}
-                placeholder="เช่น BEV-TEA-001"
+                placeholder="ເຊັ່ນ BEV-BEER-001"
                 className="w-full px-3 py-2 text-xs font-mono rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
             <div>
               <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                บาร์โค้ด (Barcode)
+                ບາຣ໌ໂຄ້ດ (Barcode)
               </label>
               <input
                 type="text"
                 value={barcode}
                 onChange={(e) => setBarcode(e.target.value)}
-                placeholder="สแกนบาร์โค้ดหรือป้อนรหัส"
+                placeholder="ສະແກນບາຣ໌ໂຄ້ດ ຫຼື ປ້ອນລະຫັດ"
                 className="w-full px-3 py-2 text-xs font-mono rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
             <div className="sm:col-span-2">
               <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                ชื่อสินค้า *
+                ຊື່ສິນຄ້າ *
               </label>
               <input
                 type="text"
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="เช่น ชาเขียวพร้อมดื่ม โออิชิ 500 มล."
+                placeholder="ເຊັ່ນ ເບຍລາວ ກະປ໋ອງ 330ml (Beerlao)"
                 className="w-full px-3 py-2 text-xs font-semibold rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
             <div>
               <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                หมวดหมู่สินค้า
+                ໝວດໝູ່ສິນຄ້າ
               </label>
               <select
                 value={category}
@@ -201,14 +201,14 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
 
             <div>
               <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                หน่วยนับหลัก (Base Unit) *
+                ຫົວໜ່ວຍຫຼັກ (Base Unit) *
               </label>
               <input
                 type="text"
                 required
                 value={baseUnit}
                 onChange={(e) => setBaseUnit(e.target.value)}
-                placeholder="เช่น ชิ้น, ขวด, กล่อง, ซอง"
+                placeholder="ເຊັ່ນ ອັນ, ແກ້ວ, ກະປ໋ອງ, ຖົງ, ກ່ອງ"
                 className="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500"
               />
             </div>
@@ -218,13 +218,13 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
           <div className="p-4 rounded-2xl bg-blue-50/50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-900/40 space-y-3">
             <h4 className="font-bold text-xs text-blue-900 dark:text-blue-300 flex items-center gap-1.5">
               <DollarSign className="w-4 h-4" />
-              การกำหนดราคาขายและราคาทุน (ต่อ {baseUnit || 'หน่วย'})
+              ການກຳນົດລາຄາຂາຍ ແລະ ລາຄາຕົ້ນທຶນ (ຕໍ່ {baseUnit || 'ໜ່ວຍ'})
             </h4>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div>
                 <label className="block text-[11px] font-bold text-slate-600 dark:text-slate-400 mb-1">
-                  ราคาทุน (Cost) ฿
+                  ລາຄາຕົ້ນທຶນ (Cost) ₭
                 </label>
                 <input
                   type="number"
@@ -238,7 +238,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
 
               <div>
                 <label className="block text-[11px] font-bold text-slate-600 dark:text-slate-400 mb-1">
-                  ราคาขายปลีก ฿
+                  ລາຄາຂາຍຍ່ອຍ ₭
                 </label>
                 <input
                   type="number"
@@ -252,7 +252,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
 
               <div>
                 <label className="block text-[11px] font-bold text-slate-600 dark:text-slate-400 mb-1">
-                  ราคาขายส่งมาตรฐาน ฿
+                  ລາຄາຂາຍສົ່ງມາດຕະຖານ ₭
                 </label>
                 <input
                   type="number"
@@ -272,10 +272,10 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
               <div>
                 <h4 className="font-bold text-xs text-slate-900 dark:text-white flex items-center gap-1.5">
                   <Layers className="w-4 h-4 text-indigo-600" />
-                  บันไดราคาขายส่งตามจำนวน (Volume Price Tiers)
+                  ຂັ້ນໄດລາຄາຂາຍສົ່ງຕາມຈຳນວນ (Volume Price Tiers)
                 </h4>
                 <p className="text-[11px] text-slate-500">
-                  ระบบจะปรับราคาให้อัตโนมัติในจุดขายเมื่อจำนวนถึงเกณฑ์
+                  ລະບົບຈະປັບລາຄາໃຫ້ອັດຕະໂນມັດໃນຈຸດຂາຍເມື່ອຈຳນວນຮອດເກນ
                 </p>
               </div>
               <button
@@ -284,7 +284,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
                 className="px-2.5 py-1 rounded-lg bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800 text-xs font-bold hover:bg-indigo-100 flex items-center gap-1 cursor-pointer"
               >
                 <Plus className="w-3.5 h-3.5" />
-                เพิ่มบันไดราคา
+                ເພີ່ມຂັ້ນໄດລາຄາ
               </button>
             </div>
 
@@ -294,12 +294,12 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
                   <input
                     type="text"
                     value={tier.label || ''}
-                    placeholder="ป้ายระดับราคา (เช่น ส่ง 10+)"
+                    placeholder="ຊື່ລະດັບລາຄາ (ເຊັ່ນ ຂາຍສົ່ງ 10+)"
                     onChange={(e) => handleUpdateTier(idx, 'label', e.target.value)}
                     className="flex-1 px-2.5 py-1.5 text-xs rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
                   />
                   <div className="flex items-center gap-1">
-                    <span className="text-[11px] text-slate-400">ขั้นต่ำ:</span>
+                    <span className="text-[11px] text-slate-400">ຂັ້ນຕ່ຳ:</span>
                     <input
                       type="number"
                       min="1"
@@ -309,14 +309,14 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
                     />
                   </div>
                   <div className="flex items-center gap-1">
-                    <span className="text-[11px] text-slate-400">ราคา:</span>
+                    <span className="text-[11px] text-slate-400">ລາຄາ:</span>
                     <input
                       type="number"
                       step="any"
                       min="0"
                       value={tier.price}
                       onChange={(e) => handleUpdateTier(idx, 'price', parseFloat(e.target.value) || 0)}
-                      className="w-24 px-2 py-1.5 text-xs font-mono font-bold rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-emerald-600 dark:text-emerald-400 text-right"
+                      className="w-28 px-2 py-1.5 text-xs font-mono font-bold rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-emerald-600 dark:text-emerald-400 text-right"
                     />
                   </div>
                   <button
@@ -335,7 +335,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
               <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                จำนวนสต็อกคงเหลือ *
+                ຈຳນວນສະຕັອກຄົງເຫຼືອ *
               </label>
               <input
                 type="number"
@@ -349,7 +349,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
 
             <div>
               <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                จุดแจ้งเตือนขั้นต่ำ
+                ຈຸດແຈ້ງເຕືອນຂັ້ນຕ່ຳ
               </label>
               <input
                 type="number"
@@ -362,7 +362,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
 
             <div>
               <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                คลังเก็บสินค้า
+                ສາງເກັບສິນຄ້າ
               </label>
               <select
                 value={warehouseId}
@@ -382,14 +382,14 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                ซัพพลายเออร์หลัก
+                ຜູ້ສະໜອງຫຼັກ (Supplier)
               </label>
               <select
                 value={supplierId}
                 onChange={(e) => setSupplierId(e.target.value)}
                 className="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
               >
-                <option value="">-- ไม่ระบุ --</option>
+                <option value="">-- ບໍ່ລະບຸ --</option>
                 {suppliers.map((s) => (
                   <option key={s.id} value={s.id}>
                     {s.name} ({s.code})
@@ -400,7 +400,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
 
             <div>
               <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                ลิงก์รูปภาพ (Image URL)
+                ລິ້ງຮູບພາບ (Image URL)
               </label>
               <input
                 type="url"
@@ -420,14 +420,14 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
             onClick={onClose}
             className="px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
           >
-            ยกเลิก
+            ຍົກເລີກ
           </button>
           <button
             type="button"
             onClick={handleSubmit}
             className="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-md shadow-blue-600/30 cursor-pointer transition-all active:scale-98"
           >
-            {isEditing ? 'บันทึกการแก้ไข' : 'บันทึกสินค้าใหม่'}
+            {isEditing ? 'ບັນທຶກການແກ້ໄຂ' : 'ບັນທຶກສິນຄ້າໃໝ່'}
           </button>
         </div>
       </div>

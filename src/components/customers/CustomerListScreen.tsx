@@ -66,13 +66,13 @@ export const CustomerListScreen: React.FC<CustomerListScreenProps> = ({
   const getCustomerTypeBadge = (type: Customer['customerType']) => {
     switch (type) {
       case 'WHOLESALE_A':
-        return { label: 'ขายส่ง Grade A', color: 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300' };
+        return { label: 'ຂາຍສົ່ງ ເກຣດ A', color: 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300' };
       case 'WHOLESALE_B':
-        return { label: 'ขายส่ง Grade B', color: 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300' };
+        return { label: 'ຂາຍສົ່ງ ເກຣດ B', color: 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300' };
       case 'VIP':
-        return { label: 'ลูกค้า VIP', color: 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300' };
+        return { label: 'ລູກຄ້າ VIP', color: 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300' };
       default:
-        return { label: 'ลูกค้าปลีกทั่วไป', color: 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300' };
+        return { label: 'ລູກຄ້າທົ່ວໄປ', color: 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300' };
     }
   };
 
@@ -83,10 +83,10 @@ export const CustomerListScreen: React.FC<CustomerListScreenProps> = ({
         <div>
           <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
             <Users className="w-6 h-6 text-blue-600" />
-            ระบบบริหารลูกค้าและบัญชีลูกหนี้ (Customer & Accounts Receivable)
+            ລະບົບບໍລິຫານລູກຄ້າ ແລະ ບັນຊີລູກໜີ້ (Customer & Accounts Receivable)
           </h2>
           <p className="text-xs text-slate-500 mt-0.5">
-            จัดการข้อมูลลูกค้าร้านค้าส่ง วงเงินเครดิต และระบบรับชำระหนี้ค้าง
+            ຈັດການຂໍ້ມູນລູກຄ້າຂາຍສົ່ງ, ວົງເງິນສິນເຊື່ອ ແລະ ລະບົບຮັບຊຳລະໜີ້ຄ້າງ
           </p>
         </div>
 
@@ -98,7 +98,7 @@ export const CustomerListScreen: React.FC<CustomerListScreenProps> = ({
           className="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-md shadow-blue-600/30 flex items-center gap-1.5 cursor-pointer transition-all active:scale-98"
         >
           <UserPlus className="w-4 h-4" />
-          เพิ่มลูกค้าใหม่
+          ເພີ່ມລູກຄ້າໃໝ່
         </button>
       </div>
 
@@ -109,10 +109,10 @@ export const CustomerListScreen: React.FC<CustomerListScreenProps> = ({
             Accounts Receivable Summary
           </span>
           <h3 className="text-2xl font-black mt-0.5 font-mono">
-            ยอดลูกหนี้ค้างชำระรวม: {formatCurrency(totalAR, settings.currency)}
+            ຍອດລູກໜີ້ຄ້າງຊຳລະລວມ: {formatCurrency(totalAR, settings.currency)}
           </h3>
           <p className="text-xs text-amber-100 mt-1">
-            มีลูกหนี้ค้างชำระทั้งหมด {debtorCount} รายการจากลูกค้า {customers.length} ราย
+            ມີລູກໜີ້ຄ້າງຊຳລະທັງໝົດ {debtorCount} ລາຍການ ຈາກລູກຄ້າ {customers.length} ລາຍ
           </p>
         </div>
       </div>
@@ -123,7 +123,7 @@ export const CustomerListScreen: React.FC<CustomerListScreenProps> = ({
           <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
           <input
             type="text"
-            placeholder="ค้นหาชื่อ, รหัสลูกค้า, เบอร์โทร..."
+            placeholder="ຄົ້ນຫາຊື່, ລະຫັດລູກຄ້າ, ເບີໂທ..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full pl-9 pr-4 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500"
@@ -136,11 +136,11 @@ export const CustomerListScreen: React.FC<CustomerListScreenProps> = ({
             onChange={(e) => setSelectedType(e.target.value)}
             className="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-medium text-slate-700 dark:text-slate-300"
           >
-            <option value="ALL">ทุกลักษณะลูกค้า</option>
-            <option value="WHOLESALE_A">ขายส่ง Grade A</option>
-            <option value="WHOLESALE_B">ขายส่ง Grade B</option>
-            <option value="VIP">ลูกค้า VIP</option>
-            <option value="RETAIL">ลูกค้าปลีกทั่วไป</option>
+            <option value="ALL">ທຸກປະເພດລູກຄ້າ</option>
+            <option value="WHOLESALE_A">ຂາຍສົ່ງ ເກຣດ A</option>
+            <option value="WHOLESALE_B">ຂາຍສົ່ງ ເກຣດ B</option>
+            <option value="VIP">ລູກຄ້າ VIP</option>
+            <option value="RETAIL">ລູກຄ້າທົ່ວໄປ</option>
           </select>
         </div>
       </div>
@@ -151,13 +151,13 @@ export const CustomerListScreen: React.FC<CustomerListScreenProps> = ({
           <table className="w-full text-left text-xs">
             <thead className="bg-slate-50 dark:bg-slate-800/80 text-slate-400 font-semibold uppercase text-[10px] border-b border-slate-200 dark:border-slate-800">
               <tr>
-                <th className="py-3 px-4">รหัส & ชื่อลูกค้า</th>
-                <th className="py-3 px-4">ประเภทลูกค้า</th>
-                <th className="py-3 px-4">เบอร์โทร & ที่อยู่</th>
-                <th className="py-3 px-4 text-right">วงเงินเครดิต</th>
-                <th className="py-3 px-4 text-right">หนี้ค้างชำระ (AR)</th>
-                <th className="py-3 px-4 text-right">ยอดซื้อสะสม</th>
-                <th className="py-3 px-4 text-center">จัดการ</th>
+                <th className="py-3 px-4">ລະຫັດ & ຊື່ລູກຄ້າ</th>
+                <th className="py-3 px-4">ປະເພດລູກຄ້າ</th>
+                <th className="py-3 px-4">ເບີໂທ & ທີ່ຢູ່</th>
+                <th className="py-3 px-4 text-right">ວົງເງິນສິນເຊື່ອ</th>
+                <th className="py-3 px-4 text-right">ໜີ້ຄ້າງຊຳລະ (AR)</th>
+                <th className="py-3 px-4 text-right">ຍອດຊື້ສະສົມ</th>
+                <th className="py-3 px-4 text-center">ຈັດການ</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
@@ -183,7 +183,7 @@ export const CustomerListScreen: React.FC<CustomerListScreenProps> = ({
                       </span>
                       {c.priceTierDiscountPercent ? (
                         <span className="block text-[10px] text-emerald-600 mt-0.5">
-                          ส่วนลดพิเศษ {c.priceTierDiscountPercent}%
+                          ສ່ວນຫຼຸດພິເສດ {c.priceTierDiscountPercent}%
                         </span>
                       ) : null}
                     </td>
@@ -200,7 +200,7 @@ export const CustomerListScreen: React.FC<CustomerListScreenProps> = ({
                       {c.creditLimit > 0 ? (
                         <div>
                           <span className="font-bold">{formatCurrency(c.creditLimit, settings.currency)}</span>
-                          <span className="block text-[10px] text-slate-400">{c.creditDays} วัน</span>
+                          <span className="block text-[10px] text-slate-400">{c.creditDays} ວັນ</span>
                         </div>
                       ) : (
                         <span className="text-slate-400">-</span>
@@ -213,7 +213,7 @@ export const CustomerListScreen: React.FC<CustomerListScreenProps> = ({
                           {formatCurrency(c.currentDebt, settings.currency)}
                         </span>
                       ) : (
-                        <span className="text-slate-400">0.00</span>
+                        <span className="text-slate-400">0</span>
                       )}
                     </td>
 
@@ -227,10 +227,10 @@ export const CustomerListScreen: React.FC<CustomerListScreenProps> = ({
                           <button
                             onClick={() => setDebtCollectingCustomer(c)}
                             className="px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-700 hover:bg-emerald-100 dark:bg-emerald-950/60 dark:text-emerald-300 text-[11px] font-bold flex items-center gap-1 cursor-pointer"
-                            title="รับชำระหนี้"
+                            title="ຮັບຊຳລະໜີ້"
                           >
                             <Wallet className="w-3.5 h-3.5" />
-                            รับชำระหนี้
+                            ຮັບຊຳລະໜີ້
                           </button>
                         )}
                         <button
@@ -258,7 +258,7 @@ export const CustomerListScreen: React.FC<CustomerListScreenProps> = ({
         customer={editingCustomer}
         onSave={(c) => {
           onSaveCustomer(c);
-          onShowToast('success', 'บันทึกข้อมูลลูกค้าเรียบร้อย');
+          onShowToast('success', 'ບັນທຶກຂໍ້ມູນລູກຄ້າຮຽບຮ້ອຍ');
         }}
         onClose={() => setIsFormOpen(false)}
       />
@@ -271,7 +271,7 @@ export const CustomerListScreen: React.FC<CustomerListScreenProps> = ({
         onConfirmCollection={(cid, amt, method, note) => {
           onCollectDebt(cid, amt, method, note);
           setDebtCollectingCustomer(null);
-          onShowToast('success', 'รับชำระหนี้เรียบร้อย', `ตัดหนี้ค้าง ${amt.toLocaleString()} บาท`);
+          onShowToast('success', 'ຮັບຊຳລະໜີ້ຮຽບຮ້ອຍ', `ຕັດໜີ້ຄ້າງ ${formatCurrency(amt, settings.currency)}`);
         }}
         onClose={() => setDebtCollectingCustomer(null)}
       />

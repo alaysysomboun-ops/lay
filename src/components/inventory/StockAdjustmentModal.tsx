@@ -20,7 +20,7 @@ export const StockAdjustmentModal: React.FC<StockAdjustmentModalProps> = ({
   const [productId, setProductId] = useState(products[0]?.id || '');
   const [type, setType] = useState<'ADJUST_COUNT' | 'ADJUST_DAMAGE' | 'PURCHASE_RECEIPT'>('PURCHASE_RECEIPT');
   const [quantity, setQuantity] = useState<number>(10);
-  const [reason, setReason] = useState<string>('รับสินค้าเข้าคลังประจำงวด');
+  const [reason, setReason] = useState<string>('ຮັບສິນຄ້າເຂົ້າສາງປະຈຳງວດ');
 
   const selectedProduct = products.find(p => p.id === productId);
 
@@ -38,7 +38,7 @@ export const StockAdjustmentModal: React.FC<StockAdjustmentModalProps> = ({
         <div className="p-4 bg-slate-50 dark:bg-slate-800/80 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
           <h3 className="font-bold text-base text-slate-900 dark:text-white flex items-center gap-2">
             <Boxes className="w-5 h-5 text-blue-600" />
-            ปรับปรุงสต็อก / รับสินค้าเข้า
+            ປັບປຸງສະຕັອກ / ຮັບສິນຄ້າເຂົ້າ
           </h3>
           <button onClick={onClose} className="p-1 rounded-lg text-slate-400 hover:text-slate-600">
             <X className="w-5 h-5" />
@@ -49,7 +49,7 @@ export const StockAdjustmentModal: React.FC<StockAdjustmentModalProps> = ({
         <form onSubmit={handleSubmit} className="p-5 space-y-4">
           <div>
             <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-              เลือกสินค้า *
+              ເລືອກສິນຄ້າ *
             </label>
             <select
               value={productId}
@@ -58,7 +58,7 @@ export const StockAdjustmentModal: React.FC<StockAdjustmentModalProps> = ({
             >
               {products.map((p) => (
                 <option key={p.id} value={p.id}>
-                  {p.name} (คงเหลือ: {p.currentStock} {p.baseUnit})
+                  {p.name} (ຄົງເຫຼືອ: {p.currentStock} {p.baseUnit})
                 </option>
               ))}
             </select>
@@ -66,22 +66,22 @@ export const StockAdjustmentModal: React.FC<StockAdjustmentModalProps> = ({
 
           <div>
             <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-              ประเภทการปรับปรุงสต็อก *
+              ປະເພດການປັບປຸງສະຕັອກ *
             </label>
             <div className="grid grid-cols-3 gap-2">
               {[
-                { id: 'PURCHASE_RECEIPT', label: 'รับเข้า (+)', desc: 'ซื้อเข้าเพิ่ม' },
-                { id: 'ADJUST_DAMAGE', label: 'ชำรุด/สูญหาย (-)', desc: 'ตัดสต็อกออก' },
-                { id: 'ADJUST_COUNT', label: 'ตรวจนับตรง', desc: 'ตั้งยอดใหม่' },
+                { id: 'PURCHASE_RECEIPT', label: 'ຮັບເຂົ້າ (+)', desc: 'ຊື້ເຂົ້າເພີ່ມ' },
+                { id: 'ADJUST_DAMAGE', label: 'ຊຳລຸດ/ສູນຫາຍ (-)', desc: 'ຕັດສະຕັອກອອກ' },
+                { id: 'ADJUST_COUNT', label: 'ກວດນັບຕົວຈິງ', desc: 'ຕັ້ງຍອດໃໝ່' },
               ].map((opt) => (
                 <button
                   key={opt.id}
                   type="button"
                   onClick={() => {
                     setType(opt.id as any);
-                    if (opt.id === 'PURCHASE_RECEIPT') setReason('รับสินค้าเข้าคลัง');
-                    else if (opt.id === 'ADJUST_DAMAGE') setReason('สินค้าหมดอายุ/เสียหาย');
-                    else setReason('ปรับยอดตามการตรวจนับจริงประจำเดือน');
+                    if (opt.id === 'PURCHASE_RECEIPT') setReason('ຮັບສິນຄ້າເຂົ້າສາງ');
+                    else if (opt.id === 'ADJUST_DAMAGE') setReason('ສິນຄ້າໝົດອາຍຸ/ເສຍຫາຍ');
+                    else setReason('ປັບຍອດຕາມການກວດນັບຕົວຈິງປະຈຳເດືອນ');
                   }}
                   className={`p-2 rounded-xl border text-center text-xs font-bold transition-all cursor-pointer ${
                     type === opt.id
@@ -98,7 +98,7 @@ export const StockAdjustmentModal: React.FC<StockAdjustmentModalProps> = ({
 
           <div>
             <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-              {type === 'ADJUST_COUNT' ? 'จำนวนคงเหลือจริงใหม่ (ชิ้น/หน่วย)' : 'จำนวนที่ต้องการเพิ่ม/ลด (หน่วย)'}
+              {type === 'ADJUST_COUNT' ? 'ຈຳນວນຄົງເຫຼືອຕົວຈິງໃໝ່ (ໜ່ວຍ)' : 'ຈຳນວນທີ່ຕ້ອງການເພີ່ມ/ຫຼຸດ (ໜ່ວຍ)'}
             </label>
             <input
               type="number"
@@ -110,24 +110,24 @@ export const StockAdjustmentModal: React.FC<StockAdjustmentModalProps> = ({
             />
             {selectedProduct && (
               <p className="text-[11px] text-slate-500 mt-1">
-                สต็อกปัจจุบัน: <strong>{selectedProduct.currentStock} {selectedProduct.baseUnit}</strong>
-                {type === 'PURCHASE_RECEIPT' && ` -> สต็อกใหม่จะเป็น: ${selectedProduct.currentStock + quantity} ${selectedProduct.baseUnit}`}
-                {type === 'ADJUST_DAMAGE' && ` -> สต็อกใหม่จะเป็น: ${Math.max(0, selectedProduct.currentStock - quantity)} ${selectedProduct.baseUnit}`}
-                {type === 'ADJUST_COUNT' && ` -> สต็อกใหม่จะเป็น: ${quantity} ${selectedProduct.baseUnit}`}
+                ສະຕັອກປັດຈຸບັນ: <strong>{selectedProduct.currentStock} {selectedProduct.baseUnit}</strong>
+                {type === 'PURCHASE_RECEIPT' && ` -> ສະຕັອກໃໝ່ຈະເປັນ: ${selectedProduct.currentStock + quantity} ${selectedProduct.baseUnit}`}
+                {type === 'ADJUST_DAMAGE' && ` -> ສະຕັອກໃໝ່ຈະເປັນ: ${Math.max(0, selectedProduct.currentStock - quantity)} ${selectedProduct.baseUnit}`}
+                {type === 'ADJUST_COUNT' && ` -> ສະຕັອກໃໝ່ຈະເປັນ: ${quantity} ${selectedProduct.baseUnit}`}
               </p>
             )}
           </div>
 
           <div>
             <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-              เหตุผลการปรับปรุงสต็อก (Audit Reason) *
+              ເຫດຜົນການປັບປຸງສະຕັອກ (Audit Reason) *
             </label>
             <input
               type="text"
               required
               value={reason}
               onChange={(e) => setReason(e.target.value)}
-              placeholder="ระบุเหตุผลเพื่อบันทึกใน Audit Log..."
+              placeholder="ລະບຸເຫດຜົນເພື່ອບັນທຶກໃນ Audit Log..."
               className="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
             />
           </div>
@@ -138,13 +138,13 @@ export const StockAdjustmentModal: React.FC<StockAdjustmentModalProps> = ({
               onClick={onClose}
               className="px-4 py-2 rounded-xl border border-slate-300 text-xs font-semibold"
             >
-              ยกเลิก
+              ຍົກເລີກ
             </button>
             <button
               type="submit"
               className="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs"
             >
-              ยืนยันปรับสต็อก
+              ຢືນຢັນປັບສະຕັອກ
             </button>
           </div>
         </form>

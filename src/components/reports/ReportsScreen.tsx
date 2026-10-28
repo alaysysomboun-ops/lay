@@ -141,8 +141,8 @@ export const ReportsScreen: React.FC<ReportsScreenProps> = ({
     } else {
       headers = ['Type', 'Name', 'Phone', 'Balance'];
       rows = [
-        ...customers.filter(c => c.currentDebt > 0).map(c => ['ลูกหนี้ (AR)', c.name, c.phone, c.currentDebt.toFixed(2)]),
-        ...suppliers.filter(s => s.currentPayable > 0).map(s => ['เจ้าหนี้ (AP)', s.name, s.phone, s.currentPayable.toFixed(2)]),
+        ...customers.filter(c => c.currentDebt > 0).map(c => ['ລູກໜີ້ (AR)', c.name, c.phone, c.currentDebt.toFixed(2)]),
+        ...suppliers.filter(s => s.currentPayable > 0).map(s => ['ເຈົ້າໜີ້ (AP)', s.name, s.phone, s.currentPayable.toFixed(2)]),
       ];
     }
 
@@ -155,7 +155,7 @@ export const ReportsScreen: React.FC<ReportsScreenProps> = ({
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    onShowToast('success', 'ส่งออกรายงานสำเร็จ', 'ไฟล์ CSV ดาวน์โหลดเรียบร้อย');
+    onShowToast('success', 'ສົ່ງອອກລາຍງານສຳເລັດ', 'ດາວໂຫຼດໄຟລ໌ CSV ຮຽບຮ້ອຍແລ້ວ');
   };
 
   return (
@@ -165,10 +165,10 @@ export const ReportsScreen: React.FC<ReportsScreenProps> = ({
         <div>
           <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
             <BarChart3 className="w-6 h-6 text-blue-600" />
-            รายงานและสถิติวิเคราะห์ (Reports & Business Analytics)
+            ລາຍງານ ແລະ ສະຖິຕິວິເຄາະ (Reports & Business Analytics)
           </h2>
           <p className="text-xs text-slate-500 mt-0.5">
-            สรุปยอดขาย ต้นทุนขาย กำไรขั้นต้น กำไรสุทธิ และรายงานลูกหนี้-เจ้าหนี้
+            ສະຫຼຸບຍອດຂາຍ, ຕົ້ນທຶນຂາຍ, ກຳໄລຂັ້ນຕົ້ນ, ກຳໄລສຸດທິ ແລະ ລາຍງານລູກໜີ້-ເຈົ້າໜີ້
           </p>
         </div>
 
@@ -176,10 +176,10 @@ export const ReportsScreen: React.FC<ReportsScreenProps> = ({
           {/* Period Selector */}
           <div className="flex bg-slate-100 dark:bg-slate-800 rounded-xl p-1 border border-slate-200 dark:border-slate-700">
             {[
-              { id: 'TODAY', label: 'วันนี้' },
-              { id: 'MONTH', label: 'เดือนนี้' },
-              { id: 'YEAR', label: 'ปีนี้' },
-              { id: 'ALL', label: 'ทั้งหมด' },
+              { id: 'TODAY', label: 'ມື້ນີ້' },
+              { id: 'MONTH', label: 'ເດືອນນີ້' },
+              { id: 'YEAR', label: 'ປີນີ້' },
+              { id: 'ALL', label: 'ທັງໝົດ' },
             ].map((p) => (
               <button
                 key={p.id}
@@ -200,7 +200,7 @@ export const ReportsScreen: React.FC<ReportsScreenProps> = ({
             className="px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs flex items-center gap-1.5 cursor-pointer shadow-xs"
           >
             <Download className="w-3.5 h-3.5" />
-            ส่งออก CSV
+            ສົ່ງອອກ CSV
           </button>
         </div>
       </div>
@@ -208,23 +208,23 @@ export const ReportsScreen: React.FC<ReportsScreenProps> = ({
       {/* Financial Health Summary Banner */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
-          <span className="text-xs font-bold text-slate-500">ยอดขายรวม (Revenue)</span>
+          <span className="text-xs font-bold text-slate-500">ຍອດຂາຍລວມ (Revenue)</span>
           <h3 className="text-xl font-black text-slate-900 dark:text-white font-mono mt-1">
             {formatCurrency(totalRevenue, settings.currency)}
           </h3>
-          <span className="text-[10px] text-slate-400 mt-1 block">{filteredSales.length} รายการขาย</span>
+          <span className="text-[10px] text-slate-400 mt-1 block">{filteredSales.length} ລາຍການຂາຍ</span>
         </div>
 
         <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
-          <span className="text-xs font-bold text-slate-500">ต้นทุนขาย (COGS)</span>
+          <span className="text-xs font-bold text-slate-500">ຕົ້ນທຶນຂາຍ (COGS)</span>
           <h3 className="text-xl font-black text-rose-600 dark:text-rose-400 font-mono mt-1">
             {formatCurrency(totalCOGS, settings.currency)}
           </h3>
-          <span className="text-[10px] text-slate-400 mt-1 block">ต้นทุนสินค้าที่ตัดสต็อก</span>
+          <span className="text-[10px] text-slate-400 mt-1 block">ຕົ້ນທຶນສິນຄ້າທີ່ຕັດສາງ</span>
         </div>
 
         <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
-          <span className="text-xs font-bold text-slate-500">กำไรขั้นต้น (Gross Profit)</span>
+          <span className="text-xs font-bold text-slate-500">ກຳໄລຂັ້ນຕົ້ນ (Gross Profit)</span>
           <h3 className="text-xl font-black text-indigo-600 dark:text-indigo-400 font-mono mt-1">
             {formatCurrency(grossProfit, settings.currency)}
           </h3>
@@ -234,20 +234,20 @@ export const ReportsScreen: React.FC<ReportsScreenProps> = ({
         </div>
 
         <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
-          <span className="text-xs font-bold text-slate-500">กำไรสุทธิ (Net Profit)</span>
+          <span className="text-xs font-bold text-slate-500">ກຳໄລສຸດທິ (Net Profit)</span>
           <h3 className={`text-xl font-black font-mono mt-1 ${netProfit >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}`}>
             {formatCurrency(netProfit, settings.currency)}
           </h3>
-          <span className="text-[10px] text-slate-400 mt-1 block">หักค่าใช้จ่าย {formatCurrency(filteredExpenses, settings.currency)}</span>
+          <span className="text-[10px] text-slate-400 mt-1 block">ຫັກຄ່າໃຊ້ຈ່າຍ {formatCurrency(filteredExpenses, settings.currency)}</span>
         </div>
       </div>
 
       {/* Report Types Tabs */}
       <div className="flex border-b border-slate-200 dark:border-slate-800 overflow-x-auto">
         {[
-          { id: 'SALES_PROFIT', label: 'ยอดขายและกำไรตามสินค้า', icon: Package },
-          { id: 'CATEGORIES', label: 'ยอดขายตามหมวดหมู่', icon: Layers },
-          { id: 'AR_AP', label: 'รายงานลูกหนี้ & เจ้าหนี้ (AR/AP)', icon: Users },
+          { id: 'SALES_PROFIT', label: 'ຍອດຂາຍ ແລະ ກຳໄລຕາມສິນຄ້າ', icon: Package },
+          { id: 'CATEGORIES', label: 'ຍອດຂາຍຕາມໝວດໝູ່', icon: Layers },
+          { id: 'AR_AP', label: 'ລາຍງານລູກໜີ້ & ເຈົ້າໜີ້ (AR/AP)', icon: Users },
         ].map((tab) => {
           const Icon = tab.icon;
           const isSelected = reportType === tab.id;
@@ -275,13 +275,13 @@ export const ReportsScreen: React.FC<ReportsScreenProps> = ({
             <table className="w-full text-left text-xs">
               <thead className="bg-slate-50 dark:bg-slate-800/80 text-slate-400 font-semibold uppercase text-[10px] border-b border-slate-200 dark:border-slate-800">
                 <tr>
-                  <th className="py-3 px-4">สินค้า</th>
-                  <th className="py-3 px-4">หมวดหมู่</th>
-                  <th className="py-3 px-4 text-right">จำนวนขาย</th>
-                  <th className="py-3 px-4 text-right">ยอดขายรวม</th>
-                  <th className="py-3 px-4 text-right">ต้นทุนรวม</th>
-                  <th className="py-3 px-4 text-right">กำไรขั้นต้น (GP)</th>
-                  <th className="py-3 px-4 text-right">มาร์จิ้น (%)</th>
+                  <th className="py-3 px-4">ສິນຄ້າ</th>
+                  <th className="py-3 px-4">ໝວດໝູ່</th>
+                  <th className="py-3 px-4 text-right">ຈຳນວນຂາຍ</th>
+                  <th className="py-3 px-4 text-right">ຍອດຂາຍລວມ</th>
+                  <th className="py-3 px-4 text-right">ຕົ້ນທຶນລວມ</th>
+                  <th className="py-3 px-4 text-right">ກຳໄລຂັ້ນຕົ້ນ (GP)</th>
+                  <th className="py-3 px-4 text-right">ມາດຈິນ (%)</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 dark:divide-slate-800 font-mono">
@@ -316,7 +316,7 @@ export const ReportsScreen: React.FC<ReportsScreenProps> = ({
                 {productReport.length === 0 && (
                   <tr>
                     <td colSpan={7} className="py-12 text-center text-slate-400 font-sans">
-                      ไม่มียอดขายในช่วงเวลาที่เลือก
+                      ບໍ່ມียອດຂາຍໃນຊ່ວງເວລາທີ່ເລືອກ
                     </td>
                   </tr>
                 )}
@@ -332,11 +332,11 @@ export const ReportsScreen: React.FC<ReportsScreenProps> = ({
             <table className="w-full text-left text-xs">
               <thead className="bg-slate-50 dark:bg-slate-800/80 text-slate-400 font-semibold uppercase text-[10px] border-b border-slate-200 dark:border-slate-800">
                 <tr>
-                  <th className="py-3 px-4">หมวดหมู่สินค้า</th>
-                  <th className="py-3 px-4 text-right">จำนวนชิ้นที่ขาย</th>
-                  <th className="py-3 px-4 text-right">ยอดขายรวม</th>
-                  <th className="py-3 px-4 text-right">กำไรขั้นต้นรวม</th>
-                  <th className="py-3 px-4 text-right">สัดส่วนยอดขาย (%)</th>
+                  <th className="py-3 px-4">ໝວດໝູ່ສິນຄ້າ</th>
+                  <th className="py-3 px-4 text-right">ຈຳນວນຊິ້ນທີ່ຂາຍ</th>
+                  <th className="py-3 px-4 text-right">ຍອດຂາຍລວມ</th>
+                  <th className="py-3 px-4 text-right">ກຳໄລຂັ້ນຕົ້ນລວມ</th>
+                  <th className="py-3 px-4 text-right">ສັດສ່ວນຍອດຂາຍ (%)</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 dark:divide-slate-800 font-mono">
@@ -348,7 +348,7 @@ export const ReportsScreen: React.FC<ReportsScreenProps> = ({
                         {c.category}
                       </td>
                       <td className="py-3 px-4 text-right font-bold text-slate-700 dark:text-slate-300">
-                        {c.count} ชิ้น
+                        {c.count} ອັນ
                       </td>
                       <td className="py-3 px-4 text-right font-bold text-blue-600 dark:text-blue-400">
                         {formatCurrency(c.revenue, settings.currency)}
@@ -373,7 +373,7 @@ export const ReportsScreen: React.FC<ReportsScreenProps> = ({
           {/* AR */}
           <div className="rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs p-5 space-y-3">
             <h4 className="font-bold text-sm text-slate-900 dark:text-white flex items-center justify-between">
-              <span>รายงานลูกหนี้ค้างชำระ (Accounts Receivable)</span>
+              <span>ລາຍງານລູກໜີ້ຄ້າງຊຳລະ (Accounts Receivable)</span>
               <span className="text-amber-600 font-mono">
                 {formatCurrency(customers.reduce((sum, c) => sum + (c.currentDebt || 0), 0), settings.currency)}
               </span>
@@ -382,10 +382,10 @@ export const ReportsScreen: React.FC<ReportsScreenProps> = ({
               <table className="w-full text-left text-xs">
                 <thead className="bg-slate-50 dark:bg-slate-800 text-[10px] text-slate-400">
                   <tr>
-                    <th className="p-2">ลูกค้า</th>
-                    <th className="p-2">โทร</th>
-                    <th className="p-2 text-right">วงเงิน</th>
-                    <th className="p-2 text-right">หนี้ค้าง</th>
+                    <th className="p-2">ລູກຄ້າ</th>
+                    <th className="p-2">ເບີໂທ</th>
+                    <th className="p-2 text-right">ວົງເງິນ</th>
+                    <th className="p-2 text-right">ໜີ້ຄ້າງ</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
@@ -405,7 +405,7 @@ export const ReportsScreen: React.FC<ReportsScreenProps> = ({
           {/* AP */}
           <div className="rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs p-5 space-y-3">
             <h4 className="font-bold text-sm text-slate-900 dark:text-white flex items-center justify-between">
-              <span>รายงานเจ้าหนี้ค้างจ่าย (Accounts Payable)</span>
+              <span>ລາຍງານເຈົ້າໜີ້ຄ້າງຈ່າຍ (Accounts Payable)</span>
               <span className="text-rose-600 font-mono">
                 {formatCurrency(suppliers.reduce((sum, s) => sum + (s.currentPayable || 0), 0), settings.currency)}
               </span>
@@ -414,10 +414,10 @@ export const ReportsScreen: React.FC<ReportsScreenProps> = ({
               <table className="w-full text-left text-xs">
                 <thead className="bg-slate-50 dark:bg-slate-800 text-[10px] text-slate-400">
                   <tr>
-                    <th className="p-2">ซัพพลายเออร์</th>
-                    <th className="p-2">ผู้ติดต่อ</th>
-                    <th className="p-2 text-right">เครดิต</th>
-                    <th className="p-2 text-right">ยอดค้างจ่าย</th>
+                    <th className="p-2">ຜູ້ສະໜອງ</th>
+                    <th className="p-2">ຜູ້ຕິດຕໍ່</th>
+                    <th className="p-2 text-right">ສິນເຊື່ອ</th>
+                    <th className="p-2 text-right">ຍອດຄ້າງຈ່າຍ</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
@@ -425,7 +425,7 @@ export const ReportsScreen: React.FC<ReportsScreenProps> = ({
                     <tr key={s.id}>
                       <td className="p-2 font-bold">{s.name}</td>
                       <td className="p-2 text-slate-400">{s.contactPerson}</td>
-                      <td className="p-2 text-right font-mono">{s.creditDays} วัน</td>
+                      <td className="p-2 text-right font-mono">{s.creditDays} ວັນ</td>
                       <td className="p-2 text-right font-mono font-bold text-rose-600">{formatCurrency(s.currentPayable, settings.currency)}</td>
                     </tr>
                   ))}

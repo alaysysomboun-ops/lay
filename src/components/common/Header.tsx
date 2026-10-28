@@ -66,13 +66,13 @@ export const Header: React.FC<HeaderProps> = ({
               ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800'
               : 'bg-amber-50 text-amber-700 dark:bg-amber-950/40 dark:text-amber-400 border border-amber-200 dark:border-amber-800'
           }`}
-          title="จัดการกะการขาย (Shift)"
+          title="ຈັດການກະການຂາຍ (Shift)"
         >
           <Clock className="w-3.5 h-3.5" />
           <span className="hidden sm:inline">
-            {activeShift ? `กะเปิด: ${activeShift.cashierName.split(' ')[0]}` : 'ยังไม่เปิดกะ'}
+            {activeShift ? `ກະເປີດ: ${activeShift.cashierName.split(' ')[0]}` : 'ຍັງບໍ່ທັນເປີດກະ'}
           </span>
-          <span className="sm:hidden">{activeShift ? 'กะเปิด' : 'เปิดกะ'}</span>
+          <span className="sm:hidden">{activeShift ? 'ກະເປີດ' : 'ເປີດກະ'}</span>
         </button>
 
         {/* Currency Switcher */}
@@ -129,7 +129,7 @@ export const Header: React.FC<HeaderProps> = ({
         <button
           onClick={onResetDemoData}
           className="p-2 rounded-xl text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-colors cursor-pointer"
-          title="รีเซ็ตข้อมูลตัวอย่าง (Reset Demo Data)"
+          title="ຣີເຊັດຂໍ້ມູນຕົວຢ່າງ (Reset Demo Data)"
         >
           <RotateCcw className="w-4 h-4" />
         </button>

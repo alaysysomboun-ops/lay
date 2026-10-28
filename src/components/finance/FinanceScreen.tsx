@@ -96,15 +96,15 @@ export const FinanceScreen: React.FC<FinanceScreenProps> = ({
   const getTransactionTypeBadge = (type: FinancialRecord['type']) => {
     switch (type) {
       case 'EXPENSE':
-        return { label: 'ค่าใช้จ่าย', color: 'bg-rose-100 text-rose-700 dark:bg-rose-950/40 dark:text-rose-400' };
+        return { label: 'ລາຍຈ່າຍ', color: 'bg-rose-100 text-rose-700 dark:bg-rose-950/40 dark:text-rose-400' };
       case 'CAPITAL_INJECTION':
-        return { label: 'เงินทุนเจ้าของ (ไม่นับเป็นยอดขาย)', color: 'bg-purple-100 text-purple-700 dark:bg-purple-950/40 dark:text-purple-400' };
+        return { label: 'ເງິນທຶນເຈົ້າຂອງ (ບໍ່ນັບເປັນຍອດຂາຍ)', color: 'bg-purple-100 text-purple-700 dark:bg-purple-950/40 dark:text-purple-400' };
       case 'CUSTOMER_DEBT_PAYMENT':
-        return { label: 'รับชำระหนี้ลูกหนี้ (ตัดหนี้)', color: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400' };
+        return { label: 'ຮັບຊຳລະໜີ້ລູກໜີ້ (ຕັດໜີ້)', color: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400' };
       case 'SUPPLIER_PAYMENT':
-        return { label: 'จ่ายชำระหนี้เจ้าหนี้', color: 'bg-indigo-100 text-indigo-700 dark:bg-indigo-950/40 dark:text-indigo-400' };
+        return { label: 'ຈ່າຍຊຳລະໜີ້ເຈົ້າໜີ້', color: 'bg-indigo-100 text-indigo-700 dark:bg-indigo-950/40 dark:text-indigo-400' };
       case 'OWNER_DRAW':
-        return { label: 'ถอนเงินกำไรเจ้าของ', color: 'bg-amber-100 text-amber-700 dark:bg-amber-950/40 dark:text-amber-400' };
+        return { label: 'ຖອນເງິນກຳໄລເຈົ້າຂອງ', color: 'bg-amber-100 text-amber-700 dark:bg-amber-950/40 dark:text-amber-400' };
       default:
         return { label: type, color: 'bg-slate-100 text-slate-700' };
     }
@@ -117,10 +117,10 @@ export const FinanceScreen: React.FC<FinanceScreenProps> = ({
         <div>
           <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
             <Wallet className="w-6 h-6 text-blue-600" />
-            ระบบรายรับ-รายจ่าย & บริหารกะ (Finance & Cash Register)
+            ລະບົບລາຍຮັບ-ລາຍຈ່າຍ & ບໍລິຫານຜຽນ (Finance & Cash Register)
           </h2>
           <p className="text-xs text-slate-500 mt-0.5">
-            แยกรายรับจากการขายออกจากเงินทุนเจ้าของ บันทึกค่าใช้จ่าย และจัดการเงินสดในลิ้นชัก
+            ແຍກລາຍຮັບຈາກການຂາຍອອກຈາກເງິນທຶນເຈົ້າຂອງ, ບັນທຶກລາຍຈ່າຍ ແລະ ຈັດການເງິນສົດໃນລິ້ນຊັກ
           </p>
         </div>
 
@@ -130,7 +130,7 @@ export const FinanceScreen: React.FC<FinanceScreenProps> = ({
             className="px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center gap-1.5 shadow-xs cursor-pointer"
           >
             <Clock className="w-4 h-4 text-blue-600" />
-            {activeShift ? 'จัดการกะปัจจุบัน' : 'เปิดกะขายใหม่'}
+            {activeShift ? 'ຈັດການຜຽນປັດຈຸບັນ' : 'ເປີດຜຽນຂາຍໃໝ່'}
           </button>
 
           {canViewFinancials && (
@@ -139,7 +139,7 @@ export const FinanceScreen: React.FC<FinanceScreenProps> = ({
               className="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-md shadow-blue-600/30 flex items-center gap-1.5 cursor-pointer transition-all active:scale-98"
             >
               <Plus className="w-4 h-4" />
-              บันทึกรายจ่าย / เติมทุน
+              ບັນທຶກລາຍຈ່າຍ / ເຕີມທຶນ
             </button>
           )}
         </div>
@@ -149,38 +149,38 @@ export const FinanceScreen: React.FC<FinanceScreenProps> = ({
       {canViewFinancials && (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
-            <span className="text-xs font-bold text-slate-500">1. ยอดขายสุทธิเดือนนี้</span>
+            <span className="text-xs font-bold text-slate-500">1. ຍອດຂາຍສຸດທິເດືອນນີ້</span>
             <h3 className="text-xl font-black text-slate-900 dark:text-white font-mono mt-1">
               {formatCurrency(monthRevenue, settings.currency)}
             </h3>
-            <span className="text-[10px] text-slate-400 mt-1 block">ไม่รวมเงินทุนเจ้าของ</span>
+            <span className="text-[10px] text-slate-400 mt-1 block">ບໍ່ລວມເງິນທຶນເຈົ້າຂອງ</span>
           </div>
 
           <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
-            <span className="text-xs font-bold text-slate-500">2. กำไรขั้นต้น (GP)</span>
+            <span className="text-xs font-bold text-slate-500">2. ກຳໄລຂັ້ນຕົ້ນ (GP)</span>
             <h3 className="text-xl font-black text-indigo-600 dark:text-indigo-400 font-mono mt-1">
               {formatCurrency(grossProfit, settings.currency)}
             </h3>
             <span className="text-[10px] text-slate-400 mt-1 block">
-              หักต้นทุนสินค้า {formatCurrency(monthCOGS, settings.currency)}
+              ຫັກຕົ້ນທຶນສິນຄ້າ {formatCurrency(monthCOGS, settings.currency)}
             </span>
           </div>
 
           <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
-            <span className="text-xs font-bold text-slate-500">3. ค่าใช้จ่ายดำเนินงาน</span>
+            <span className="text-xs font-bold text-slate-500">3. ລາຍຈ່າຍດຳເນີນງານ</span>
             <h3 className="text-xl font-black text-rose-600 dark:text-rose-400 font-mono mt-1">
               {formatCurrency(monthExpenses, settings.currency)}
             </h3>
-            <span className="text-[10px] text-slate-400 mt-1 block">ค่าเช่า, เงินเดือน, น้ำไฟ ฯลฯ</span>
+            <span className="text-[10px] text-slate-400 mt-1 block">ຄ່າເຊົ່າ, ເງິນເດືອນ, ນ້ຳໄຟ ແລະ ອື່ນໆ</span>
           </div>
 
           <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
-            <span className="text-xs font-bold text-slate-500">4. กำไรสุทธิ (Net Profit)</span>
+            <span className="text-xs font-bold text-slate-500">4. ກຳໄລສຸດທິ (Net Profit)</span>
             <h3 className={`text-xl font-black font-mono mt-1 ${netProfit >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}`}>
               {formatCurrency(netProfit, settings.currency)}
             </h3>
             <span className="text-[10px] text-slate-400 mt-1 block">
-              อัตรากำไรสุทธิ: {monthRevenue > 0 ? ((netProfit / monthRevenue) * 100).toFixed(1) : 0}%
+              ອັດຕາກຳໄລສຸດທິ: {monthRevenue > 0 ? ((netProfit / monthRevenue) * 100).toFixed(1) : 0}%
             </span>
           </div>
         </div>
@@ -196,7 +196,7 @@ export const FinanceScreen: React.FC<FinanceScreenProps> = ({
               : 'border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
           }`}
         >
-          สมุดรายวันการเงิน ({finances.length})
+          ປື້ມບັນຊີລາຍວັນການເງິນ ({finances.length})
         </button>
         <button
           onClick={() => setActiveTab('SHIFTS')}
@@ -207,7 +207,7 @@ export const FinanceScreen: React.FC<FinanceScreenProps> = ({
           }`}
         >
           <Clock className="w-3.5 h-3.5" />
-          ประวัติรอบกะแคชเชียร์ ({shifts.length})
+          ປະຫວັດຮອບຜຽນແຄຊເຊຍ ({shifts.length})
         </button>
       </div>
 
@@ -218,7 +218,7 @@ export const FinanceScreen: React.FC<FinanceScreenProps> = ({
             <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
             <input
               type="text"
-              placeholder="ค้นหาชื่อรายการ, ผู้บันทึก..."
+              placeholder="ຄົ້ນຫາຊື່ລາຍການ, ຜູ້ບັນທຶກ..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-9 pr-4 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500"
@@ -230,12 +230,12 @@ export const FinanceScreen: React.FC<FinanceScreenProps> = ({
               <table className="w-full text-left text-xs">
                 <thead className="bg-slate-50 dark:bg-slate-800/80 text-slate-400 font-semibold uppercase text-[10px] border-b border-slate-200 dark:border-slate-800">
                   <tr>
-                    <th className="py-3 px-4">วันที่</th>
-                    <th className="py-3 px-4">ประเภทรายการ</th>
-                    <th className="py-3 px-4">ชื่อรายการ / รายละเอียด</th>
-                    <th className="py-3 px-4">วิธีชำระ</th>
-                    <th className="py-3 px-4 text-right">จำนวนเงิน</th>
-                    <th className="py-3 px-4">ผู้บันทึก</th>
+                    <th className="py-3 px-4">ວັນທີ</th>
+                    <th className="py-3 px-4">ປະເພດລາຍການ</th>
+                    <th className="py-3 px-4">ຊື່ລາຍການ / ລາຍລະອຽດ</th>
+                    <th className="py-3 px-4">ວິທີຊຳລະ</th>
+                    <th className="py-3 px-4 text-right">ຈຳນວນເງິນ</th>
+                    <th className="py-3 px-4">ຜູ້ບັນທຶກ</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
@@ -281,14 +281,14 @@ export const FinanceScreen: React.FC<FinanceScreenProps> = ({
             <table className="w-full text-left text-xs">
               <thead className="bg-slate-50 dark:bg-slate-800/80 text-slate-400 font-semibold uppercase text-[10px] border-b border-slate-200 dark:border-slate-800">
                 <tr>
-                  <th className="py-3 px-4">พนักงานแคชเชียร์</th>
-                  <th className="py-3 px-4">เวลาเปิดกะ - ปิดกะ</th>
-                  <th className="py-3 px-4 text-right">เงินทอนเริ่ม</th>
-                  <th className="py-3 px-4 text-right">ยอดขายรวม</th>
-                  <th className="py-3 px-4 text-right">เงินสดที่ควรมี</th>
-                  <th className="py-3 px-4 text-right">นับได้จริง</th>
-                  <th className="py-3 px-4 text-right">ส่วนต่างเงินสด</th>
-                  <th className="py-3 px-4 text-center">สถานะ</th>
+                  <th className="py-3 px-4">ພະນັກງານແຄຊເຊຍ</th>
+                  <th className="py-3 px-4">ເວລາເປີດຜຽນ - ປິດຜຽນ</th>
+                  <th className="py-3 px-4 text-right">ເງິນທອນເລີ່ມຕົ້ນ</th>
+                  <th className="py-3 px-4 text-right">ຍອດຂາຍລວມ</th>
+                  <th className="py-3 px-4 text-right">ເງິນສົດທີ່ຄວນມີ</th>
+                  <th className="py-3 px-4 text-right">ນັບໄດ້ຕົວຈິງ</th>
+                  <th className="py-3 px-4 text-right">ສ່ວນຕ່າງເງິນສົດ</th>
+                  <th className="py-3 px-4 text-center">ສະຖານະ</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 dark:divide-slate-800 font-mono">
@@ -302,8 +302,8 @@ export const FinanceScreen: React.FC<FinanceScreenProps> = ({
                         {s.cashierName}
                       </td>
                       <td className="py-3 px-4 font-sans text-slate-500 whitespace-nowrap">
-                        <div>เริ่ม: {formatDateTime(s.startTime, 'th')}</div>
-                        {s.endTime && <div>ปิด: {formatDateTime(s.endTime, 'th')}</div>}
+                        <div>ເລີ່ມ: {formatDateTime(s.startTime, 'lo')}</div>
+                        {s.endTime && <div>ປິດ: {formatDateTime(s.endTime, 'lo')}</div>}
                       </td>
                       <td className="py-3 px-4 text-right text-slate-600 dark:text-slate-300">
                         {formatCurrency(s.openingCash, settings.currency)}
@@ -320,7 +320,7 @@ export const FinanceScreen: React.FC<FinanceScreenProps> = ({
                       <td className="py-3 px-4 text-right font-bold">
                         {s.actualCash !== undefined ? (
                           <span className={diff === 0 ? 'text-emerald-600' : diff > 0 ? 'text-blue-600' : 'text-rose-600'}>
-                            {diff > 0 ? `+${diff.toLocaleString()}฿` : `${diff.toLocaleString()}฿`}
+                            {diff > 0 ? `+${formatCurrency(diff, settings.currency)}` : formatCurrency(diff, settings.currency)}
                           </span>
                         ) : (
                           '-'
@@ -334,7 +334,7 @@ export const FinanceScreen: React.FC<FinanceScreenProps> = ({
                               : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400'
                           }`}
                         >
-                          {isOpen ? 'กะกำลังเปิด' : 'ปิดกะแล้ว'}
+                          {isOpen ? 'ຜຽນກຳລັງເປີດ' : 'ປິດຜຽນແລ້ວ'}
                         </span>
                       </td>
                     </tr>
@@ -351,7 +351,7 @@ export const FinanceScreen: React.FC<FinanceScreenProps> = ({
         isOpen={isExpenseOpen}
         onSave={(rec) => {
           onAddFinanceRecord(rec);
-          onShowToast('success', 'บันทึกรายการสำเร็จ', rec.title);
+          onShowToast('success', 'ບັນທຶກລາຍການສຳເລັດ', rec.title);
         }}
         onClose={() => setIsExpenseOpen(false)}
       />
@@ -364,11 +364,11 @@ export const FinanceScreen: React.FC<FinanceScreenProps> = ({
         currentUser={currentUser}
         onOpenShift={(cash) => {
           onOpenShift(cash);
-          onShowToast('success', 'เปิดกะขายสำเร็จ', `เงินทอน ${cash.toLocaleString()} บาท`);
+          onShowToast('success', 'ເປີດຜຽນຂາຍສຳເລັດ', `ເງິນທອນເລີ່ມຕົ້ນ ${formatCurrency(cash, settings.currency)}`);
         }}
         onCloseShift={(actual, notes) => {
           onCloseShift(actual, notes);
-          onShowToast('success', 'ปิดกะขายเรียบร้อย', `เงินสดในลิ้นชัก ${actual.toLocaleString()} บาท`);
+          onShowToast('success', 'ປິດຜຽນຂາຍຮຽບຮ້ອຍ', `ເງິນສົດໃນລິ້ນຊັກ ${formatCurrency(actual, settings.currency)}`);
         }}
         onCloseModal={() => setIsShiftModalOpen(false)}
       />

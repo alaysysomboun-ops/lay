@@ -87,21 +87,21 @@ export default function App() {
   const handleSelectUser = (user: User) => {
     storageService.setCurrentUser(user);
     setCurrentUser(user);
-    showToast('info', 'สลับผู้ใช้งาน', `เข้าสู่ระบบเป็น ${user.name} (${user.role})`);
+    showToast('info', 'ປ່ຽນຜູ້ໃຊ້ງານ', `ເຂົ້າສູ່ລະບົບເປັນ ${user.name} (${user.role})`);
   };
 
   const handleUpdateCurrency = (curr: Currency) => {
     const updated = { ...settings, currency: curr };
     storageService.updateSettings(updated);
     setSettings(updated);
-    showToast('info', 'เปลี่ยนสกุลเงิน', `เปลี่ยนเป็น ${curr}`);
+    showToast('info', 'ປ່ຽນສະກຸນເງິນ', `ປ່ຽນເປັນ ${curr}`);
   };
 
   const handleUpdateLanguage = (lang: Language) => {
     const updated = { ...settings, language: lang };
     storageService.updateSettings(updated);
     setSettings(updated);
-    showToast('info', 'เปลี่ยนภาษา', `ตั้งค่าภาษาเป็น ${lang.toUpperCase()}`);
+    showToast('info', 'ປ່ຽນພາສາ', `ຕັ້ງຄ່າພາສາເປັນ ${lang.toUpperCase()}`);
   };
 
   const handleUpdateSettings = (newSettings: StoreSettings) => {
@@ -112,7 +112,7 @@ export default function App() {
   const handleSaveProduct = (prod: Product) => {
     storageService.saveProduct(prod);
     reloadData();
-    showToast('success', 'บันทึกสินค้าเรียบร้อย', prod.name);
+    showToast('success', 'ບັນທຶກສິນຄ້າຮຽບຮ້ອຍ', prod.name);
   };
 
   const handleDeleteProduct = (pid: string) => {
@@ -123,7 +123,7 @@ export default function App() {
   const handleImportProducts = (newProducts: Product[]) => {
     newProducts.forEach((p) => storageService.saveProduct(p));
     reloadData();
-    showToast('success', 'นำเข้าสินค้าสำเร็จ', `นำเข้าทั้งหมด ${newProducts.length} รายการ`);
+    showToast('success', 'ນຳເຂົ້າສິນຄ້າສຳເລັດ', `ນຳເຂົ້າທັງໝົດ ${newProducts.length} ລາຍການ`);
   };
 
   const handleAdjustStock = (
@@ -191,7 +191,7 @@ export default function App() {
     reloadData();
     setCurrentUser(storageService.getCurrentUser());
     setIsResetConfirmOpen(false);
-    showToast('info', 'รีเซ็ตข้อมูลตัวอย่างสำเร็จ', 'ข้อมูลเริ่มต้นพร้อมใช้งาน');
+    showToast('info', 'ຣີເຊັດຂໍ້ມູນຕົວຢ່າງສຳເລັດ', 'ຂໍ້ມູນເລີ່ມຕົ້ນພ້ອມໃຊ້ງານ');
   };
 
   const activeShift = shifts.find((s) => s.status === 'OPEN');
@@ -210,6 +210,7 @@ export default function App() {
         cartCount={0}
         isOpenMobile={isMobileSidebarOpen}
         onCloseMobile={() => setIsMobileSidebarOpen(false)}
+        language={settings.language}
       />
 
       {/* Main Content Area */}
@@ -261,8 +262,8 @@ export default function App() {
               categories={INITIAL_CATEGORIES}
               suppliers={suppliers}
               warehouses={[
-                { id: 'wh-front', name: 'คลังหน้าร้าน', code: 'WH-01', location: 'หน้าร้าน' },
-                { id: 'wh-main', name: 'คลังสินค้าใหญ่', code: 'WH-02', location: 'โกดังใหญ่' },
+                { id: 'wh-front', name: 'ສາງໜ້າຮ້ານ', code: 'WH-01', location: 'ໜ້າຮ້ານ' },
+                { id: 'wh-main', name: 'ສາງສິນຄ້າໃຫຍ່', code: 'WH-02', location: 'ສາງໃຫຍ່' },
               ]}
               settings={settings}
               currentUser={currentUser}
@@ -278,8 +279,8 @@ export default function App() {
               products={products}
               movements={movements}
               warehouses={[
-                { id: 'wh-front', name: 'คลังหน้าร้าน', code: 'WH-01', location: 'หน้าร้าน' },
-                { id: 'wh-main', name: 'คลังสินค้าใหญ่', code: 'WH-02', location: 'โกดังใหญ่' },
+                { id: 'wh-front', name: 'ສາງໜ້າຮ້ານ', code: 'WH-01', location: 'ໜ້າຮ້ານ' },
+                { id: 'wh-main', name: 'ສາງສິນຄ້າໃຫຍ່', code: 'WH-02', location: 'ສາງໃຫຍ່' },
               ]}
               settings={settings}
               currentUser={currentUser}
@@ -372,10 +373,10 @@ export default function App() {
       {/* Reset Data Confirmation */}
       <ConfirmModal
         isOpen={isResetConfirmOpen}
-        title="รีเซ็ตข้อมูลตัวอย่างทั้งหมด?"
-        message="การดำเนินการนี้จะล้างประวัติการขาย และคืนค่าสินค้า สต็อก และลูกค้ากลับสู่ข้อมูลเริ่มต้น"
-        confirmLabel="ยืนยันรีเซ็ต"
-        cancelLabel="ยกเลิก"
+        title="ຣີເຊັດຂໍ້ມູນຕົວຢ່າງທັງໝົດ?"
+        message="ການດຳເນີນການນີ້ຈະລຶບປະຫວັດການຂາຍ ແລະ ຄືນຄ່າສິນຄ້າ, ສະຕັອກ ແລະ ລູກຄ້າກັບສູ່ຂໍ້ມູນເລີ່ມຕົ້ນ"
+        confirmLabel="ຢືນຢັນຣີເຊັດ"
+        cancelLabel="ຍົກເລີກ"
         isDestructive={true}
         onConfirm={handleResetDemo}
         onCancel={() => setIsResetConfirmOpen(false)}
@@ -389,11 +390,11 @@ export default function App() {
         currentUser={currentUser}
         onOpenShift={(cash) => {
           handleOpenShift(cash);
-          showToast('success', 'เปิดกะขายสำเร็จ', `เงินทอน ${cash.toLocaleString()} บาท`);
+          showToast('success', 'ເປີດກະຂາຍສຳເລັດ', `ເງິນທອນ ${cash.toLocaleString()} ₭`);
         }}
         onCloseShift={(actual, notes) => {
           handleCloseShift(actual, notes);
-          showToast('success', 'ปิดกะขายเรียบร้อย', `เงินสดในลิ้นชัก ${actual.toLocaleString()} บาท`);
+          showToast('success', 'ປິດກະຂາຍຮຽບຮ້ອຍ', `ເງິນສົດໃນລີ້ນຊັກ ${actual.toLocaleString()} ₭`);
         }}
         onCloseModal={() => setIsShiftModalOpen(false)}
       />

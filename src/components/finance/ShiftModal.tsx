@@ -24,7 +24,7 @@ export const ShiftModal: React.FC<ShiftModalProps> = ({
 }) => {
   if (!isOpen) return null;
 
-  const [openingFloat, setOpeningFloat] = useState<number>(3000);
+  const [openingFloat, setOpeningFloat] = useState<number>(500000);
   const [closingCash, setClosingCash] = useState<number>(activeShift?.expectedCash || 0);
   const [closingNotes, setClosingNotes] = useState<string>('');
 
@@ -49,7 +49,7 @@ export const ShiftModal: React.FC<ShiftModalProps> = ({
         <div className="p-4 bg-slate-50 dark:bg-slate-800/80 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
           <h3 className="font-bold text-base text-slate-900 dark:text-white flex items-center gap-2">
             <Clock className="w-5 h-5 text-blue-600" />
-            {activeShift ? 'จัดการและปิดกะขาย (Shift Management)' : 'เปิดกะการขายใหม่ (Open Shift)'}
+            {activeShift ? 'ຈັດການ ແລະ ປິດກະການຂາຍ (Shift Management)' : 'ເປີດກະການຂາຍໃໝ່ (Open Shift)'}
           </h3>
           <button onClick={onCloseModal} className="p-1 rounded-lg text-slate-400 hover:text-slate-600">
             <X className="w-5 h-5" />
@@ -62,14 +62,14 @@ export const ShiftModal: React.FC<ShiftModalProps> = ({
             /* Open Shift Form */
             <form onSubmit={handleStartShift} className="space-y-4">
               <div className="p-3.5 rounded-2xl bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-900 text-xs text-blue-800 dark:text-blue-200 leading-relaxed">
-                พนักงานขาย: <strong>{currentUser.name}</strong> ({currentUser.role})
+                ພະນັກງານຂາຍ: <strong>{currentUser.name}</strong> ({currentUser.role})
                 <br />
-                กรุณานับเงินสดเริ่มต้นในลิ้นชัก (เงินทอน) ก่อนเริ่มขายสินค้า
+                ກະລຸນາກວດນັບເງິນສົດເລີ່ມຕົ້ນໃນລີ້ນຊັກ (ເງິນທອນ) ກ່ອນເລີ່ມຕົ້ນການຂາຍສິນຄ້າ
               </div>
 
               <div>
                 <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                  เงินทอนเริ่มต้นในลิ้นชัก (บาท) *
+                  ເງິນທອນເລີ່ມຕົ້ນໃນລີ້ນຊັກ (₭) *
                 </label>
                 <input
                   type="number"
@@ -86,15 +86,15 @@ export const ShiftModal: React.FC<ShiftModalProps> = ({
                 <button
                   type="button"
                   onClick={onCloseModal}
-                  className="px-4 py-2 rounded-xl border border-slate-300 text-xs font-semibold"
+                  className="px-4 py-2 rounded-xl border border-slate-300 text-xs font-semibold cursor-pointer"
                 >
-                  ยกเลิก
+                  ຍົກເລີກ
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-md shadow-blue-600/30"
+                  className="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-md shadow-blue-600/30 cursor-pointer"
                 >
-                  ยืนยันเปิดกะขาย
+                  ຢືນຢັນເປີດກະຂາຍ
                 </button>
               </div>
             </form>
@@ -103,27 +103,27 @@ export const ShiftModal: React.FC<ShiftModalProps> = ({
             <form onSubmit={handleEndShift} className="space-y-4">
               <div className="space-y-2 p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 text-xs font-mono">
                 <div className="flex justify-between font-sans">
-                  <span className="text-slate-500">แคชเชียร์ประจำกะ:</span>
+                  <span className="text-slate-500">ແຄຊເຊຍປະຈຳກະ:</span>
                   <span className="font-bold text-slate-900 dark:text-white">{activeShift.cashierName}</span>
                 </div>
                 <div className="flex justify-between font-sans">
-                  <span className="text-slate-500">เวลาเริ่มกะ:</span>
-                  <span>{formatDateTime(activeShift.startTime, 'th')}</span>
+                  <span className="text-slate-500">ເວລາເລີ່ມກະ:</span>
+                  <span>{formatDateTime(activeShift.startTime, 'lo')}</span>
                 </div>
                 <div className="flex justify-between border-t border-slate-200 dark:border-slate-700 pt-1">
-                  <span>เงินทอนเริ่มต้น:</span>
+                  <span>ເງິນທອນເລີ່ມຕົ້ນ:</span>
                   <span className="font-bold">{formatCurrency(activeShift.openingCash, settings.currency)}</span>
                 </div>
                 <div className="flex justify-between text-emerald-600">
-                  <span>ยอดขายเงินสด:</span>
+                  <span>ຍອດຂາຍເງິນສົດ:</span>
                   <span className="font-bold">+{formatCurrency(activeShift.totalCashSales, settings.currency)}</span>
                 </div>
                 <div className="flex justify-between text-blue-600">
-                  <span>ยอดขายพร้อมเพย์/โอน:</span>
+                  <span>ຍອດຂາຍໂອນ / BCEL:</span>
                   <span className="font-bold">{formatCurrency(activeShift.totalPromptPaySales, settings.currency)}</span>
                 </div>
                 <div className="flex justify-between border-t border-slate-200 dark:border-slate-700 pt-1 text-slate-900 dark:text-white font-sans text-xs">
-                  <strong>เงินสดที่ระบบคำนวณ (Expected Cash):</strong>
+                  <strong>ເງິນສົດທີ່ລະບົບຄຳນວນ (Expected Cash):</strong>
                   <strong className="font-mono text-sm text-blue-600">
                     {formatCurrency(activeShift.expectedCash, settings.currency)}
                   </strong>
@@ -132,7 +132,7 @@ export const ShiftModal: React.FC<ShiftModalProps> = ({
 
               <div>
                 <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                  นับเงินสดจริงในลิ้นชักได้ (บาท) *
+                  ນັບເງິນສົດຕົວຈິງໃນລີ້ນຊັກໄດ້ (₭) *
                 </label>
                 <input
                   type="number"
@@ -157,25 +157,25 @@ export const ShiftModal: React.FC<ShiftModalProps> = ({
               >
                 <span>
                   {cashDiff === 0
-                    ? 'ยอดเงินสดตรงพอดี'
+                    ? 'ຍອດເງິນສົດກົງພໍດີ'
                     : cashDiff > 0
-                    ? `เงินสดเกินในลิ้นชัก (+${cashDiff.toLocaleString()}฿)`
-                    : `เงินสดขาดหาย (-${Math.abs(cashDiff).toLocaleString()}฿)`}
+                    ? `ເງິນສົດເກີນໃນລີ້ນຊັກ (+${cashDiff.toLocaleString()} ₭)`
+                    : `ເງິນສົດຂາດຫາຍ (-${Math.abs(cashDiff).toLocaleString()} ₭)`}
                 </span>
                 <span className="font-mono font-black text-sm">
-                  {cashDiff > 0 ? `+${cashDiff.toLocaleString()}฿` : `${cashDiff.toLocaleString()}฿`}
+                  {cashDiff > 0 ? `+${cashDiff.toLocaleString()} ₭` : `${cashDiff.toLocaleString()} ₭`}
                 </span>
               </div>
 
               <div>
                 <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                  หมายเหตุปิดกะ / ชี้แจงส่วนต่าง
+                  ໝາຍເຫດປິດກະ / ຊີ້ແຈງສ່ວນຕ່າງ
                 </label>
                 <input
                   type="text"
                   value={closingNotes}
                   onChange={(e) => setClosingNotes(e.target.value)}
-                  placeholder="เช่น เงินสดตรงตามระบบ หรือ นำเงินส่งเจ้าของร้าน"
+                  placeholder="ເຊັ່ນ: ເງິນສົດກົງຕາມລະບົບ ຫຼື ນຳເງິນສົ່ງມອບໃຫ້ເຈົ້າຂອງຮ້ານ"
                   className="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
                 />
               </div>
@@ -184,15 +184,15 @@ export const ShiftModal: React.FC<ShiftModalProps> = ({
                 <button
                   type="button"
                   onClick={onCloseModal}
-                  className="px-4 py-2 rounded-xl border border-slate-300 text-xs font-semibold"
+                  className="px-4 py-2 rounded-xl border border-slate-300 text-xs font-semibold cursor-pointer"
                 >
-                  ยกเลิก
+                  ຍົກເລີກ
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs shadow-md shadow-rose-600/30"
+                  className="px-5 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs shadow-md shadow-rose-600/30 cursor-pointer"
                 >
-                  ยืนยันปิดกะการขาย
+                  ຢືນຢັນປິດກະການຂາຍ
                 </button>
               </div>
             </form>

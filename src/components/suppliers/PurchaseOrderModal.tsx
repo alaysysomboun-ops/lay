@@ -25,10 +25,10 @@ export const PurchaseOrderModal: React.FC<PurchaseOrderModalProps> = ({
       productId: products[0]?.id || '',
       productName: products[0]?.name || '',
       sku: products[0]?.sku || '',
-      unit: products[0]?.baseUnit || 'ชิ้น',
+      unit: products[0]?.baseUnit || 'ອັນ',
       quantity: 50,
-      unitPrice: products[0]?.costPrice || 10,
-      total: (products[0]?.costPrice || 10) * 50,
+      unitPrice: products[0]?.costPrice || 10000,
+      total: (products[0]?.costPrice || 10000) * 50,
     }
   ]);
   const [shippingFee, setShippingFee] = useState<number>(0);
@@ -86,7 +86,7 @@ export const PurchaseOrderModal: React.FC<PurchaseOrderModalProps> = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (items.length === 0) {
-      alert('กรุณาเพิ่มรายการสินค้าที่ต้องการสั่งซื้อ');
+      alert('ກະລຸນາເພີ່ມລາຍການສິນຄ້າທີ່ຕ້ອງການສັ່ງຊື້');
       return;
     }
 
@@ -121,7 +121,7 @@ export const PurchaseOrderModal: React.FC<PurchaseOrderModalProps> = ({
         <div className="p-4 bg-slate-50 dark:bg-slate-800/80 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
           <h3 className="font-bold text-base text-slate-900 dark:text-white flex items-center gap-2">
             <Truck className="w-5 h-5 text-blue-600" />
-            สร้างใบสั่งซื้อสินค้า (Create Purchase Order - PO)
+            ສ້າງໃບສັ່ງຊື້ສິນຄ້າ (Create Purchase Order - PO)
           </h3>
           <button onClick={onClose} className="p-1 rounded-lg text-slate-400 hover:text-slate-600">
             <X className="w-5 h-5" />
@@ -132,7 +132,7 @@ export const PurchaseOrderModal: React.FC<PurchaseOrderModalProps> = ({
         <form onSubmit={handleSubmit} className="p-5 overflow-y-auto space-y-4">
           <div>
             <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-              เลือกซัพพลายเออร์ / ร้านค้าต้นทาง *
+              ເລືອກຜູ້ສະໜອງ / ຮ້ານຄ້າຕົ້ນທາງ *
             </label>
             <select
               value={supplierId}
@@ -141,7 +141,7 @@ export const PurchaseOrderModal: React.FC<PurchaseOrderModalProps> = ({
             >
               {suppliers.map((s) => (
                 <option key={s.id} value={s.id}>
-                  {s.name} ({s.code}) - เครดิต {s.creditDays} วัน
+                  {s.name} ({s.code}) - ສິນເຊື່ອ {s.creditDays} ວັນ
                 </option>
               ))}
             </select>
@@ -150,14 +150,14 @@ export const PurchaseOrderModal: React.FC<PurchaseOrderModalProps> = ({
           {/* Items Table */}
           <div className="space-y-2">
             <div className="flex justify-between items-center">
-              <span className="text-xs font-bold text-slate-700 dark:text-slate-300">รายการสินค้าที่จะสั่งซื้อ</span>
+              <span className="text-xs font-bold text-slate-700 dark:text-slate-300">ລາຍການສິນຄ້າທີ່ຈະສັ່ງຊື້</span>
               <button
                 type="button"
                 onClick={handleAddItem}
                 className="px-2.5 py-1 rounded-lg bg-blue-50 text-blue-600 dark:bg-blue-950/60 dark:text-blue-400 text-xs font-bold flex items-center gap-1"
               >
                 <Plus className="w-3.5 h-3.5" />
-                เพิ่มรายการ
+                ເພີ່ມລາຍການ
               </button>
             </div>
 
@@ -179,7 +179,7 @@ export const PurchaseOrderModal: React.FC<PurchaseOrderModalProps> = ({
                   <input
                     type="number"
                     min="1"
-                    placeholder="จำนวน"
+                    placeholder="ຈຳນວນ"
                     value={item.quantity}
                     onChange={(e) => handleUpdateItem(idx, 'quantity', parseFloat(e.target.value) || 1)}
                     className="w-16 px-2 py-1.5 text-xs font-mono font-bold rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-center"
@@ -188,14 +188,14 @@ export const PurchaseOrderModal: React.FC<PurchaseOrderModalProps> = ({
                   <input
                     type="number"
                     step="any"
-                    placeholder="ราคาทุนซื้อ"
+                    placeholder="ຕົ້ນທຶນ"
                     value={item.unitPrice}
                     onChange={(e) => handleUpdateItem(idx, 'unitPrice', parseFloat(e.target.value) || 0)}
-                    className="w-20 px-2 py-1.5 text-xs font-mono font-bold rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-right"
+                    className="w-24 px-2 py-1.5 text-xs font-mono font-bold rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-right"
                   />
 
-                  <span className="w-20 text-right font-mono font-bold text-xs text-slate-900 dark:text-white">
-                    {item.total.toLocaleString()}฿
+                  <span className="w-24 text-right font-mono font-bold text-xs text-slate-900 dark:text-white">
+                    {item.total.toLocaleString()}₭
                   </span>
 
                   <button
@@ -213,7 +213,7 @@ export const PurchaseOrderModal: React.FC<PurchaseOrderModalProps> = ({
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                ค่าขนส่ง / Landed Cost (บาท)
+                ຄ່າຂົນສົ່ງ / Landed Cost (₭)
               </label>
               <input
                 type="number"
@@ -225,21 +225,21 @@ export const PurchaseOrderModal: React.FC<PurchaseOrderModalProps> = ({
             </div>
             <div>
               <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                หมายเหตุใบสั่งซื้อ
+                ໝາຍເຫດໃບສັ່ງຊື້
               </label>
               <input
                 type="text"
                 value={note}
                 onChange={(e) => setNote(e.target.value)}
-                placeholder="ระบุข้อกำหนดการส่งมอบ"
+                placeholder="ລະບຸຂໍ້ກຳນົດການຈັດສົ່ງ"
                 className="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
               />
             </div>
           </div>
 
           <div className="p-3 rounded-2xl bg-slate-100 dark:bg-slate-800/80 flex justify-between items-center text-xs">
-            <span className="font-bold text-slate-700 dark:text-slate-300">ยอดรวมใบสั่งซื้อทั้งสิ้น:</span>
-            <span className="text-lg font-black text-blue-600 font-mono">{grandTotal.toLocaleString()} บาท</span>
+            <span className="font-bold text-slate-700 dark:text-slate-300">ຍອດລວມໃບສັ່ງຊື້ທັງໝົດ:</span>
+            <span className="text-lg font-black text-blue-600 font-mono">{grandTotal.toLocaleString()} ₭</span>
           </div>
 
           <div className="pt-2 flex justify-end gap-2">
@@ -248,13 +248,13 @@ export const PurchaseOrderModal: React.FC<PurchaseOrderModalProps> = ({
               onClick={onClose}
               className="px-4 py-2 rounded-xl border border-slate-300 text-xs font-semibold"
             >
-              ยกเลิก
+              ຍົກເລີກ
             </button>
             <button
               type="submit"
               className="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs"
             >
-              บันทึกใบสั่งซื้อ PO
+              ບັນທຶກໃບສັ່ງຊື້ PO
             </button>
           </div>
         </form>

@@ -10,17 +10,17 @@ import {
 } from '../data/initialData';
 
 const STORAGE_KEYS = {
-  PRODUCTS: 'smartpos_products_v1',
-  CUSTOMERS: 'smartpos_customers_v1',
-  SUPPLIERS: 'smartpos_suppliers_v1',
-  SALES: 'smartpos_sales_v1',
-  MOVEMENTS: 'smartpos_movements_v1',
-  PURCHASE_ORDERS: 'smartpos_purchase_orders_v1',
-  FINANCE: 'smartpos_finance_v1',
-  SHIFTS: 'smartpos_shifts_v1',
-  SETTINGS: 'smartpos_settings_v1',
-  AUDIT_LOGS: 'smartpos_audit_logs_v1',
-  CURRENT_USER: 'smartpos_current_user_v1',
+  PRODUCTS: 'smartpos_products_v2',
+  CUSTOMERS: 'smartpos_customers_v2',
+  SUPPLIERS: 'smartpos_suppliers_v2',
+  SALES: 'smartpos_sales_v2',
+  MOVEMENTS: 'smartpos_movements_v2',
+  PURCHASE_ORDERS: 'smartpos_purchase_orders_v2',
+  FINANCE: 'smartpos_finance_v2',
+  SHIFTS: 'smartpos_shifts_v2',
+  SETTINGS: 'smartpos_settings_v2',
+  AUDIT_LOGS: 'smartpos_audit_logs_v2',
+  CURRENT_USER: 'smartpos_current_user_v2',
 };
 
 class StorageService {
@@ -55,7 +55,7 @@ class StorageService {
       userRole: user.role,
       action: 'USER_SWITCH',
       module: 'AUTH',
-      details: `สลับบทบาทผู้ใช้เป็น ${user.name} (${user.role})`,
+      details: `ປ່ຽນບົດບາດຜູ້ໃຊ້ເປັນ ${user.name} (${user.role})`,
     });
   }
 
@@ -77,7 +77,7 @@ class StorageService {
       userRole: user.role,
       action: 'UPDATE_SETTINGS',
       module: 'SETTINGS',
-      details: 'อัปเดตข้อมูลร้านค้าและการตั้งค่าระบบ',
+      details: 'ອັບເດດຂໍ້ມູນຮ້ານຄ້າ ແລະ ການຕັ້ງຄ່າລະບົບ',
     });
   }
 
@@ -100,7 +100,7 @@ class StorageService {
         userRole: user.role,
         action: 'UPDATE_PRODUCT',
         module: 'PRODUCT',
-        details: `แก้ไขสินค้า ${product.name} (SKU: ${product.sku}) - ทุน: ${product.costPrice}, ปลีก: ${product.retailPrice}, ส่ง: ${product.wholesalePrice}`,
+        details: `ແກ້ໄຂສິນຄ້າ ${product.name} (SKU: ${product.sku}) - ທຶນ: ${product.costPrice}, ຍ່ອຍ: ${product.retailPrice}, ສົ່ງ: ${product.wholesalePrice}`,
         oldValue: JSON.stringify({ cost: oldProd.costPrice, retail: oldProd.retailPrice, stock: oldProd.currentStock }),
         newValue: JSON.stringify({ cost: product.costPrice, retail: product.retailPrice, stock: product.currentStock }),
       });
@@ -116,7 +116,7 @@ class StorageService {
         userRole: user.role,
         action: 'CREATE_PRODUCT',
         module: 'PRODUCT',
-        details: `เพิ่มสินค้าใหม่ ${product.name} (SKU: ${product.sku}) สต็อกเริ่มต้น: ${product.currentStock}`,
+        details: `ເພີ່ມສິນຄ້າໃໝ່ ${product.name} (SKU: ${product.sku}) ສະຕັອກເລີ່ມຕົ້ນ: ${product.currentStock}`,
       });
     }
     this.setItem(STORAGE_KEYS.PRODUCTS, products);
@@ -135,7 +135,7 @@ class StorageService {
         userRole: user.role,
         action: 'DELETE_PRODUCT',
         module: 'PRODUCT',
-        details: `ลบสินค้า ${target.name} (SKU: ${target.sku})`,
+        details: `ລຶບສິນຄ້າ ${target.name} (SKU: ${target.sku})`,
       });
     }
   }
@@ -219,7 +219,7 @@ class StorageService {
       userRole: user.role,
       action: 'OPEN_SHIFT',
       module: 'FINANCE',
-      details: `เปิดกะการขาย เงินทอนเริ่มต้น: ${openingCash.toLocaleString()} บาท`,
+      details: `ເປີດກະການຂາຍ ເງິນທອນເລີ່ມຕົ້ນ: ${openingCash.toLocaleString()} ກີບ`,
     });
 
     return newShift;
@@ -245,7 +245,7 @@ class StorageService {
       userRole: user.role,
       action: 'CLOSE_SHIFT',
       module: 'FINANCE',
-      details: `ปิดกะการขาย ยอดคาดหวัง: ${current.expectedCash.toLocaleString()} บาท, นับได้จริง: ${actualCash.toLocaleString()} บาท, ส่วนต่าง: ${current.cashDifference.toLocaleString()} บาท`,
+      details: `ປິດກະການຂາຍ ຍອດຄາດຫວັງ: ${current.expectedCash.toLocaleString()} ກີບ, ນັບຕົວຈິງ: ${actualCash.toLocaleString()} ກີບ, ສ່ວນຕ່າງ: ${current.cashDifference.toLocaleString()} ກີບ`,
     });
 
     return current;
@@ -279,7 +279,7 @@ class StorageService {
         if (!prod || prod.currentStock < deductionQty) {
           return {
             success: false,
-            error: `สินค้า "${item.product.name}" มีสต็อกคงเหลือเพียง ${prod?.currentStock || 0} ${item.product.baseUnit} ไม่พอสำหรับการขาย ${deductionQty} ${item.product.baseUnit}`,
+            error: `ສິນຄ້າ "${item.product.name}" ມີສະຕັອກຄົງເຫຼືອພຽງ ${prod?.currentStock || 0} ${item.product.baseUnit} ບໍ່ພໍສຳລັບການຂາຍ ${deductionQty} ${item.product.baseUnit}`,
           };
         }
       }
@@ -413,7 +413,7 @@ class StorageService {
       userRole: user.role,
       action: 'SALE_CHECKOUT',
       module: 'POS',
-      details: `ขายสินค้าสำเร็จ ${receiptNumber} ยอดรวม ${grandTotal.toLocaleString()} บาท (${paymentDetails.method}) โดย ${user.name}`,
+      details: `ຂາຍສິນຄ້າສຳເລັດ ${receiptNumber} ຍອດລວມ ${grandTotal.toLocaleString()} ກີບ (${paymentDetails.method}) ໂດຍ ${user.name}`,
     });
 
     return { success: true, sale: newSale };
@@ -423,8 +423,8 @@ class StorageService {
   refundSale(saleId: string, reason: string): { success: boolean; error?: string } {
     const sales = this.getSales();
     const target = sales.find(s => s.id === saleId);
-    if (!target) return { success: false, error: 'ไม่พบรายการขายที่ต้องการยกเลิก' };
-    if (target.status !== 'COMPLETED') return { success: false, error: 'รายการนี้ถูกยกเลิกไปแล้ว' };
+    if (!target) return { success: false, error: 'ບໍ່ພົບລາຍການຂາຍທີ່ຕ້ອງການຍົກເລີກ' };
+    if (target.status !== 'COMPLETED') return { success: false, error: 'ລາຍການນີ້ຖືກຍົກເລີກໄປແລ້ວ' };
 
     const user = this.getCurrentUser();
     const products = this.getProducts();
@@ -485,7 +485,7 @@ class StorageService {
       userRole: user.role,
       action: 'CANCEL_SALE',
       module: 'POS',
-      details: `ยกเลิกการขาย ${target.receiptNumber} ยอด ${target.grandTotal.toLocaleString()} บาท เหตุผล: ${reason}`,
+      details: `ຍົກເລີກການຂາຍ ${target.receiptNumber} ຍອດ ${target.grandTotal.toLocaleString()} ກີບ ເຫດຜົນ: ${reason}`,
     });
 
     return { success: true };
@@ -537,7 +537,7 @@ class StorageService {
       userRole: user.role,
       action: 'ADJUST_STOCK',
       module: 'INVENTORY',
-      details: `ปรับสต็อก ${prod.name} (${type}) จาก ${qtyBefore} เป็น ${prod.currentStock} ชิ้น เหตุผล: ${reason}`,
+      details: `ປັບປຸງສະຕັອກ ${prod.name} (${type}) ຈາກ ${qtyBefore} ເປັນ ${prod.currentStock} ຫົວໜ່ວຍ ເຫດຜົນ: ${reason}`,
     });
   }
 
@@ -568,7 +568,7 @@ class StorageService {
       userRole: user.role,
       action: 'FINANCE_ENTRY',
       module: 'FINANCE',
-      details: `บันทึกรายการการเงิน: ${newRecord.title} (${newRecord.type}) จำนวน ${newRecord.amount.toLocaleString()} บาท`,
+      details: `ບັນທຶກລາຍການການເງິນ: ${newRecord.title} (${newRecord.type}) ຈຳນວນ ${newRecord.amount.toLocaleString()} ກີບ`,
     });
 
     return newRecord;
@@ -583,20 +583,19 @@ class StorageService {
   ): { success: boolean; error?: string } {
     const customers = this.getCustomers();
     const cust = customers.find(c => c.id === customerId);
-    if (!cust) return { success: false, error: 'ไม่พบข้อมูลลูกค้า' };
+    if (!cust) return { success: false, error: 'ບໍ່ພົບຂໍ້ມູນລູກຄ້າ' };
 
     cust.currentDebt = Math.max(0, (cust.currentDebt || 0) - amount);
     this.setItem(STORAGE_KEYS.CUSTOMERS, customers);
 
-    // Add financial record as CUSTOMER_DEBT_PAYMENT (NOT sale revenue to prevent double-counting)
     this.addFinancialRecord({
       date: new Date().toISOString().split('T')[0],
       type: 'CUSTOMER_DEBT_PAYMENT',
-      title: `รับชำระหนี้จาก ${cust.name}`,
+      title: `ຮັບຊຳລະໜີ້ຈາກ ${cust.name}`,
       amount,
       paymentMethod,
       referenceId: cust.code,
-      note: note || `ชำระหนี้ค้าง คงเหลือหนี้: ${cust.currentDebt.toLocaleString()} บาท`,
+      note: note || `ຊຳລະໜີ້ຄ້າງ ຄົງເຫຼືອໜີ້: ${cust.currentDebt.toLocaleString()} ກີບ`,
     });
 
     return { success: true };
@@ -611,7 +610,7 @@ class StorageService {
   ): { success: boolean; error?: string } {
     const suppliers = this.getSuppliers();
     const sup = suppliers.find(s => s.id === supplierId);
-    if (!sup) return { success: false, error: 'ไม่พบข้อมูลซัพพลายเออร์' };
+    if (!sup) return { success: false, error: 'ບໍ່ພົບຂໍ້ມູນຜູ້ສະໜອງ' };
 
     sup.currentPayable = Math.max(0, (sup.currentPayable || 0) - amount);
     this.setItem(STORAGE_KEYS.SUPPLIERS, suppliers);
@@ -619,11 +618,11 @@ class StorageService {
     this.addFinancialRecord({
       date: new Date().toISOString().split('T')[0],
       type: 'SUPPLIER_PAYMENT',
-      title: `จ่ายชำระหนี้ให้เจ้าหนี้ ${sup.name}`,
+      title: `ຈ່າຍຊຳລະໜີ້ໃຫ້ເຈົ້າໜີ້ ${sup.name}`,
       amount,
       paymentMethod,
       referenceId: sup.code,
-      note: note || `จ่ายชำระหนี้ คงเหลือยอดเจ้าหนี้: ${sup.currentPayable.toLocaleString()} บาท`,
+      note: note || `ຈ່າຍຊຳລະໜີ້ ຄົງເຫຼືອຍອດເຈົ້າໜີ້: ${sup.currentPayable.toLocaleString()} ກີບ`,
     });
 
     return { success: true };
@@ -648,8 +647,8 @@ class StorageService {
   receivePurchaseOrder(poId: string): { success: boolean; error?: string } {
     const pos = this.getPurchaseOrders();
     const po = pos.find(p => p.id === poId);
-    if (!po) return { success: false, error: 'ไม่พบใบสั่งซื้อ' };
-    if (po.status === 'RECEIVED') return { success: false, error: 'รับสินค้านี้เข้าคลังแล้ว' };
+    if (!po) return { success: false, error: 'ບໍ່ພົບໃບສັ່ງຊື້' };
+    if (po.status === 'RECEIVED') return { success: false, error: 'ຮັບສິນຄ້ານີ້ເຂົ້າສາງແລ້ວ' };
 
     const user = this.getCurrentUser();
     const products = this.getProducts();
@@ -687,7 +686,6 @@ class StorageService {
     po.receivedAt = dateStr;
     po.receivedBy = user.name;
 
-    // Update supplier payable
     const suppliers = this.getSuppliers();
     const sup = suppliers.find(s => s.id === po.supplierId);
     if (sup) {
@@ -705,7 +703,7 @@ class StorageService {
       userRole: user.role,
       action: 'RECEIVE_PO',
       module: 'INVENTORY',
-      details: `รับสินค้าตามใบสั่งซื้อ ${po.poNumber} ยอด ${po.grandTotal.toLocaleString()} บาท เข้าคลังเรียบร้อย`,
+      details: `ຮັບສິນຄ້າຕາມໃບສັ່ງຊື້ ${po.poNumber} ຍອດ ${po.grandTotal.toLocaleString()} ກີບ ເຂົ້າສາງຮຽບຮ້ອຍ`,
     });
 
     return { success: true };
@@ -724,12 +722,10 @@ class StorageService {
       timestamp: new Date().toISOString(),
     };
     logs.unshift(newLog);
-    // Keep last 500 logs
     if (logs.length > 500) logs.pop();
     this.setItem(STORAGE_KEYS.AUDIT_LOGS, logs);
   }
 
-  // Reset demo data
   resetAllToDemoData(): void {
     localStorage.removeItem(STORAGE_KEYS.PRODUCTS);
     localStorage.removeItem(STORAGE_KEYS.CUSTOMERS);

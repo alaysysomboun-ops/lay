@@ -36,7 +36,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onUpdateSettings(formData);
-    onShowToast('success', 'บันทึกการตั้งค่าระบบเรียบร้อย');
+    onShowToast('success', 'ບັນທຶກການຕັ້ງຄ່າລະບົບຮຽບຮ້ອຍ');
   };
 
   return (
@@ -46,10 +46,10 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
         <div>
           <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
             <Settings className="w-6 h-6 text-blue-600" />
-            ตั้งค่าระบบร้านค้า (Store Settings)
+            ຕັ້ງຄ່າລະບົບຮ້ານຄ້າ (Store Settings)
           </h2>
           <p className="text-xs text-slate-500 mt-0.5">
-            กำหนดข้อมูลร้านค้า สกุลเงิน ภาษีมูลค่าเพิ่ม และนโยบายความปลอดภัย
+            ກຳນົດຂໍ້ມູນຮ້ານຄ້າ, ສະກຸນເງິນ, ອາກອນມູນຄ່າເພີ່ມ ແລະ ນະໂຍບາຍຄວາມປອດໄພ
           </p>
         </div>
 
@@ -58,7 +58,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
           className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-md shadow-blue-600/30 flex items-center gap-1.5 cursor-pointer transition-all active:scale-98"
         >
           <Save className="w-4 h-4" />
-          บันทึกการตั้งค่า
+          ບັນທຶກການຕັ້ງຄ່າ
         </button>
       </div>
 
@@ -67,13 +67,13 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
         <div className="p-5 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-4">
           <h3 className="font-bold text-sm text-slate-900 dark:text-white flex items-center gap-2 pb-2 border-b border-slate-100 dark:border-slate-800">
             <Store className="w-4 h-4 text-blue-600" />
-            ข้อมูลร้านค้าและใบเสร็จ (Store Information)
+            ຂໍ້ມູນຮ້ານຄ້າ ແລະ ໃບບິນ (Store Information)
           </h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                ชื่อร้านค้า / กิจการ *
+                ຊື່ຮ້ານຄ້າ / ທຸລະກິດ *
               </label>
               <input
                 type="text"
@@ -86,7 +86,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
 
             <div>
               <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                สาขา
+                ສາຂາ
               </label>
               <input
                 type="text"
@@ -98,7 +98,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
 
             <div>
               <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                เลขประจำตัวผู้เสียภาษี
+                ເລກປະຈຳຕົວຜູ້ເສຍອາກອນ / ທະບຽນວິສາຫະກິດ
               </label>
               <input
                 type="text"
@@ -110,7 +110,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
 
             <div>
               <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                เบอร์โทรศัพท์ร้าน
+                ເບີໂທລະສັບຮ້ານ
               </label>
               <input
                 type="text"
@@ -122,7 +122,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
 
             <div className="sm:col-span-2">
               <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                ที่อยู่ร้านค้า
+                ທີ່ຢູ່ຮ້ານຄ້າ
               </label>
               <textarea
                 rows={2}
@@ -134,7 +134,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
 
             <div className="sm:col-span-2">
               <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                ข้อความท้ายใบเสร็จ (Receipt Footer)
+                ຂໍ້ຄວາມທ້າຍໃບບິນ (Receipt Footer)
               </label>
               <input
                 type="text"
@@ -150,28 +150,28 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
         <div className="p-5 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-4">
           <h3 className="font-bold text-sm text-slate-900 dark:text-white flex items-center gap-2 pb-2 border-b border-slate-100 dark:border-slate-800">
             <Coins className="w-4 h-4 text-emerald-600" />
-            สกุลเงินหลักและอัตราแลกเปลี่ยน (Currencies & Rates)
+            ສະກຸນເງິນຫຼັກ ແລະ ອັດຕາແລກປ່ຽນ (Currencies & Rates)
           </h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
               <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                สกุลเงินหลักของระบบ
+                ສະກຸນເງິນຫຼັກຂອງລະບົບ
               </label>
               <select
                 value={formData.currency}
                 onChange={(e) => handleChange('currency', e.target.value as Currency)}
                 className="w-full px-3 py-2 text-xs font-bold rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
               >
-                <option value="THB">THB (฿ บาทไทย)</option>
-                <option value="LAK">LAK (₭ กีบลาว)</option>
-                <option value="VND">VND (₫ ดงเวียดนาม)</option>
+                <option value="LAK">LAK (₭ ກີບລາວ)</option>
+                <option value="THB">THB (฿ ບາດໄທ)</option>
+                <option value="VND">VND (₫ ດົງຫວຽດນາມ)</option>
               </select>
             </div>
 
             <div>
               <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                อัตราแลกเปลี่ยน LAK ต่อ 1 THB
+                ອັດຕາແລກປ່ຽນ LAK ຕໍ່ 1 THB
               </label>
               <input
                 type="number"
@@ -183,7 +183,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
 
             <div>
               <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                อัตราแลกเปลี่ยน VND ต่อ 1 THB
+                ອັດຕາແລກປ່ຽນ VND ຕໍ່ 1 THB
               </label>
               <input
                 type="number"
@@ -199,7 +199,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
         <div className="p-5 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-4">
           <h3 className="font-bold text-sm text-slate-900 dark:text-white flex items-center gap-2 pb-2 border-b border-slate-100 dark:border-slate-800">
             <ShieldCheck className="w-4 h-4 text-indigo-600" />
-            การควบคุมความปลอดภัยและกฎการขาย (Business Policies)
+            ການຄວບຄຸມຄວາມປອດໄພ ແລະ ກົດການຂາຍ (Business Policies)
           </h3>
 
           <div className="space-y-3">
@@ -212,10 +212,10 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
               />
               <div>
                 <p className="text-xs font-bold text-slate-900 dark:text-white">
-                  ต้องได้รับอนุมัติจากผู้จัดการ เมื่อราคาขายต่ำกว่าราคาทุน (Below-Cost Authorization)
+                  ຕ້ອງໄດ້ຮັບການອະນຸມັດຈາກຜູ້ຈັດການ ເມື່ອລາຄາຂາຍຕ່ຳກວ່າລາຄາຕົ້ນທຶນ (Below-Cost Authorization)
                 </p>
                 <p className="text-[11px] text-slate-500 mt-0.5">
-                  ป้องกันการขายขาดทุนโดยไม่ได้ตั้งใจ โดยระบบจะบังคับใส่ PIN ของผู้จัดการก่อนตัดการขาย
+                  ປ້ອງກັນການຂາຍຂາດທຶນໂດຍບໍ່ໄດ້ຕັ້ງໃຈ ໂດຍລະບົບຈະບັງຄັບໃສ່ລະຫັດ PIN ຂອງຜູ້ຈັດການກ່ອນຕັດການຂາຍ
                 </p>
               </div>
             </label>
@@ -229,10 +229,10 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
               />
               <div>
                 <p className="text-xs font-bold text-slate-900 dark:text-white">
-                  อนุญาตให้ตัดขายสินค้าจนสต็อกติดลบได้ (Allow Negative Stock)
+                  ອະນຸຍາດໃຫ້ຕັດຂາຍສິນຄ້າຈົນສະຕັອກຕິດລົບໄດ້ (Allow Negative Stock)
                 </p>
                 <p className="text-[11px] text-slate-500 mt-0.5">
-                  หากปิดไว้ ระบบจะไม่อนุญาตให้ทำการขายหากจำนวนคงเหลือในคลังไม่เพียงพอ
+                  ຫາກປິດໄວ້ ລະບົບຈະບໍ່ອະນຸຍາດໃຫ້ເຮັດການຂາຍຫາກຈຳນວນຄົງເຫຼືອໃນສາງບໍ່ພຽງພໍ
                 </p>
               </div>
             </label>
@@ -246,10 +246,10 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
               />
               <div>
                 <p className="text-xs font-bold text-slate-900 dark:text-white">
-                  คำนวณภาษีมูลค่าเพิ่ม VAT ({formData.vatRate}%)
+                  ຄຳນວນອາກອນມູນຄ່າເພີ່ມ VAT ({formData.vatRate}%)
                 </p>
                 <p className="text-[11px] text-slate-500 mt-0.5">
-                  แสดงภาษีมูลค่าเพิ่มในหน้าจุดขาย POS และบนใบเสร็จรับเงิน
+                  ສະແດງອາກອນມູນຄ່າເພີ່ມໃນໜ້າຈຸດຂາຍ POS ແລະ ເທິງໃບບິນຮັບເງິນ
                 </p>
               </div>
             </label>
@@ -260,10 +260,10 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
         <div className="p-5 rounded-3xl bg-rose-50/50 dark:bg-rose-950/20 border border-rose-200 dark:border-rose-900/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
             <h4 className="text-xs font-bold text-rose-800 dark:text-rose-300">
-              รีเซ็ตข้อมูลทั้งหมดกลับสู่ข้อมูลตัวอย่าง (Reset Demo Data)
+              ຣີເຊັດຂໍ້ມູນທັງໝົດກັບສູ່ຂໍ້ມູນຕົວຢ່າງ (Reset Demo Data)
             </h4>
             <p className="text-[11px] text-rose-600 dark:text-rose-400 mt-0.5">
-              ล้างประวัติการขาย สต็อกที่แก้ไข และโหลดสินค้าตัวอย่างตั้งต้นสำหรับการสาธิตระบบ
+              ລຶບປະຫວັດການຂາຍ, ສະຕັອກທີ່ແກ້ໄຂ ແລະ ໂຫຼດສິນຄ້າຕົວຢ່າງຕັ້ງຕົ້ນສຳລັບການສາທິດລະບົບ
             </p>
           </div>
           <button
@@ -271,7 +271,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
             onClick={onResetDemoData}
             className="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs shadow-xs shrink-0 cursor-pointer"
           >
-            รีเซ็ตข้อมูลตัวอย่าง
+            ຣີເຊັດຂໍ້ມູນຕົວຢ່າງ
           </button>
         </div>
       </form>

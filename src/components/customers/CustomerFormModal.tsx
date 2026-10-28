@@ -34,7 +34,7 @@ export const CustomerFormModal: React.FC<CustomerFormModalProps> = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim()) {
-      alert('กรุณากรอกชื่อลูกค้า');
+      alert('ກະລຸນາປ້ອນຊື່ລູກຄ້າ');
       return;
     }
 
@@ -68,7 +68,7 @@ export const CustomerFormModal: React.FC<CustomerFormModalProps> = ({
         <div className="p-4 bg-slate-50 dark:bg-slate-800/80 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
           <h3 className="font-bold text-base text-slate-900 dark:text-white flex items-center gap-2">
             <Users className="w-5 h-5 text-blue-600" />
-            {isEditing ? 'แก้ไขข้อมูลลูกค้า' : 'เพิ่มลูกค้าใหม่'}
+            {isEditing ? 'ແກ້ໄຂຂໍ້ມູນລູກຄ້າ' : 'ເພີ່ມລູກຄ້າໃໝ່'}
           </h3>
           <button onClick={onClose} className="p-1 rounded-lg text-slate-400 hover:text-slate-600">
             <X className="w-5 h-5" />
@@ -80,7 +80,7 @@ export const CustomerFormModal: React.FC<CustomerFormModalProps> = ({
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                รหัสลูกค้า (Code) *
+                ລະຫັດລູກຄ້າ (Code) *
               </label>
               <input
                 type="text"
@@ -92,31 +92,31 @@ export const CustomerFormModal: React.FC<CustomerFormModalProps> = ({
             </div>
             <div>
               <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                ประเภทลูกค้า *
+                ປະເພດລູກຄ້າ *
               </label>
               <select
                 value={customerType}
                 onChange={(e) => setCustomerType(e.target.value as any)}
                 className="w-full px-3 py-2 text-xs font-bold rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
               >
-                <option value="RETAIL">ลูกค้าทั่วไป (ปลีก)</option>
-                <option value="WHOLESALE_A">ขายส่ง Grade A (ร้านค้าช่วง)</option>
-                <option value="WHOLESALE_B">ขายส่ง Grade B (มินิมาร์ท/ร้านอาหาร)</option>
-                <option value="VIP">ลูกค้า VIP (ประจำ)</option>
+                <option value="RETAIL">ລູກຄ້າທົ່ວໄປ (ຂາຍຍ່ອຍ)</option>
+                <option value="WHOLESALE_A">ຂາຍສົ່ງ ເກຣດ A (ຮ້ານຄ້າສົ່ງຍ່ອຍ)</option>
+                <option value="WHOLESALE_B">ຂາຍສົ່ງ ເກຣດ B (ມິນິມາດ/ຮ້ານອາຫານ)</option>
+                <option value="VIP">ລູກຄ້າ VIP (ປະຈຳ)</option>
               </select>
             </div>
           </div>
 
           <div>
             <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-              ชื่อลูกค้า / ชื่อบุคคล *
+              ຊື່ລູກຄ້າ / ຊື່ບຸກຄົນ *
             </label>
             <input
               type="text"
               required
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="เช่น ร้านของชำป้าพร หรือ คุณสมเกียรติ"
+              placeholder="ເຊັ່ນ ຮ້ານຂາຍເຄື່ອງຍ່ອຍ ປ້າພອນ ຫຼື ທ້າວ ສົມສັກ"
               className="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
             />
           </div>
@@ -124,25 +124,25 @@ export const CustomerFormModal: React.FC<CustomerFormModalProps> = ({
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                ชื่อนิติบุคคล / ห้างหุ้นส่วน
+                ຊື່ນິຕິບຸກຄົນ / ບໍລິສັດ
               </label>
               <input
                 type="text"
                 value={companyName}
                 onChange={(e) => setCompanyName(e.target.value)}
-                placeholder="ถ้ามี"
+                placeholder="ຖ້າມີ"
                 className="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
               />
             </div>
             <div>
               <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                เบอร์โทรศัพท์
+                ເບີໂທລະສັບ
               </label>
               <input
                 type="tel"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                placeholder="08X-XXX-XXXX"
+                placeholder="020-XXXX-XXXX"
                 className="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
               />
             </div>
@@ -151,19 +151,19 @@ export const CustomerFormModal: React.FC<CustomerFormModalProps> = ({
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                เลขประจำตัวผู้เสียภาษี
+                ເລກປະຈຳຕົວຜູ້ເສຍອາກອນ
               </label>
               <input
                 type="text"
                 value={taxId}
                 onChange={(e) => setTaxId(e.target.value)}
-                placeholder="13 หลัก"
+                placeholder="ເລກອາກອນ"
                 className="w-full px-3 py-2 text-xs font-mono rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
               />
             </div>
             <div>
               <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                ส่วนลดพิเศษประจำตัว (%)
+                ສ່ວນຫຼຸດພິເສດປະຈຳຕົວ (%)
               </label>
               <input
                 type="number"
@@ -179,17 +179,17 @@ export const CustomerFormModal: React.FC<CustomerFormModalProps> = ({
           {/* Credit Limit & Terms */}
           <div className="p-3.5 rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/40 space-y-3">
             <h4 className="text-xs font-bold text-amber-900 dark:text-amber-300">
-              การให้เครดิตและวงเงินขายเชื่อ (Credit Terms)
+              ການໃຫ້ສິນເຊື່ອ ແລະ ວົງເງິນຂາຍເຊື່ອ (Credit Terms)
             </h4>
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <label className="block text-[11px] font-bold text-slate-600 dark:text-slate-400 mb-1">
-                  วงเงินเครดิตสูงสุด (บาท)
+                  ວົງເງິນສິນເຊື່ອສູງສຸດ (₭)
                 </label>
                 <input
                   type="number"
                   min="0"
-                  step="1000"
+                  step="100000"
                   value={creditLimit}
                   onChange={(e) => setCreditLimit(parseFloat(e.target.value) || 0)}
                   className="w-full px-3 py-1.5 text-xs font-mono font-bold rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
@@ -197,7 +197,7 @@ export const CustomerFormModal: React.FC<CustomerFormModalProps> = ({
               </div>
               <div>
                 <label className="block text-[11px] font-bold text-slate-600 dark:text-slate-400 mb-1">
-                  ระยะเวลาเครดิต (วัน)
+                  ໄລຍະເວລາສິນເຊື່ອ (ວັນ)
                 </label>
                 <input
                   type="number"
@@ -212,13 +212,13 @@ export const CustomerFormModal: React.FC<CustomerFormModalProps> = ({
 
           <div>
             <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-              ที่อยู่ / สถานที่จัดส่ง
+              ທີ່ຢູ່ / ສະຖານທີ່ຈັດສົ່ງ
             </label>
             <textarea
               rows={2}
               value={address}
               onChange={(e) => setAddress(e.target.value)}
-              placeholder="ที่อยู่ร้านค้าเพื่อออกใบส่งของและใบเสร็จ"
+              placeholder="ທີ່ຢູ່ຮ້ານຄ້າເພື່ອອອກໃບສົ່ງເຄື່ອງ ແລະ ໃບບິນ"
               className="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
             />
           </div>
@@ -229,13 +229,13 @@ export const CustomerFormModal: React.FC<CustomerFormModalProps> = ({
               onClick={onClose}
               className="px-4 py-2 rounded-xl border border-slate-300 text-xs font-semibold"
             >
-              ยกเลิก
+              ຍົກເລີກ
             </button>
             <button
               type="submit"
               className="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs"
             >
-              บันทึกข้อมูล
+              ບັນທຶກຂໍ້ມູນ
             </button>
           </div>
         </form>

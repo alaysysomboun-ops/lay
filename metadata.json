@@ -1,6 +1,6 @@
 {
   "name": "Smart POS & Wholesale Management",
-  "description": "ระบบบริหารจัดการร้านค้าปลีกและขายส่งแบบครบวงจร (POS, Multi-Tier Wholesale Pricing, Inventory, CRM, Finance & Analytics)",
+  "description": "ລະບົບ Smart POS ແລະ ຄຸ້ມຄອງການຄ້າຂາຍຍ່ອຍ-ຂາຍສົ່ງແບບຄົບວົງຈອນ (POS, Wholesale Pricing, Inventory, CRM, Finance)",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

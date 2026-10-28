@@ -77,10 +77,10 @@ export const SupplierListScreen: React.FC<SupplierListScreenProps> = ({
         <div>
           <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
             <Truck className="w-6 h-6 text-blue-600" />
-            ระบบซัพพลายเออร์และการจัดซื้อ (Suppliers & Purchasing)
+            ລະບົບຜູ້ສະໜອງ ແລະ ການຈັດຊື້ (Suppliers & Purchasing)
           </h2>
           <p className="text-xs text-slate-500 mt-0.5">
-            จัดการคู่ค้า สั่งซื้อสินค้า รับเข้าสต็อก และจัดการยอดเจ้าหนี้ค้างจ่าย (AP)
+            ຈັດການຄູ່ຄ້າ, ສັ່ງຊື້ສິນຄ້າ, ຮັບເຂົ້າສະຕັອກ ແລະ ຈັດການຍອດເຈົ້າໜີ້ຄ້າງຈ່າຍ (AP)
           </p>
         </div>
 
@@ -89,7 +89,7 @@ export const SupplierListScreen: React.FC<SupplierListScreenProps> = ({
           className="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-md shadow-blue-600/30 flex items-center gap-1.5 cursor-pointer transition-all active:scale-98"
         >
           <Plus className="w-4 h-4" />
-          สร้างใบสั่งซื้อ (New PO)
+          ສ້າງໃບສັ່ງຊື້ (New PO)
         </button>
       </div>
 
@@ -100,10 +100,10 @@ export const SupplierListScreen: React.FC<SupplierListScreenProps> = ({
             Accounts Payable Overview
           </span>
           <h3 className="text-2xl font-black mt-0.5 font-mono">
-            ยอดเจ้าหนี้ค้างจ่ายรวม: {formatCurrency(totalAP, settings.currency)}
+            ຍອດເຈົ້າໜີ້ຄ້າງຈ່າຍລວມ: {formatCurrency(totalAP, settings.currency)}
           </h3>
           <p className="text-xs text-slate-400 mt-1">
-            มีเจ้าหนี้ค้างจ่าย {suppliers.filter((s) => s.currentPayable > 0).length} รายการ จากซัพพลายเออร์ {suppliers.length} ราย
+            ມີເຈົ້າໜີ້ຄ້າງຈ່າຍ {suppliers.filter((s) => s.currentPayable > 0).length} ລາຍການ ຈາກຜູ້ສະໜອງ {suppliers.length} ລາຍ
           </p>
         </div>
       </div>
@@ -118,7 +118,7 @@ export const SupplierListScreen: React.FC<SupplierListScreenProps> = ({
               : 'border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
           }`}
         >
-          รายชื่อซัพพลายเออร์ ({suppliers.length})
+          ລາຍຊື່ຜູ້ສະໜອງ ({suppliers.length})
         </button>
         <button
           onClick={() => setActiveTab('ORDERS')}
@@ -129,7 +129,7 @@ export const SupplierListScreen: React.FC<SupplierListScreenProps> = ({
           }`}
         >
           <FileText className="w-3.5 h-3.5" />
-          รายการใบสั่งซื้อ PO ({purchaseOrders.length})
+          ລາຍການໃບສັ່ງຊື້ PO ({purchaseOrders.length})
         </button>
       </div>
 
@@ -138,7 +138,7 @@ export const SupplierListScreen: React.FC<SupplierListScreenProps> = ({
         <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
         <input
           type="text"
-          placeholder="ค้นหาซัพพลายเออร์, รหัส, หรือเลข PO..."
+          placeholder="ຄົ້ນຫາຜູ້ສະໜອງ, ລະຫັດ, ຫຼື ເລກ PO..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="w-full pl-9 pr-4 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500"
@@ -152,12 +152,12 @@ export const SupplierListScreen: React.FC<SupplierListScreenProps> = ({
             <table className="w-full text-left text-xs">
               <thead className="bg-slate-50 dark:bg-slate-800/80 text-slate-400 font-semibold uppercase text-[10px] border-b border-slate-200 dark:border-slate-800">
                 <tr>
-                  <th className="py-3 px-4">รหัส & ชื่อซัพพลายเออร์</th>
-                  <th className="py-3 px-4">ผู้ติดต่อ & เบอร์โทร</th>
-                  <th className="py-3 px-4">ที่อยู่</th>
-                  <th className="py-3 px-4 text-right">เครดิตเทอม</th>
-                  <th className="py-3 px-4 text-right">ยอดค้างจ่าย (AP)</th>
-                  <th className="py-3 px-4 text-center">จัดการ</th>
+                  <th className="py-3 px-4">ລະຫັດ & ຊື່ຜູ້ສະໜອງ</th>
+                  <th className="py-3 px-4">ຜູ້ຕິດຕໍ່ & ເບີໂທ</th>
+                  <th className="py-3 px-4">ທີ່ຢູ່</th>
+                  <th className="py-3 px-4 text-right">ກຳນົດສິນເຊື່ອ</th>
+                  <th className="py-3 px-4 text-right">ຍອດຄ້າງຈ່າຍ (AP)</th>
+                  <th className="py-3 px-4 text-center">ຈັດການ</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
@@ -175,7 +175,7 @@ export const SupplierListScreen: React.FC<SupplierListScreenProps> = ({
                       </td>
                       <td className="py-3 px-4 text-slate-500 max-w-xs truncate">{s.address}</td>
                       <td className="py-3 px-4 text-right font-mono text-slate-600 dark:text-slate-300">
-                        {s.creditDays} วัน
+                        {s.creditDays} ວັນ
                       </td>
                       <td className="py-3 px-4 text-right font-mono">
                         {hasPayable ? (
@@ -183,7 +183,7 @@ export const SupplierListScreen: React.FC<SupplierListScreenProps> = ({
                             {formatCurrency(s.currentPayable, settings.currency)}
                           </span>
                         ) : (
-                          <span className="text-slate-400">0.00</span>
+                          <span className="text-slate-400">0</span>
                         )}
                       </td>
                       <td className="py-3 px-4 text-center">
@@ -193,7 +193,7 @@ export const SupplierListScreen: React.FC<SupplierListScreenProps> = ({
                             className="px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-700 hover:bg-indigo-100 dark:bg-indigo-950/60 dark:text-indigo-300 text-[11px] font-bold flex items-center gap-1 mx-auto cursor-pointer"
                           >
                             <Wallet className="w-3.5 h-3.5" />
-                            ชำระหนี้
+                            ຊຳລະໜີ້
                           </button>
                         ) : (
                           <span className="text-slate-400 text-[11px]">-</span>
@@ -215,13 +215,13 @@ export const SupplierListScreen: React.FC<SupplierListScreenProps> = ({
             <table className="w-full text-left text-xs">
               <thead className="bg-slate-50 dark:bg-slate-800/80 text-slate-400 font-semibold uppercase text-[10px] border-b border-slate-200 dark:border-slate-800">
                 <tr>
-                  <th className="py-3 px-4">เลขที่ใบสั่งซื้อ (PO)</th>
-                  <th className="py-3 px-4">วันที่สั่งซื้อ</th>
-                  <th className="py-3 px-4">ซัพพลายเออร์</th>
-                  <th className="py-3 px-4 text-right">จำนวนรายการ</th>
-                  <th className="py-3 px-4 text-right">ยอดรวมทั้งสิ้น</th>
-                  <th className="py-3 px-4 text-center">สถานะ</th>
-                  <th className="py-3 px-4 text-center">การรับสินค้า</th>
+                  <th className="py-3 px-4">ເລກທີໃບສັ່ງຊື້ (PO)</th>
+                  <th className="py-3 px-4">ວັນທີສັ່ງຊື້</th>
+                  <th className="py-3 px-4">ຜູ້ສະໜອງ</th>
+                  <th className="py-3 px-4 text-right">ຈຳນວນລາຍການ</th>
+                  <th className="py-3 px-4 text-right">ຍອດລວມທັງໝົດ</th>
+                  <th className="py-3 px-4 text-center">ສະຖານະ</th>
+                  <th className="py-3 px-4 text-center">ການຮັບສິນຄ້າ</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
@@ -233,13 +233,13 @@ export const SupplierListScreen: React.FC<SupplierListScreenProps> = ({
                         {po.poNumber}
                       </td>
                       <td className="py-3 px-4 text-slate-500 whitespace-nowrap">
-                        {formatDateTime(po.createdAt, 'th')}
+                        {formatDateTime(po.createdAt, 'lo')}
                       </td>
                       <td className="py-3 px-4 font-medium text-slate-900 dark:text-white">
                         {po.supplierName}
                       </td>
                       <td className="py-3 px-4 text-right font-mono text-slate-600 dark:text-slate-300">
-                        {po.items.length} รายการ
+                        {po.items.length} ລາຍການ
                       </td>
                       <td className="py-3 px-4 text-right font-mono font-bold text-slate-900 dark:text-white">
                         {formatCurrency(po.grandTotal, settings.currency)}
@@ -252,7 +252,7 @@ export const SupplierListScreen: React.FC<SupplierListScreenProps> = ({
                               : 'bg-amber-100 text-amber-700 dark:bg-amber-950/40 dark:text-amber-300'
                           }`}
                         >
-                          {isReceived ? 'รับเข้าคลังแล้ว' : 'รอรับสินค้า'}
+                          {isReceived ? 'ຮັບເຂົ້າສາງແລ້ວ' : 'ລໍຖ້າຮັບສິນຄ້າ'}
                         </span>
                       </td>
                       <td className="py-3 px-4 text-center">
@@ -260,17 +260,17 @@ export const SupplierListScreen: React.FC<SupplierListScreenProps> = ({
                           <button
                             onClick={() => {
                               onReceivePO(po.id);
-                              onShowToast('success', 'รับสินค้าเข้าคลังสำเร็จ', `ปรับเพิ่มสต็อกตาม ${po.poNumber} เรียบร้อย`);
+                              onShowToast('success', 'ຮັບສິນຄ້າເຂົ້າສາງສຳເລັດ', `ປັບເພີ່ມສະຕັອກຕາມ ${po.poNumber} ຮຽບຮ້ອຍ`);
                             }}
                             className="px-2.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[11px] flex items-center gap-1 mx-auto cursor-pointer"
                           >
                             <PackageCheck className="w-3.5 h-3.5" />
-                            รับเข้าคลัง
+                            ຮັບເຂົ້າສາງ
                           </button>
                         ) : (
                           <span className="text-[11px] text-slate-400 flex items-center justify-center gap-1">
                             <CheckCircle className="w-3.5 h-3.5 text-emerald-600" />
-                            เสร็จสิ้น
+                            ສຳເລັດແລ້ວ
                           </span>
                         )}
                       </td>
@@ -282,7 +282,7 @@ export const SupplierListScreen: React.FC<SupplierListScreenProps> = ({
                   <tr>
                     <td colSpan={7} className="py-12 text-center text-slate-400">
                       <FileText className="w-10 h-10 mx-auto mb-2 opacity-30" />
-                      <p className="font-semibold text-xs">ยังไม่มีใบสั่งซื้อ</p>
+                      <p className="font-semibold text-xs">ຍັງບໍ່ມີໃບສັ່ງຊື້</p>
                     </td>
                   </tr>
                 )}
@@ -299,7 +299,7 @@ export const SupplierListScreen: React.FC<SupplierListScreenProps> = ({
         products={products}
         onSavePO={(po) => {
           onSavePO(po);
-          onShowToast('success', 'บันทึกใบสั่งซื้อเรียบร้อย', `เลขที่ ${po.poNumber}`);
+          onShowToast('success', 'ບັນທຶກໃບສັ່ງຊື້ຮຽບຮ້ອຍ', `ເລກທີ ${po.poNumber}`);
         }}
         onClose={() => setIsPOModalOpen(false)}
       />
@@ -312,7 +312,7 @@ export const SupplierListScreen: React.FC<SupplierListScreenProps> = ({
         onConfirmPayment={(sid, amt, method, note) => {
           onPaySupplier(sid, amt, method, note);
           setPayingSupplier(null);
-          onShowToast('success', 'บันทึกการชำระเงินให้ซัพพลายเออร์เรียบร้อย');
+          onShowToast('success', 'ບັນທຶກການຊຳລະເງິນໃຫ້ຜູ້ສະໜອງຮຽບຮ້ອຍ');
         }}
         onClose={() => setPayingSupplier(null)}
       />

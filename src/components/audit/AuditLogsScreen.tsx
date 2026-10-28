@@ -51,7 +51,7 @@ export const AuditLogsScreen: React.FC<AuditLogsScreenProps> = ({
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    onShowToast('success', 'ส่งออก Audit Logs สำเร็จ');
+    onShowToast('success', 'ສົ່ງອອກບັນທຶກ Audit Logs ສຳເລັດ');
   };
 
   const getModuleBadge = (mod: AuditLog['module']) => {
@@ -78,10 +78,10 @@ export const AuditLogsScreen: React.FC<AuditLogsScreenProps> = ({
         <div>
           <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
             <History className="w-6 h-6 text-blue-600" />
-            ประวัติการทำงานและความปลอดภัย (Audit Trail Logs)
+            ປະຫວັດການເຮັດວຽກ ແລະ ຄວາມປອດໄພ (Audit Trail Logs)
           </h2>
           <p className="text-xs text-slate-500 mt-0.5">
-            บันทึกทุกเหตุการณ์สำคัญ: การขาย, การแก้ราคา, การปรับสต็อก, การคืนเงิน และการเปลี่ยนสิทธิ์
+            ບັນທຶກທຸກເຫດການສຳຄັນ: ການຂາຍ, ການດັດແກ້ລາຄາ, ການປັບສະຕັອກ, ການຄືນເງິນ ແລະ ການປ່ຽນສິດທິ
           </p>
         </div>
 
@@ -90,7 +90,7 @@ export const AuditLogsScreen: React.FC<AuditLogsScreenProps> = ({
           className="px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs flex items-center gap-1.5 cursor-pointer shadow-xs"
         >
           <Download className="w-3.5 h-3.5" />
-          ส่งออกบันทึก CSV
+          ສົ່ງອອກບັນທຶກ CSV
         </button>
       </div>
 
@@ -100,7 +100,7 @@ export const AuditLogsScreen: React.FC<AuditLogsScreenProps> = ({
           <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
           <input
             type="text"
-            placeholder="ค้นหาชื่อผู้ทำรายการ หรือข้อความ..."
+            placeholder="ຄົ້ນຫາຊື່ຜູ້ເຮັດລາຍການ ຫຼື ຂໍ້ຄວາມ..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full pl-9 pr-4 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500"
@@ -113,12 +113,12 @@ export const AuditLogsScreen: React.FC<AuditLogsScreenProps> = ({
             onChange={(e) => setSelectedModule(e.target.value)}
             className="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-medium text-slate-700 dark:text-slate-300"
           >
-            <option value="ALL">ทุกโมดูล (All Modules)</option>
-            <option value="POS">จุดขายหน้าร้าน (POS)</option>
-            <option value="PRODUCT">สินค้าและราคา (PRODUCT)</option>
-            <option value="INVENTORY">สต็อกสินค้า (INVENTORY)</option>
-            <option value="FINANCE">การเงินและกะ (FINANCE)</option>
-            <option value="AUTH">เข้าสู่ระบบ/สิทธิ์ (AUTH)</option>
+            <option value="ALL">ທຸກໂມດູນ (All Modules)</option>
+            <option value="POS">ຈຸດຂາຍໜ້າຮ້ານ (POS)</option>
+            <option value="PRODUCT">ສິນຄ້າ ແລະ ລາຄາ (PRODUCT)</option>
+            <option value="INVENTORY">ສາງສິນຄ້າ (INVENTORY)</option>
+            <option value="FINANCE">ການເງິນ ແລະ ກະ (FINANCE)</option>
+            <option value="AUTH">ເຂົ້າສູ່ລະບົບ/ສິດທິ (AUTH)</option>
           </select>
         </div>
       </div>
@@ -129,18 +129,18 @@ export const AuditLogsScreen: React.FC<AuditLogsScreenProps> = ({
           <table className="w-full text-left text-xs">
             <thead className="bg-slate-50 dark:bg-slate-800/80 text-slate-400 font-semibold uppercase text-[10px] border-b border-slate-200 dark:border-slate-800">
               <tr>
-                <th className="py-3 px-4">วัน-เวลา</th>
-                <th className="py-3 px-4">ผู้ทำรายการ</th>
-                <th className="py-3 px-4">โมดูล</th>
-                <th className="py-3 px-4">การกระทำ (Action)</th>
-                <th className="py-3 px-4">รายละเอียด</th>
+                <th className="py-3 px-4">ວັນ-ເວລາ</th>
+                <th className="py-3 px-4">ຜູ້ເຮັດລາຍການ</th>
+                <th className="py-3 px-4">ໂມດູນ</th>
+                <th className="py-3 px-4">ການກະທຳ (Action)</th>
+                <th className="py-3 px-4">ລາຍລະອຽດ</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
               {filteredLogs.map((log) => (
                 <tr key={log.id} className="hover:bg-slate-50/70 dark:hover:bg-slate-800/40">
                   <td className="py-3 px-4 text-slate-500 font-mono whitespace-nowrap">
-                    {formatDateTime(log.timestamp, 'th')}
+                    {formatDateTime(log.timestamp, 'lo')}
                   </td>
                   <td className="py-3 px-4">
                     <span className="font-bold text-slate-900 dark:text-white">{log.userName}</span>
@@ -158,7 +158,7 @@ export const AuditLogsScreen: React.FC<AuditLogsScreenProps> = ({
                     <div>{log.details}</div>
                     {log.oldValue && (
                       <div className="text-[10px] text-slate-400 font-mono mt-0.5 truncate">
-                        ก่อน: {log.oldValue} | หลัง: {log.newValue}
+                        ກ່ອນ: {log.oldValue} | ຫຼັງ: {log.newValue}
                       </div>
                     )}
                   </td>

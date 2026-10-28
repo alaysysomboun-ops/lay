@@ -14,7 +14,7 @@ import {
   Store,
   Layers
 } from 'lucide-react';
-import { User, Role } from '../../types';
+import { User, Role, Language } from '../../types';
 import { translations } from '../../data/translations';
 
 export type NavTab =
@@ -37,6 +37,7 @@ interface SidebarProps {
   cartCount: number;
   isOpenMobile: boolean;
   onCloseMobile: () => void;
+  language?: Language;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
@@ -47,8 +48,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
   cartCount,
   isOpenMobile,
   onCloseMobile,
+  language = 'lo',
 }) => {
-  const t = translations.th;
+  const currentLang: Language = language || 'lo';
+  const t = translations[currentLang] || translations.lo;
 
   // Permissions filter for sidebar
   const navItems = [
@@ -143,7 +146,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   PRO
                 </span>
               </h1>
-              <p className="text-[11px] text-slate-400">Retail & Wholesale</p>
+              <p className="text-[11px] text-slate-400">ການຄ້າຂາຍຍ່ອຍ ແລະ ຂາຍສົ່ງ</p>
             </div>
           </div>
         </div>

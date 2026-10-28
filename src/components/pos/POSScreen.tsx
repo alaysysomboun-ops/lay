@@ -91,7 +91,7 @@ export const POSScreen: React.FC<POSScreenProps> = ({
       for (const tier of sortedTiers) {
         if (totalBaseQty >= tier.minQty) {
           unitPrice = tier.price;
-          tierApplied = tier.label || `ส่ง ${tier.minQty}+ ชิ้น`;
+          tierApplied = tier.label || `ສົ່ງ ${tier.minQty}+ ${product.baseUnit}`;
           break;
         }
       }
@@ -100,7 +100,7 @@ export const POSScreen: React.FC<POSScreenProps> = ({
     // If customer is Wholesale Grade A/B and didn't hit tier, apply standard wholesale
     if (!tierApplied && (customer.customerType === 'WHOLESALE_A' || customer.customerType === 'WHOLESALE_B')) {
       unitPrice = product.wholesalePrice;
-      tierApplied = 'ราคาส่งสมาชิก';
+      tierApplied = 'ລາຄາສົ່ງສະມາຊິກ';
     }
 
     // Apply customer special on-top discount % if any
@@ -118,7 +118,7 @@ export const POSScreen: React.FC<POSScreenProps> = ({
    */
   const handleAddToCart = (product: Product, unitName?: string, unitMultiplier: number = 1) => {
     if (!settings.allowNegativeStock && product.currentStock <= 0) {
-      onShowToast('error', 'สินค้าหมด', `สินค้า "${product.name}" ไม่มีสต็อกคงเหลือ`);
+      onShowToast('error', 'ສິນຄ້າໝົດ', `ສິນຄ້າ "${product.name}" ບໍ່ມີສະຕັອກຄົງເຫຼືອ`);
       return;
     }
 
@@ -136,7 +136,6 @@ export const POSScreen: React.FC<POSScreenProps> = ({
         const totalBaseQty = newQty * item.unitMultiplier;
         const { unitPrice, tierApplied } = calculateUnitPrice(product, totalBaseQty, selectedCustomer);
 
-        // Adjust unit price if package multiplier > 1
         const lineUnitPrice = unitPrice * item.unitMultiplier;
         const lineTotal = newQty * lineUnitPrice;
 
@@ -169,7 +168,7 @@ export const POSScreen: React.FC<POSScreenProps> = ({
       return newCart;
     });
 
-    onShowToast('info', 'เพิ่มลงตะกร้า', product.name);
+    onShowToast('info', 'ເພີ່ມລົງກະຕ່າ', product.name);
   };
 
   /**
@@ -190,8 +189,8 @@ export const POSScreen: React.FC<POSScreenProps> = ({
       if (!settings.allowNegativeStock && totalBaseQty > item.product.currentStock) {
         onShowToast(
           'warning',
-          'สต็อกไม่เพียงพอ',
-          `คงเหลือในคลัง ${item.product.currentStock} ${item.product.baseUnit}`
+          'ສະຕັອກບໍ່ພຽງພໍ',
+          `ຄົງເຫຼືອໃນສາງ ${item.product.currentStock} ${item.product.baseUnit}`
         );
         return prevCart;
       }
@@ -252,7 +251,6 @@ export const POSScreen: React.FC<POSScreenProps> = ({
       const q = searchQuery.trim().toLowerCase();
       if (!q) return;
 
-      // Search exact barcode or SKU first
       const exactMatch = products.find(
         (p) =>
           p.status === 'ACTIVE' &&
@@ -262,7 +260,6 @@ export const POSScreen: React.FC<POSScreenProps> = ({
       );
 
       if (exactMatch) {
-        // Check if barcode belongs to a unit conversion
         const matchedUnit = exactMatch.units?.find((u) => u.barcode?.toLowerCase() === q);
         if (matchedUnit) {
           handleAddToCart(exactMatch, matchedUnit.unitName, matchedUnit.multiplier);
@@ -274,7 +271,7 @@ export const POSScreen: React.FC<POSScreenProps> = ({
         handleAddToCart(filteredProducts[0]);
         setSearchQuery('');
       } else {
-        onShowToast('warning', 'ไม่พบสินค้า', `ไม่พบบาร์โค้ดหรือรหัส: ${q}`);
+        onShowToast('warning', 'ບໍ່ພົບສິນຄ້າ', `ບໍ່ພົບບາໂຄດ ຫຼື ລະຫັດ: ${q}`);
       }
     }
   };
@@ -292,7 +289,6 @@ export const POSScreen: React.FC<POSScreenProps> = ({
 
   const taxAmount = useMemo(() => {
     if (!isVatEnabled) return 0;
-    // VAT included calculation or on-top
     return (discountedSubtotal * settings.vatRate) / 100;
   }, [isVatEnabled, discountedSubtotal, settings.vatRate]);
 
@@ -325,14 +321,14 @@ export const POSScreen: React.FC<POSScreenProps> = ({
       setCart([]);
       setOverallDiscountAmount(0);
       onRefreshData();
-      onShowToast('success', 'บันทึกการขายเรียบร้อย', `ใบเสร็จเลขที่: ${result.sale.receiptNumber}`);
+      onShowToast('success', 'ບັນທຶກການຂາຍສຳເລັດ', `ເລກທີໃບບິນ: ${result.sale.receiptNumber}`);
     } else {
-      onShowToast('error', 'บันทึกการขายไม่สำเร็จ', result.error || 'โปรดตรวจสอบสต็อกสินค้า');
+      onShowToast('error', 'ບັນທຶກການຂາຍບໍ່ສຳເລັດ', result.error || 'ກະລຸນາກວດສອບສະຕັອກສິນຄ້າ');
     }
   };
 
   return (
-    <div className="flex flex-col lg:flex-row h-[calc(100vh-4rem)] bg-slate-100 dark:bg-slate-950 overflow-hidden">
+    <div className="flex flex-col lg:flex-row h-[calc(100vh-4rem)] bg-slate-100 dark:bg-slate-950 overflow-hidden font-sans">
       {/* LEFT SIDE: Product Catalog & Fast Search */}
       <div className="flex-1 flex flex-col min-w-0 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden">
         {/* Search Bar & Scanner trigger */}
@@ -342,7 +338,7 @@ export const POSScreen: React.FC<POSScreenProps> = ({
             <input
               ref={searchInputRef}
               type="text"
-              placeholder="สแกนบาร์โค้ด หรือพิมพ์ชื่อสินค้า / SKU [กด Enter เพื่อใส่ตะกร้า]..."
+              placeholder="ສະແກນບາໂຄດ ຫຼື ພິມຊື່ສິນຄ້າ / SKU [ກົດ Enter ເພື່ອໃສ່ກະຕ່າ]..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               onKeyDown={handleSearchKeyDown}
@@ -361,24 +357,24 @@ export const POSScreen: React.FC<POSScreenProps> = ({
           {/* Quick barcode simulation buttons for testing */}
           <div className="hidden sm:flex items-center gap-1.5 text-xs text-slate-500">
             <Barcode className="w-4 h-4 text-blue-600" />
-            <span className="font-semibold text-[11px] text-slate-400">บาร์โค้ดด่วน:</span>
+            <span className="font-semibold text-[11px] text-slate-400">ບາໂຄດດ່ວນ:</span>
             <button
               onClick={() => {
-                const tea = products.find((p) => p.sku === 'BEV-TEA-001');
-                if (tea) handleAddToCart(tea);
+                const beer = products.find((p) => p.sku === 'BEV-BL-001');
+                if (beer) handleAddToCart(beer);
               }}
-              className="px-2 py-1 bg-slate-200 dark:bg-slate-800 hover:bg-blue-100 dark:hover:bg-blue-900/40 rounded text-[11px] font-mono cursor-pointer"
+              className="px-2 py-1 bg-slate-200 dark:bg-slate-800 hover:bg-blue-100 dark:hover:bg-blue-900/40 rounded text-[11px] font-sans font-medium cursor-pointer"
             >
-              ชาเขียว
+              ເບຍລາວ
             </button>
             <button
               onClick={() => {
-                const rice = products.find((p) => p.sku === 'RICE-JAS-003');
+                const rice = products.find((p) => p.sku === 'RICE-NOY-003');
                 if (rice) handleAddToCart(rice);
               }}
-              className="px-2 py-1 bg-slate-200 dark:bg-slate-800 hover:bg-blue-100 dark:hover:bg-blue-900/40 rounded text-[11px] font-mono cursor-pointer"
+              className="px-2 py-1 bg-slate-200 dark:bg-slate-800 hover:bg-blue-100 dark:hover:bg-blue-900/40 rounded text-[11px] font-sans font-medium cursor-pointer"
             >
-              ข้าวหอม
+              ເຂົ້າໄກ່ນ້ອຍ
             </button>
           </div>
         </div>
@@ -393,7 +389,7 @@ export const POSScreen: React.FC<POSScreenProps> = ({
                 : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200'
             }`}
           >
-            ทั้งหมด ({products.filter((p) => p.status === 'ACTIVE').length})
+            ທັງໝົດ ({products.filter((p) => p.status === 'ACTIVE').length})
           </button>
           {categories.map((cat) => (
             <button
@@ -445,14 +441,14 @@ export const POSScreen: React.FC<POSScreenProps> = ({
                     }`}
                   >
                     {isOutOfStock
-                      ? 'หมดสต็อก'
-                      : `คงเหลือ ${product.currentStock} ${product.baseUnit}`}
+                      ? 'ໝົດສະຕັອກ'
+                      : `ຄົງເຫຼືອ ${product.currentStock} ${product.baseUnit}`}
                   </span>
 
                   {/* Wholesale badge */}
                   {product.wholesaleMinQty && (
                     <span className="absolute bottom-2 right-2 px-1.5 py-0.5 rounded bg-blue-600/90 backdrop-blur-xs text-white text-[9px] font-bold">
-                      ส่ง {product.wholesaleMinQty}+ ชิ้น
+                      ສົ່ງ {product.wholesaleMinQty}+ {product.baseUnit}
                     </span>
                   )}
                 </div>
@@ -470,7 +466,7 @@ export const POSScreen: React.FC<POSScreenProps> = ({
 
                   <div className="mt-2.5 pt-2 border-t border-slate-100 dark:border-slate-700/50 flex items-baseline justify-between">
                     <div>
-                      <span className="text-[10px] text-slate-400 block">ปลีก</span>
+                      <span className="text-[10px] text-slate-400 block">ຂາຍຍ່ອຍ</span>
                       <span className="font-extrabold text-sm text-blue-600 dark:text-blue-400">
                         {formatCurrency(product.retailPrice, settings.currency)}
                       </span>
@@ -478,7 +474,7 @@ export const POSScreen: React.FC<POSScreenProps> = ({
                     {product.wholesalePrice > 0 && (
                       <div className="text-right">
                         <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold block">
-                          ราคาส่ง
+                          ຂາຍສົ່ງ
                         </span>
                         <span className="font-bold text-xs text-slate-700 dark:text-slate-300 font-mono">
                           {formatCurrency(product.wholesalePrice, settings.currency)}
@@ -494,8 +490,8 @@ export const POSScreen: React.FC<POSScreenProps> = ({
           {filteredProducts.length === 0 && (
             <div className="col-span-full py-16 text-center text-slate-400">
               <Package className="w-12 h-12 mx-auto mb-2 opacity-40" />
-              <p className="text-sm font-semibold">ไม่พบรายการสินค้าที่ค้นหา</p>
-              <p className="text-xs mt-1">ลองเปลี่ยนคำค้นหา หรือเลือกหมวดหมู่อื่น</p>
+              <p className="text-sm font-semibold">ບໍ່ພົບລາຍການສິນຄ້າທີ່ຄົ້ນຫາ</p>
+              <p className="text-xs mt-1">ລອງປ່ຽນຄຳຄົ້ນຫາ ຫຼື ເລືອກໝວດໝູ່ໃໝ່</p>
             </div>
           )}
         </div>
@@ -508,11 +504,11 @@ export const POSScreen: React.FC<POSScreenProps> = ({
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
               <UserCheck className="w-4 h-4 text-blue-600" />
-              ลูกค้าและระดับราคา
+              ລູກຄ້າ ແລະ ລະດັບລາຄາ
             </span>
             {selectedCustomer.priceTierDiscountPercent ? (
               <span className="text-[11px] font-bold text-emerald-600 bg-emerald-50 dark:bg-emerald-950/40 px-2 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-900">
-                ลดพิเศษ {selectedCustomer.priceTierDiscountPercent}%
+                ຫຼຸດພິເສດ {selectedCustomer.priceTierDiscountPercent}%
               </span>
             ) : null}
           </div>
@@ -524,7 +520,7 @@ export const POSScreen: React.FC<POSScreenProps> = ({
           >
             {customers.map((c) => (
               <option key={c.id} value={c.id}>
-                {c.name} ({c.customerType}) {c.currentDebt > 0 ? `[ค้างหนี้ ${c.currentDebt.toLocaleString()}฿]` : ''}
+                {c.name} ({c.customerType}) {c.currentDebt > 0 ? `[ໜີ້ຄ້າງ ${formatCurrency(c.currentDebt, settings.currency)}]` : ''}
               </option>
             ))}
           </select>
@@ -532,22 +528,22 @@ export const POSScreen: React.FC<POSScreenProps> = ({
           {/* Credit limit warning if wholesale customer */}
           {selectedCustomer.creditLimit > 0 && (
             <div className="text-[11px] text-slate-500 flex justify-between px-1">
-              <span>วงเงินเครดิต: {selectedCustomer.creditLimit.toLocaleString()}฿</span>
-              <span>หนี้คงค้าง: <strong className="text-amber-600">{selectedCustomer.currentDebt.toLocaleString()}฿</strong></span>
+              <span>ວົງເງິນເຄຣດິດ: {formatCurrency(selectedCustomer.creditLimit, settings.currency)}</span>
+              <span>ໜີ້ຄ້າງ: <strong className="text-amber-600">{formatCurrency(selectedCustomer.currentDebt, settings.currency)}</strong></span>
             </div>
           )}
         </div>
 
         {/* Cart Items Header */}
         <div className="px-4 py-2 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs text-slate-500 font-semibold">
-          <span>รายการในตะกร้า ({cart.reduce((sum, it) => sum + it.quantity, 0)} ชิ้น)</span>
+          <span>ລາຍການໃນກະຕ່າ ({cart.reduce((sum, it) => sum + it.quantity, 0)} ຫົວໜ່ວຍ)</span>
           {cart.length > 0 && (
             <button
               onClick={handleClearCart}
               className="text-rose-600 hover:text-rose-700 hover:underline flex items-center gap-1 cursor-pointer"
             >
               <Trash2 className="w-3.5 h-3.5" />
-              ล้างตะกร้า
+              ລ້າງກະຕ່າ
             </button>
           )}
         </div>
@@ -570,13 +566,13 @@ export const POSScreen: React.FC<POSScreenProps> = ({
                     <div className="flex items-center gap-2 mt-0.5">
                       <span className="text-[10px] text-slate-400 font-mono">{item.product.sku}</span>
                       {item.tierApplied && (
-                        <span className="text-[10px] font-bold text-blue-600 dark:text-blue-400 bg-blue-100 dark:bg-blue-900/40 px-1.5 py-0.2 rounded">
+                        <span className="text-[10px] font-bold text-blue-600 dark:text-blue-400 bg-blue-100 dark:bg-blue-900/40 px-1.5 py-0.2 rounded font-sans">
                           {item.tierApplied}
                         </span>
                       )}
                       {isBelowCost && (
                         <span className="text-[9px] font-bold text-rose-600 bg-rose-100 px-1.5 py-0.2 rounded">
-                          ต่ำกว่าทุน!
+                          ຫຼຸດຕົ້ນທຶນ!
                         </span>
                       )}
                     </div>
@@ -617,8 +613,8 @@ export const POSScreen: React.FC<POSScreenProps> = ({
 
                   {/* Unit price indicator */}
                   <div className="text-right">
-                    <span className="text-[10px] text-slate-400 block">
-                      @{item.appliedUnitPrice.toFixed(2)}/{item.unit}
+                    <span className="text-[10px] text-slate-400 block font-mono">
+                      @{formatCurrency(item.appliedUnitPrice, settings.currency)}/{item.unit}
                     </span>
                     <span className="text-xs font-extrabold text-slate-900 dark:text-white font-mono">
                       {formatCurrency(item.total, settings.currency)}
@@ -632,9 +628,9 @@ export const POSScreen: React.FC<POSScreenProps> = ({
           {cart.length === 0 && (
             <div className="h-full flex flex-col items-center justify-center text-center p-6 text-slate-400">
               <Tag className="w-10 h-10 mb-2 opacity-30 stroke-[1.5]" />
-              <p className="text-xs font-bold text-slate-600 dark:text-slate-300">ยังไม่มีสินค้าในตะกร้า</p>
+              <p className="text-xs font-bold text-slate-600 dark:text-slate-300">ຍັງບໍ່ມີສິນຄ້າໃນກະຕ່າ</p>
               <p className="text-[11px] text-slate-400 mt-1 max-w-[200px]">
-                คลิกเลือกสินค้าหรือสแกนบาร์โค้ดเพื่อเริ่มต้นการขาย
+                ກົດເລືອກສິນຄ້າ ຫຼື ສະແກນບາໂຄດເພື່ອເລີ່ມຕົ້ນການຂາຍ
               </p>
             </div>
           )}
@@ -644,7 +640,7 @@ export const POSScreen: React.FC<POSScreenProps> = ({
         <div className="p-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/80 space-y-2.5">
           {/* Subtotal */}
           <div className="flex justify-between text-xs text-slate-600 dark:text-slate-400">
-            <span>ยอดรวมสินค้า:</span>
+            <span>ຍອດລວມສິນຄ້າ:</span>
             <span className="font-mono font-bold">{formatCurrency(subtotal, settings.currency)}</span>
           </div>
 
@@ -652,19 +648,19 @@ export const POSScreen: React.FC<POSScreenProps> = ({
           <div className="flex items-center justify-between text-xs text-slate-600 dark:text-slate-400">
             <span className="flex items-center gap-1">
               <Percent className="w-3.5 h-3.5 text-emerald-600" />
-              ส่วนลดท้ายบิล:
+              ສ່ວນຫຼຸດທ້າຍບິນ:
             </span>
             <div className="flex items-center gap-1">
-              <span className="text-slate-400 text-[10px]">฿</span>
               <input
                 type="number"
                 min="0"
                 step="any"
                 value={overallDiscountAmount || ''}
                 onChange={(e) => setOverallDiscountAmount(parseFloat(e.target.value) || 0)}
-                placeholder="0.00"
-                className="w-20 px-2 py-0.5 text-right font-mono text-xs font-bold rounded border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
+                placeholder="0"
+                className="w-24 px-2 py-0.5 text-right font-mono text-xs font-bold rounded border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
               />
+              <span className="text-slate-400 text-[10px]">₭</span>
             </div>
           </div>
 
@@ -677,19 +673,19 @@ export const POSScreen: React.FC<POSScreenProps> = ({
                 onChange={(e) => setIsVatEnabled(e.target.checked)}
                 className="rounded text-blue-600 focus:ring-blue-500 cursor-pointer"
               />
-              <span>ภาษี VAT ({settings.vatRate}%)</span>
+              <span>ອາກອນ VAT ({settings.vatRate}%)</span>
             </label>
             <span className="font-mono font-bold">
               {formatCurrency(taxAmount, settings.currency)}
             </span>
           </div>
 
-          {/* Estimated Profit & Margin indicator (For Owners / Managers) */}
+          {/* Estimated Profit & Margin indicator */}
           {(currentUser.role === 'OWNER' || currentUser.role === 'MANAGER' || currentUser.role === 'ADMIN') && cart.length > 0 && (
             <div className="p-2 rounded-lg bg-blue-50/60 dark:bg-blue-950/30 border border-blue-100 dark:border-blue-900/40 flex items-center justify-between text-[11px]">
               <span className="text-blue-700 dark:text-blue-300 flex items-center gap-1">
                 <TrendingUp className="w-3.5 h-3.5" />
-                กำไรขั้นต้น (GP):
+                ກຳໄລຂັ້ນຕົ້ນ (GP):
               </span>
               <span className="font-bold text-blue-800 dark:text-blue-200 font-mono">
                 {formatCurrency(grossProfit, settings.currency)} ({marginPercent.toFixed(1)}%)
@@ -699,7 +695,7 @@ export const POSScreen: React.FC<POSScreenProps> = ({
 
           {/* Grand Total */}
           <div className="pt-2 border-t border-slate-200 dark:border-slate-700 flex items-baseline justify-between">
-            <span className="font-bold text-sm text-slate-900 dark:text-white">ยอดชำระสุทธิ:</span>
+            <span className="font-bold text-sm text-slate-900 dark:text-white">ຍອດຊຳລະສຸດທິ:</span>
             <span className="text-2xl font-black text-blue-600 dark:text-blue-400 font-mono tracking-tight">
               {formatCurrency(grandTotal, settings.currency)}
             </span>
@@ -712,7 +708,7 @@ export const POSScreen: React.FC<POSScreenProps> = ({
             onClick={() => setIsPaymentOpen(true)}
             className="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-extrabold text-sm shadow-lg shadow-blue-600/30 flex items-center justify-center gap-2 cursor-pointer transition-all active:scale-98"
           >
-            <span>ชำระเงิน (F12 / Checkout)</span>
+            <span>ຊຳລະເງິນ (F12 / Checkout)</span>
             <ArrowRight className="w-4 h-4 stroke-[3]" />
           </button>
         </div>

@@ -57,9 +57,15 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
   const remainingCredit = customer.creditLimit - customer.currentDebt;
   const isCreditExceeded = isCredit && (customer.currentDebt + grandTotal > customer.creditLimit);
 
-  // Quick cash buttons
-  const quickCashOptions = [
-    { label: 'พอดี', amount: grandTotal },
+  // Quick cash buttons adapted for Kip (or active currency)
+  const quickCashOptions = settings.currency === 'LAK' ? [
+    { label: 'ພໍດີ', amount: grandTotal },
+    { label: '50,000', amount: Math.ceil(grandTotal / 50000) * 50000 || 50000 },
+    { label: '100,000', amount: Math.ceil(grandTotal / 100000) * 100000 || 100000 },
+    { label: '500,000', amount: Math.ceil(grandTotal / 500000) * 500000 || 500000 },
+    { label: '1,000,000', amount: Math.ceil(grandTotal / 1000000) * 1000000 || 1000000 },
+  ] : [
+    { label: 'ພໍດີ', amount: grandTotal },
     { label: '100', amount: Math.ceil(grandTotal / 100) * 100 || 100 },
     { label: '500', amount: Math.ceil(grandTotal / 500) * 500 || 500 },
     { label: '1,000', amount: Math.ceil(grandTotal / 1000) * 1000 || 1000 },
@@ -69,7 +75,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
     if (managerApprovalPin === '1111' || managerApprovalPin === '2222') {
       setIsManagerApproved(true);
     } else {
-      alert('PIN ผู้จัดการไม่ถูกต้อง (ทดสอบ: 1111 หรือ 2222)');
+      alert('PIN ຜູ້ຈັດການບໍ່ຖືກຕ້ອງ (ທົດສອບ: 1111 ຫຼື 2222)');
     }
   };
 
@@ -77,22 +83,22 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
     if (isSubmitting) return;
 
     if (hasBelowCost && !isAuthorized) {
-      alert('มีสินค้าขายต่ำกว่าราคาทุน ต้องให้ผู้จัดการอนุมัติก่อนทำรายการ');
+      alert('ມີສິນຄ້າຂາຍຫຼຸດຕົ້ນທຶນ! ຕ້ອງໃຫ້ຜູ້ຈັດການອະນຸມັດກ່ອນ');
       return;
     }
 
     if (isCashInsufficient) {
-      alert('จำนวนเงินสดที่รับมาไม่เพียงพอ');
+      alert('ຈຳນວນເງິນສົດທີ່ຮັບມາຍັງບໍ່ພຽງພໍ');
       return;
     }
 
     if (isCredit && customer.id === 'cust-walkin') {
-      alert('ลูกค้าทั่วไปไม่สามารถขายเชื่อได้ กรุณาเลือกลูกค้าขายส่งที่มีวงเงินเครดิต');
+      alert('ລູກຄ້າທົ່ວໄປບໍ່ສາມາດຂາຍຕິດໜີ້ໄດ້ ກະລຸນາເລືອກລູກຄ້າຂາຍສົ່ງທີ່ມີວົງເງິນເຄຣດິດ');
       return;
     }
 
     if (isCreditExceeded && !isAuthorized) {
-      alert(`ยอดขายเกินวงเงินเครดิตคงเหลือ (${formatCurrency(remainingCredit, settings.currency)}) ต้องให้ผู้จัดการอนุมัติ`);
+      alert(`ຍອດຂາຍເກີນວົງເງິນເຄຣດິດຄົງເຫຼືອ (${formatCurrency(remainingCredit, settings.currency)}) ຕ້ອງໃຫ້ຜູ້ຈັດການອະນຸມັດ`);
       return;
     }
 
@@ -116,9 +122,9 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
         {/* Header */}
         <div className="p-4 bg-slate-50 dark:bg-slate-800/80 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
           <div>
-            <h3 className="font-bold text-base text-slate-900 dark:text-white">ชำระเงิน (Checkout)</h3>
+            <h3 className="font-bold text-base text-slate-900 dark:text-white">ຊຳລະເງິນ (Checkout)</h3>
             <p className="text-xs text-slate-500">
-              ลูกค้า: <span className="font-semibold text-slate-700 dark:text-slate-300">{customer.name}</span>
+              ລູກຄ້າ: <span className="font-semibold text-slate-700 dark:text-slate-300">{customer.name}</span>
             </p>
           </div>
           <button
@@ -133,8 +139,8 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
         <div className="p-5 overflow-y-auto space-y-5">
           {/* Total display banner */}
           <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-2xl p-5 shadow-lg shadow-blue-500/20 text-center">
-            <p className="text-xs font-semibold text-blue-100 uppercase tracking-wider">ยอดชำระสุทธิ</p>
-            <div className="text-3xl sm:text-4xl font-extrabold tracking-tight mt-1">
+            <p className="text-xs font-semibold text-blue-100 uppercase tracking-wider">ຍອດຊຳລະສຸດທິ</p>
+            <div className="text-3xl sm:text-4xl font-extrabold tracking-tight mt-1 font-mono">
               {formatCurrency(grandTotal, settings.currency)}
             </div>
           </div>
@@ -146,12 +152,12 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
                 <AlertTriangle className="w-5 h-5 text-rose-600 shrink-0 mt-0.5" />
                 <div className="flex-1">
                   <h4 className="text-xs font-bold text-rose-800 dark:text-rose-300">
-                    แจ้งเตือน: มีสินค้าขายต่ำกว่าราคาทุน!
+                    ແຈ້ງເຕືອນ: ມີສິນຄ້າຂາຍຫຼຸດຕົ້ນທຶນ!
                   </h4>
                   <ul className="text-[11px] text-rose-700 dark:text-rose-400 mt-1 space-y-0.5 list-disc list-inside">
                     {belowCostItems.map((it, i) => (
                       <li key={i}>
-                        {it.product.name} - ราคาขาย: {it.appliedUnitPrice.toFixed(2)}฿ (ทุน: {it.unitCost.toFixed(2)}฿)
+                        {it.product.name} - ລາຄາຂາຍ: {formatCurrency(it.appliedUnitPrice, settings.currency)} (ຕົ້ນທຶນ: {formatCurrency(it.unitCost, settings.currency)})
                       </li>
                     ))}
                   </ul>
@@ -160,22 +166,22 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
                     <div className="mt-2.5 pt-2 border-t border-rose-200 dark:border-rose-900 flex items-center gap-2">
                       <input
                         type="password"
-                        placeholder="PIN ผู้จัดการ (ทดสอบ: 2222)"
+                        placeholder="PIN ຜູ້ຈັດການ (ທົດສອບ: 2222)"
                         value={managerApprovalPin}
                         onChange={(e) => setManagerApprovalPin(e.target.value)}
-                        className="px-2.5 py-1 text-xs rounded-lg border border-rose-300 bg-white dark:bg-slate-800 dark:border-rose-800 text-slate-900 dark:text-white w-48"
+                        className="px-2.5 py-1 text-xs rounded-lg border border-rose-300 bg-white dark:bg-slate-800 dark:border-rose-800 text-slate-900 dark:text-white w-52"
                       />
                       <button
                         type="button"
                         onClick={handleVerifyManagerPin}
                         className="px-3 py-1 bg-rose-600 text-white text-xs font-bold rounded-lg hover:bg-rose-700"
                       >
-                        อนุมัติ
+                        ອະນຸມັດ
                       </button>
                     </div>
                   ) : (
                     <div className="mt-2 text-[11px] text-emerald-700 dark:text-emerald-400 font-semibold flex items-center gap-1">
-                      <Check className="w-3.5 h-3.5" /> อนุมัติการขายต่ำกว่าทุนแล้ว
+                      <Check className="w-3.5 h-3.5" /> ອະນຸມັດການຂາຍຫຼຸດຕົ້ນທຶນແລ້ວ
                     </div>
                   )}
                 </div>
@@ -186,14 +192,14 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
           {/* Payment Method Tabs */}
           <div>
             <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">
-              เลือกวิธีชำระเงิน:
+              ເລືອກຊ່ອງທາງການຊຳລະ:
             </label>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
               {[
-                { id: 'CASH' as PaymentMethod, label: 'เงินสด', icon: Banknote },
-                { id: 'PROMPTPAY' as PaymentMethod, label: 'พร้อมเพย์ QR', icon: QrCode },
-                { id: 'TRANSFER' as PaymentMethod, label: 'โอนธนาคาร', icon: Building },
-                { id: 'CREDIT' as PaymentMethod, label: 'ขายเชื่อ (เครดิต)', icon: CreditCard },
+                { id: 'CASH' as PaymentMethod, label: 'ເງິນສົດ', icon: Banknote },
+                { id: 'PROMPTPAY' as PaymentMethod, label: 'QR Payment', icon: QrCode },
+                { id: 'TRANSFER' as PaymentMethod, label: 'ໂອນເງິນ', icon: Building },
+                { id: 'CREDIT' as PaymentMethod, label: 'ຂາຍຕິດໜີ້', icon: CreditCard },
               ].map((tab) => {
                 const Icon = tab.icon;
                 const isSelected = method === tab.id;
@@ -220,7 +226,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
           {method === 'CASH' && (
             <div className="space-y-3 p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700">
               <label className="block text-xs font-bold text-slate-700 dark:text-slate-300">
-                รับเงินสด (Cash Tendered):
+                ຮັບເງິນສົດມາ (Cash Tendered):
               </label>
               <div className="relative">
                 <input
@@ -240,47 +246,46 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
                     key={i}
                     type="button"
                     onClick={() => setCashReceived(opt.amount)}
-                    className="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer"
+                    className="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer font-mono"
                   >
-                    {opt.label} {opt.label !== 'พอดี' && `(${opt.amount})`}
+                    {opt.label} {opt.label !== 'ພໍດີ' && opt.label.includes(',') ? '' : ''}
                   </button>
                 ))}
               </div>
 
               {/* Change Indicator */}
               <div className="pt-2 border-t border-slate-200 dark:border-slate-700 flex items-center justify-between">
-                <span className="text-xs font-bold text-slate-600 dark:text-slate-400">เงินทอน (Change):</span>
+                <span className="text-xs font-bold text-slate-600 dark:text-slate-400">ເງິນທອນ (Change):</span>
                 <span
                   className={`text-xl font-extrabold font-mono ${
                     isCashInsufficient ? 'text-rose-600' : 'text-emerald-600'
                   }`}
                 >
-                  {isCashInsufficient ? 'เงินไม่พอ' : formatCurrency(change, settings.currency)}
+                  {isCashInsufficient ? 'ເງິນຍັງບໍ່ພໍ' : formatCurrency(change, settings.currency)}
                 </span>
               </div>
             </div>
           )}
 
-          {/* PromptPay QR Details */}
+          {/* PromptPay / Lao QR Details */}
           {method === 'PROMPTPAY' && (
             <div className="p-4 rounded-xl bg-blue-50/60 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-900 flex flex-col items-center text-center space-y-3">
               <div className="w-44 h-44 bg-white p-2 rounded-xl shadow-md border border-slate-200 flex flex-col items-center justify-center">
-                {/* Simulated dynamic PromptPay QR */}
                 <div className="w-full h-full border-2 border-dashed border-blue-400 rounded-lg flex flex-col items-center justify-center p-2 bg-slate-50">
                   <QrCode className="w-24 h-24 text-slate-800" />
-                  <span className="text-[10px] font-bold text-blue-700 mt-1">PromptPay QR</span>
-                  <span className="text-[9px] font-mono text-slate-500">
+                  <span className="text-[10px] font-bold text-blue-700 mt-1">LAO QR Payment</span>
+                  <span className="text-[9px] font-mono text-slate-500 font-bold">
                     {formatCurrency(grandTotal, settings.currency)}
                   </span>
                 </div>
               </div>
               <div>
-                <p className="text-xs font-bold text-slate-800 dark:text-white">สแกนชำระด้วยแอพธนาคารใดก็ได้</p>
-                <p className="text-[11px] text-slate-500 mt-0.5">PromptPay ID: 0105567890123 ({settings.storeName})</p>
+                <p className="text-xs font-bold text-slate-800 dark:text-white">ສະແກນຊຳລະຜ່ານ BCEL One ຫຼື ແອັບທະນາຄານໃດກໍ່ໄດ້</p>
+                <p className="text-[11px] text-slate-500 mt-0.5">BCEL ID: 020-55512345 ({settings.storeName})</p>
               </div>
               <input
                 type="text"
-                placeholder="เลขอ้างอิงสลิป / Transaction Ref (ถ้ามี)"
+                placeholder="ເລກອ້າງອີງສະລິບ / Transaction Ref (ຖ້າມີ)"
                 value={refNumber}
                 onChange={(e) => setRefNumber(e.target.value)}
                 className="w-full text-xs px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white"
@@ -292,13 +297,13 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
           {method === 'TRANSFER' && (
             <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 space-y-3">
               <div className="text-xs space-y-1 text-slate-700 dark:text-slate-300">
-                <p className="font-bold">ธนาคารกสิกรไทย (KBANK)</p>
-                <p>เลขที่บัญชี: <span className="font-mono font-bold text-blue-600">012-3-45678-9</span></p>
-                <p>ชื่อบัญชี: บจก. สยาม สมาร์ทเทรดดิ้ง</p>
+                <p className="font-bold">ທະນາຄານການຄ້າຕ່າງປະເທດລາວ (BCEL)</p>
+                <p>ເລກບັນຊີ: <span className="font-mono font-bold text-blue-600">010-12-00-01234567-001</span></p>
+                <p>ຊື່ບັນຊີ: ບໍລິສັດ ສຸວັນນະພູມ ສະມາດເທຣດດິ້ງ</p>
               </div>
               <input
                 type="text"
-                placeholder="เลขอ้างอิงการโอน / Slip Reference *"
+                placeholder="ເລກອ້າງອີງການໂອນ / Slip Reference *"
                 value={refNumber}
                 onChange={(e) => setRefNumber(e.target.value)}
                 className="w-full text-xs px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white"
@@ -311,31 +316,31 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
             <div className="p-4 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900 space-y-3">
               <div className="text-xs space-y-1.5 text-slate-800 dark:text-slate-200">
                 <div className="flex justify-between">
-                  <span>วงเงินเครดิตอนุมัติ:</span>
-                  <span className="font-bold">{formatCurrency(customer.creditLimit, settings.currency)}</span>
+                  <span>ວົງເງິນເຄຣດິດອະນຸມັດ:</span>
+                  <span className="font-bold font-mono">{formatCurrency(customer.creditLimit, settings.currency)}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span>หนี้ค้างชำระปัจจุบัน:</span>
-                  <span className="font-bold text-amber-700 dark:text-amber-400">
+                  <span>ໜີ້ຄ້າງຊຳລະປັດຈຸບັນ:</span>
+                  <span className="font-bold text-amber-700 dark:text-amber-400 font-mono">
                     {formatCurrency(customer.currentDebt, settings.currency)}
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span>วงเงินคงเหลือ:</span>
-                  <span className={`font-bold ${remainingCredit < grandTotal ? 'text-rose-600' : 'text-emerald-600'}`}>
+                  <span>ວົງເງິນຄົງເຫຼືອ:</span>
+                  <span className={`font-bold font-mono ${remainingCredit < grandTotal ? 'text-rose-600' : 'text-emerald-600'}`}>
                     {formatCurrency(remainingCredit, settings.currency)}
                   </span>
                 </div>
                 <div className="flex justify-between border-t border-amber-200 dark:border-amber-800 pt-1 text-slate-600 dark:text-slate-400">
-                  <span>กำหนดชำระใน (วัน):</span>
-                  <span>{customer.creditDays || 30} วัน</span>
+                  <span>ກຳນົດຊຳລະໃນ (ວັນ):</span>
+                  <span>{customer.creditDays || 30} ວັນ</span>
                 </div>
               </div>
 
               {isCreditExceeded && (
                 <div className="p-2.5 rounded-lg bg-rose-100 text-rose-800 text-[11px] font-semibold flex items-center gap-1.5">
                   <ShieldAlert className="w-4 h-4 shrink-0 text-rose-600" />
-                  ยอดขายนี้เกินวงเงินเครดิตที่กำหนด! (ต้องได้รับอนุมัติจากผู้จัดการ)
+                  ຍອດຂາຍນີ້ເກີນວົງເງິນເຄຣດິດທີ່ກຳນົດ! (ຕ້ອງໄດ້ຮັບອະນຸມັດຈາກຜູ້ຈັດການ)
                 </div>
               )}
             </div>
@@ -349,7 +354,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
             onClick={onClose}
             className="px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 text-sm font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
           >
-            ยกเลิก
+            ຍົກເລີກ
           </button>
           <button
             type="button"
@@ -358,7 +363,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
             className="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold text-sm shadow-md shadow-emerald-600/30 flex items-center gap-2 cursor-pointer transition-all active:scale-98"
           >
             <Check className="w-4 h-4 stroke-[3]" />
-            {isSubmitting ? 'กำลังบันทึก...' : 'ยืนยันรับชำระเงิน'}
+            {isSubmitting ? 'ກຳລັງບັນທຶກ...' : 'ຢືນຢັນຮັບຊຳລະເງິນ'}
           </button>
         </div>
       </div>

@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  font-family: 'Plus Jakarta Sans', 'Sarabun', system-ui, -apple-system, sans-serif;
+  font-family: 'Noto Sans Lao', 'Plus Jakarta Sans', 'Sarabun', system-ui, -apple-system, sans-serif;
 }
 
 code, kbd, samp, pre, .font-mono {

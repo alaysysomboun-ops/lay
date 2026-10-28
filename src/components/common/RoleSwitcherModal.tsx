@@ -22,15 +22,15 @@ export const RoleSwitcherModal: React.FC<RoleSwitcherModalProps> = ({
   const getRoleBadge = (role: Role) => {
     switch (role) {
       case 'OWNER':
-        return { label: 'เจ้าของร้าน (Owner)', desc: 'เข้าถึงทุกเมนู บัญชี การเงิน รายงาน สิทธิ์สูงสุด', color: 'bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300' };
+        return { label: 'ເຈົ້າຂອງຮ້ານ (Owner)', desc: 'ເຂົ້າເຖິງທຸກເມນູ, ບັນຊີ, ການເງິນ, ລາຍງານ, ສິດສູງສຸດ', color: 'bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300' };
       case 'MANAGER':
-        return { label: 'ผู้จัดการ (Manager)', desc: 'อนุมัติขายต่ำกว่าทุน คืนเงิน แก้ไขราคา ดูต้นทุน', color: 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300' };
+        return { label: 'ຜູ້ຈັດການ (Manager)', desc: 'ອະນຸມັດຂາຍຫຼຸດຕົ້ນທຶນ, ຄືນເງິນ, ແກ້ໄຂລາຄາ, ເບິ່ງຕົ້ນທຶນ', color: 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300' };
       case 'ADMIN':
-        return { label: 'ผู้ดูแลระบบ (Admin)', desc: 'จัดการระบบและตั้งค่าทั้งหมด', color: 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300' };
+        return { label: 'ຜູ້ດູແລລະບົບ (Admin)', desc: 'ຈັດການລະບົບ ແລະ ຕັ້ງຄ່າທັງໝົດ', color: 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300' };
       case 'CASHIER':
-        return { label: 'พนักงานขาย (Cashier)', desc: 'จุดขาย POS, เปิด-ปิดกะ, ดูเฉพาะราคาขาย', color: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300' };
+        return { label: 'ພະນັກງານຂາຍ (Cashier)', desc: 'ຈຸດຂາຍ POS, ເປີດ-ປິດກະ, ເບິ່ງສະເພາະລາຄາຂາຍ', color: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300' };
       case 'WAREHOUSE':
-        return { label: 'คลังสินค้า (Warehouse)', desc: 'รับสินค้า, โอนย้ายคลัง, ปรับปรุงสต็อก', color: 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300' };
+        return { label: 'ພະນັກງານສາງ (Warehouse)', desc: 'ຮັບສິນຄ້າ, ໂອນຍ້າຍສາງ, ປັບປຸງສະຕັອກ', color: 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300' };
       default:
         return { label: role, desc: '', color: 'bg-slate-100 text-slate-700' };
     }
@@ -46,9 +46,9 @@ export const RoleSwitcherModal: React.FC<RoleSwitcherModalProps> = ({
             </div>
             <div>
               <h3 className="font-bold text-lg text-slate-900 dark:text-white">
-                สลับบทบาทผู้ใช้งาน (Switch Role)
+                ສະຫຼັບບົດບາດຜູ້ໃຊ້ງານ (Switch Role)
               </h3>
-              <p className="text-xs text-slate-500">เลือกโปรไฟล์ผู้ใช้เพื่อทดสอบระบบและสิทธิ์การเข้าถึง</p>
+              <p className="text-xs text-slate-500">ເລືອກໂປຣໄຟລ໌ຜູ້ໃຊ້ເພື່ອທົດສອບລະບົບ ແລະ ສິດການເຂົ້າເຖິງ</p>
             </div>
           </div>
           <button
@@ -99,7 +99,7 @@ export const RoleSwitcherModal: React.FC<RoleSwitcherModalProps> = ({
                     <Check className="w-4 h-4 stroke-[3]" />
                   </div>
                 ) : (
-                  <span className="text-xs font-semibold text-slate-400 group-hover:text-slate-600">สลับ</span>
+                  <span className="text-xs font-semibold text-slate-400 group-hover:text-slate-600">ສະຫຼັບ</span>
                 )}
               </div>
             );
@@ -109,7 +109,7 @@ export const RoleSwitcherModal: React.FC<RoleSwitcherModalProps> = ({
         <div className="mt-5 p-3 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900/50 flex items-start gap-2.5">
           <ShieldAlert className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
           <p className="text-xs text-amber-800 dark:text-amber-300 leading-relaxed">
-            <strong>หมายเหตุการทดสอบสิทธิ์:</strong> แคชเชียร์ (Cashier) จะไม่เห็นต้นทุนสินค้าและกำไรสุทธิ, พนักงานคลังสินค้าจะจัดการได้เฉพาะสต็อก, เจ้าของร้านและผู้จัดการสามารถดูและอนุมัติได้ทุกรายการ
+            <strong>ໝາຍເຫດການທົດສອບສິດ:</strong> ພະນັກງານຂາຍ (Cashier) ຈະບໍ່ເຫັນຕົ້ນທຶນສິນຄ້າ ແລະ ກຳໄລສຸດທິ, ພະນັກງານສາງຈະຈັດການໄດ້ສະເພາະສະຕັອກ, ເຈົ້າຂອງຮ້ານ ແລະ ຜູ້ຈັດການສາມາດເບິ່ງ ແລະ ອະນຸມັດໄດ້ທຸກລາຍການ.
           </p>
         </div>
       </div>

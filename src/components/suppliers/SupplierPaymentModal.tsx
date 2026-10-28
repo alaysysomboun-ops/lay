@@ -22,16 +22,16 @@ export const SupplierPaymentModal: React.FC<SupplierPaymentModalProps> = ({
 
   const [amount, setAmount] = useState<number>(supplier.currentPayable);
   const [method, setMethod] = useState<PaymentMethod>('TRANSFER');
-  const [note, setNote] = useState<string>('ชำระหนี้ค่าสินค้าซัพพลายเออร์');
+  const [note, setNote] = useState<string>('ຊຳລະໜີ້ຄ່າສິນຄ້າຜູ້ສະໜອງ');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!amount || amount <= 0) {
-      alert('กรุณากรอกจำนวนเงิน');
+      alert('ກະລຸນາປ້ອນຈຳນວນເງິນ');
       return;
     }
     if (amount > supplier.currentPayable) {
-      alert('จำนวนเงินมากกว่ายอดหนี้ค้างชำระ');
+      alert('ຈຳນວນເງິນຫຼາຍກວ່າຍອດໜີ້ຄ້າງຊຳລະ');
       return;
     }
 
@@ -45,7 +45,7 @@ export const SupplierPaymentModal: React.FC<SupplierPaymentModalProps> = ({
         <div className="p-4 bg-slate-50 dark:bg-slate-800/80 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
           <h3 className="font-bold text-base text-slate-900 dark:text-white flex items-center gap-2">
             <Building className="w-5 h-5 text-indigo-600" />
-            ชำระหนี้ซัพพลายเออร์ (Pay Accounts Payable)
+            ຊຳລະໜີ້ຜູ້ສະໜອງ (Pay Accounts Payable)
           </h3>
           <button onClick={onClose} className="p-1 rounded-lg text-slate-400 hover:text-slate-600">
             <X className="w-5 h-5" />
@@ -55,11 +55,11 @@ export const SupplierPaymentModal: React.FC<SupplierPaymentModalProps> = ({
         <form onSubmit={handleSubmit} className="p-5 space-y-4">
           <div className="p-3.5 rounded-2xl bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-900">
             <div className="flex justify-between items-center text-xs">
-              <span className="text-slate-600 dark:text-slate-400">ซัพพลายเออร์:</span>
+              <span className="text-slate-600 dark:text-slate-400">ຜູ້ສະໜອງ:</span>
               <span className="font-bold text-slate-900 dark:text-white">{supplier.name}</span>
             </div>
             <div className="flex justify-between items-center text-xs mt-1">
-              <span className="text-slate-600 dark:text-slate-400">ยอดเจ้าหนี้ค้างจ่าย (AP):</span>
+              <span className="text-slate-600 dark:text-slate-400">ຍອດເຈົ້າໜີ້ຄ້າງຈ່າຍ (AP):</span>
               <span className="font-bold text-rose-600 dark:text-rose-400 font-mono text-sm">
                 {formatCurrency(supplier.currentPayable, settings.currency)}
               </span>
@@ -68,7 +68,7 @@ export const SupplierPaymentModal: React.FC<SupplierPaymentModalProps> = ({
 
           <div>
             <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-              จำนวนเงินที่ชำระ (บาท) *
+              ຈຳນວນເງິນທີ່ຊຳລະ (₭) *
             </label>
             <input
               type="number"
@@ -85,18 +85,18 @@ export const SupplierPaymentModal: React.FC<SupplierPaymentModalProps> = ({
               onClick={() => setAmount(supplier.currentPayable)}
               className="text-xs text-blue-600 hover:underline font-semibold mt-1"
             >
-              จ่ายเต็มจำนวน ({supplier.currentPayable.toLocaleString()}฿)
+              ຈ່າຍເຕັມຈຳນວນ ({formatCurrency(supplier.currentPayable, settings.currency)})
             </button>
           </div>
 
           <div>
             <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-              วิธีชำระเงิน *
+              ວິທີຊຳລະເງິນ *
             </label>
             <div className="grid grid-cols-2 gap-2">
               {[
-                { id: 'TRANSFER', label: 'โอนธนาคาร' },
-                { id: 'CASH', label: 'เงินสด' },
+                { id: 'TRANSFER', label: 'ໂອນຜ່ານທະນາຄານ' },
+                { id: 'CASH', label: 'ເງິນສົດ' },
               ].map((opt) => (
                 <button
                   key={opt.id}
@@ -116,7 +116,7 @@ export const SupplierPaymentModal: React.FC<SupplierPaymentModalProps> = ({
 
           <div>
             <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-              หมายเหตุ / เลขที่ใบโอน
+              ໝາຍເຫດ / ເລກທີໃບໂອນ
             </label>
             <input
               type="text"
@@ -132,13 +132,13 @@ export const SupplierPaymentModal: React.FC<SupplierPaymentModalProps> = ({
               onClick={onClose}
               className="px-4 py-2 rounded-xl border border-slate-300 text-xs font-semibold"
             >
-              ยกเลิก
+              ຍົກເລີກ
             </button>
             <button
               type="submit"
               className="px-5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs"
             >
-              ยืนยันจ่ายชำระ {amount.toLocaleString()} บาท
+              ຢືນຢັນຈ່າຍຊຳລະ {formatCurrency(amount, settings.currency)}
             </button>
           </div>
         </form>
