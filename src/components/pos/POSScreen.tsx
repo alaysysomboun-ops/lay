@@ -62,29 +62,6 @@ export const POSScreen: React.FC<POSScreenProps> = ({
 
   const searchInputRef = useRef<HTMLInputElement>(null);
 
-  // Handle barcode scanned from camera
-  const handleCameraBarcodeScanned = (scannedCode: string) => {
-    const q = scannedCode.trim().toLowerCase();
-    const exactMatch = products.find(
-      (p) =>
-        p.status === 'ACTIVE' &&
-        (p.barcode.toLowerCase() === q ||
-          p.sku.toLowerCase() === q ||
-          p.units?.some((u) => u.barcode?.toLowerCase() === q))
-    );
-
-    if (exactMatch) {
-      const matchedUnit = exactMatch.units?.find((u) => u.barcode?.toLowerCase() === q);
-      if (matchedUnit) {
-        handleAddToCart(exactMatch, matchedUnit.unitName, matchedUnit.multiplier);
-      } else {
-        handleAddToCart(exactMatch);
-      }
-    } else {
-      onShowToast('warning', 'ບໍ່ພົບສິນຄ້າ', `ບໍ່ພົບບາໂຄດ ຫຼື ລະຫັດ: ${scannedCode}`);
-    }
-  };
-
   const selectedCustomer = useMemo(() => {
     return customers.find(c => c.id === selectedCustomerId) || customers[0];
   }, [customers, selectedCustomerId]);
@@ -160,6 +137,16 @@ export const POSScreen: React.FC<POSScreenProps> = ({
         const item = newCart[existingIdx];
         const newQty = item.quantity + 1;
         const totalBaseQty = newQty * item.unitMultiplier;
+
+        if (!settings.allowNegativeStock && totalBaseQty > product.currentStock) {
+          onShowToast(
+            'warning',
+            'ສະຕັອກບໍ່ພຽງພໍ',
+            `ສິນຄ້າ "${product.name}" ມີຄົງເຫຼືອພຽງ ${product.currentStock} ${product.baseUnit}`
+          );
+          return prevCart;
+        }
+
         const { unitPrice, tierApplied } = calculateUnitPrice(product, totalBaseQty, selectedCustomer);
 
         const lineUnitPrice = unitPrice * item.unitMultiplier;
@@ -194,8 +181,109 @@ export const POSScreen: React.FC<POSScreenProps> = ({
       return newCart;
     });
 
-    onShowToast('info', 'ເພີ່ມລົງກະຕ່າ', product.name);
+    onShowToast('success', 'ເພີ່ມລົງກະຕ່າແລ້ວ', `ເພີ່ມ "${product.name}" ລົງກະຕ່າແລ້ວ (+1)`);
   };
+
+  /**
+   * Sound effect for barcode scan / item added
+   */
+  const playScanChime = () => {
+    try {
+      const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
+      if (!AudioCtx) return;
+      const ctx = new AudioCtx();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(1180, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(1550, ctx.currentTime + 0.08);
+      gain.gain.setValueAtTime(0.2, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.12);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.12);
+    } catch {
+      // AudioContext blocked or unsupported
+    }
+  };
+
+  /**
+   * Process barcode or SKU and immediately add product to cart
+   */
+  const processBarcodeScan = (scannedCode: string, source: 'CAMERA' | 'SCANNER' | 'INPUT' = 'CAMERA'): boolean => {
+    const q = scannedCode.trim().toLowerCase();
+    if (!q) return false;
+
+    const exactMatch = products.find(
+      (p) =>
+        p.status === 'ACTIVE' &&
+        (p.barcode.toLowerCase() === q ||
+          p.sku.toLowerCase() === q ||
+          p.units?.some((u) => u.barcode?.toLowerCase() === q))
+    );
+
+    if (exactMatch) {
+      if (!settings.allowNegativeStock && exactMatch.currentStock <= 0) {
+        onShowToast('error', 'ສິນຄ້າໝົດ', `ສິນຄ້າ "${exactMatch.name}" ບໍ່ມີສະຕັອກຄົງເຫຼືອ`);
+        return false;
+      }
+
+      const matchedUnit = exactMatch.units?.find((u) => u.barcode?.toLowerCase() === q);
+      if (matchedUnit) {
+        handleAddToCart(exactMatch, matchedUnit.unitName, matchedUnit.multiplier);
+      } else {
+        handleAddToCart(exactMatch);
+      }
+
+      playScanChime();
+      return true;
+    } else {
+      onShowToast('warning', 'ບໍ່ພົບສິນຄ້າ', `ບໍ່ພົບບາໂຄດ ຫຼື ລະຫັດ: ${scannedCode}`);
+      return false;
+    }
+  };
+
+  // Hardware USB/Bluetooth Barcode Scanner global listener
+  useEffect(() => {
+    let barcodeBuffer = '';
+    let lastKeyTime = Date.now();
+
+    const handleGlobalKeyDown = (e: KeyboardEvent) => {
+      // Don't intercept if user is in modals (payment, receipt)
+      if (isPaymentOpen || completedSale || isCameraScannerOpen) return;
+
+      const currentTime = Date.now();
+      const timeDiff = currentTime - lastKeyTime;
+      lastKeyTime = currentTime;
+
+      // Reset buffer if typing pause > 120ms (manual typing vs scanner gun)
+      if (timeDiff > 120) {
+        barcodeBuffer = '';
+      }
+
+      if (e.key === 'Enter') {
+        const potentialBarcode = barcodeBuffer.trim();
+        if (potentialBarcode.length >= 3) {
+          const success = processBarcodeScan(potentialBarcode, 'SCANNER');
+          if (success) {
+            e.preventDefault();
+            barcodeBuffer = '';
+            setSearchQuery('');
+            return;
+          }
+        }
+        barcodeBuffer = '';
+      } else if (e.key.length === 1 && !e.ctrlKey && !e.altKey && !e.metaKey) {
+        barcodeBuffer += e.key;
+      }
+    };
+
+    window.addEventListener('keydown', handleGlobalKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleGlobalKeyDown);
+    };
+  }, [products, isPaymentOpen, completedSale, isCameraScannerOpen, selectedCustomer, settings]);
 
   /**
    * Adjust Quantity in Cart with Tier Price recalculation
